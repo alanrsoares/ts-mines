@@ -1,16 +1,14 @@
-export function makeGrid() {}
-
-export type Row<T> = (T | undefined)[];
-
-export type Matrix<T> = Row<T>[];
-
-export type FillFn<T> = (row: number, column: number, previousValue?: T) => T;
+export type FillFn<T> = (cell: Cell<T>, previousValue?: T) => T;
 
 export interface Cell<T> {
   row: number;
   column: number;
   value?: T;
 }
+
+export type Row<T> = Cell<T | undefined>[];
+
+export type Matrix<T> = Row<T>[];
 
 const isBetween = (min: number, max: number, value: number) =>
   value >= min && value <= max;
@@ -30,16 +28,18 @@ export default class Grid<T = undefined> {
   private _grid: Matrix<T> = [];
 
   constructor(size: number, fill?: FillFn<T> | T) {
-    const rows: Matrix<T> = new Array(size);
+    const rows: Matrix<T> = [];
 
     for (let y = 0; y < size; y++) {
       const row: Row<T> = new Array(size);
 
       for (let x = 0; x < size; x++) {
         const value =
-          typeof fill === "function" ? (fill as FillFn<T>)(y, x) : fill;
+          typeof fill === "function"
+            ? (fill as FillFn<T>)({ row: y, column: x })
+            : fill;
 
-        row.push(value);
+        row.push({ row: y, column: x, value });
       }
 
       rows.push(row);
@@ -55,15 +55,25 @@ export default class Grid<T = undefined> {
     return new Grid(size, fill);
   }
 
+  public withSeed(matrix: Matrix<T>) {
+    this._grid = matrix;
+
+    return this;
+  }
+
+  public snapshot() {
+    return this._grid.slice();
+  }
+
   public updateCell(row: number, column: number, fill: FillFn<T> | T): Grid<T> {
-    const previousValue = this.getCell(row, column);
+    const previous = this.getCell(row, column);
 
     const value =
       typeof fill === "function"
-        ? (fill as FillFn<T>)(row, column, previousValue)
+        ? (fill as FillFn<T>)({ row, column }, previous.value)
         : fill;
 
-    this._grid[row][column] = value;
+    this._grid[row][column] = { row, column, value };
 
     return this;
   }
@@ -76,8 +86,8 @@ export default class Grid<T = undefined> {
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
   }
 
-  public getCellNeighbours(row: number, column: number): Cell<T>[] {
-    const neighbourCoordinates: Cell<T>[] = [
+  public getCellNeighbours(row: number, column: number): Row<T> {
+    const neighbourCoordinates: Row<T> = [
       // top-left
       { row: row - 1, column: column - 1 },
       // top-middle
@@ -98,10 +108,14 @@ export default class Grid<T = undefined> {
 
     return neighbourCoordinates
       .filter(cell => !isOutOfBounds(cell, this._size))
-      .map(coords => ({
-        row: coords.row,
-        column: coords.column,
-        value: this.getCell(coords.row, coords.column)
-      }));
+      .map(cell => this.getCell(cell.row, cell.column));
+  }
+
+  public map<U>(fn: (cell: Cell<T | undefined>) => Cell<U>) {
+    const nextGrid = this._grid.map(cells => cells.map(fn));
+
+    const next = Grid.make<U>(nextGrid.length).withSeed(nextGrid);
+
+    return next;
   }
 }
