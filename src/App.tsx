@@ -9,7 +9,7 @@ import mine from "assets/mine.svg";
 
 export type Tile =
   | {
-      kind: "number";
+      kind: "empty";
       revealed: boolean;
       surroundingMines: number;
     }
@@ -18,7 +18,7 @@ export type Tile =
       revealed: boolean;
     };
 
-export type TileKind = "number" | "mine";
+export type TileKind = "empty" | "mine";
 
 const rand = Math.random;
 
@@ -85,9 +85,9 @@ const GridTile: React.FC<GridTileProps> = props => {
 const fill: FillFn<Tile> = () =>
   rand() >= 0.75
     ? { kind: "mine", revealed: false }
-    : { kind: "number", surroundingMines: 0, revealed: false };
+    : { kind: "empty", surroundingMines: 0, revealed: false };
 
-const setCellNumber = assocPath(["value", "number"]);
+const setCellNumber = assocPath(["value", "empty"]);
 
 const seed = Grid.make<Tile>(20, fill).map<Tile>(
   (cell, self): Cell<Tile> => {
@@ -116,7 +116,7 @@ export default function App() {
           <GridRow key={y}>
             {row.map((cell, x) => (
               <GridTile key={x} kind={cell.value?.kind}>
-                {cell.value?.kind === "number" ? (
+                {cell.value?.kind === "empty" ? (
                   cell.value.surroundingMines
                 ) : (
                   <Mine alt="mine" src={mine} />
