@@ -83,18 +83,20 @@ const GridTile: React.FC<GridTileProps> = props => {
 const fill: FillFn<Tile> = () =>
   rand() >= 0.75 ? { kind: "mine" } : { kind: "number", number: 0 };
 
+const setCellNumber = assocPath(["value", "number"]);
+
 const seed = Grid.make<Tile>(20, fill).map<Tile>(
   (cell, self): Cell<Tile> => {
     const next =
       cell.value?.kind !== "mine"
-        ? assocPath(
-            ["value", "number"],
+        ? setCellNumber(
             self
               .getCellNeighbours(cell.row, cell.column)
               .filter(p => p.value?.kind === "mine").length,
             cell
           )
         : cell;
+
     return next as Cell<Tile>;
   }
 );
