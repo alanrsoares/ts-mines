@@ -4,10 +4,11 @@ import { ThemeProvider } from "styled-components";
 
 import "normalize.css";
 
-import registerServiceWorker from "registerServiceWorker";
-
 import App from "App";
 import theme from "ui/theme";
+
+import registerServiceWorker from "./registerServiceWorker";
+import "./styles.css";
 
 import { version } from "../package.json";
 

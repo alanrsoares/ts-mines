@@ -11,7 +11,7 @@ export type Row<T> = Cell<T | undefined>[];
 export type Matrix<T> = Row<T>[];
 
 const isBetween = (min: number, max: number, value: number) =>
-  value >= min && value <= max;
+  value >= min && value < max;
 
 const isIndexOutOfBounds = (value: number, gridSize: number) =>
   !isBetween(0, gridSize, value);
@@ -31,7 +31,7 @@ export default class Grid<T = undefined> {
     const rows: Matrix<T> = [];
 
     for (let y = 0; y < size; y++) {
-      const row: Row<T> = new Array(size);
+      const row: Row<T> = [];
 
       for (let x = 0; x < size; x++) {
         const value =
@@ -78,15 +78,15 @@ export default class Grid<T = undefined> {
     return this;
   }
 
-  public getCell(row: number, column: number) {
+  public getCell = (row: number, column: number) => {
     if (!isOutOfBounds({ row, column }, this._size)) {
       return this._grid[row][column];
     }
 
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
-  }
+  };
 
-  public getCellNeighbours(row: number, column: number): Row<T> {
+  public getCellNeighbours = (row: number, column: number): Row<T> => {
     const neighbourCoordinates: Row<T> = [
       // top-left
       { row: row - 1, column: column - 1 },
@@ -109,10 +109,10 @@ export default class Grid<T = undefined> {
     return neighbourCoordinates
       .filter(cell => !isOutOfBounds(cell, this._size))
       .map(cell => this.getCell(cell.row, cell.column));
-  }
+  };
 
-  public map<U>(fn: (cell: Cell<T | undefined>) => Cell<U>) {
-    const nextGrid = this._grid.map(cells => cells.map(fn));
+  public map<U>(fn: (cell: Cell<T | undefined>, self: Grid<T>) => Cell<U>) {
+    const nextGrid = this._grid.map(cells => cells.map(x => fn(x, this)));
 
     const next = Grid.make<U>(nextGrid.length).withSeed(nextGrid);
 

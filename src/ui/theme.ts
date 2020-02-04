@@ -26,6 +26,12 @@ export const shadows = {
   top: `0 -2px 6px ${colors.shadow}`
 } as const;
 
+export const fontFamilies = {
+  display: "'Major Mono Display', monospace",
+  default: "'Lato', sans-serif",
+  voice: "'Vollkorn', serif"
+};
+
 const baseFontSize = 18;
 
 export const fontSizes = {
@@ -39,6 +45,7 @@ const theme = {
   colors,
   radii,
   fontSizes,
+  fontFamilies,
   shadows
 } as const;
 
@@ -47,6 +54,8 @@ export type Color = keyof typeof colors;
 export type Radius = keyof typeof radii;
 
 export type FontSize = keyof typeof fontSizes;
+
+export type FontFamily = keyof typeof fontFamilies;
 
 export type Theme = typeof theme;
 

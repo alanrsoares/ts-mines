@@ -1,4 +1,10 @@
-import styled, { css, getColor, getRadius, getShadow } from "ui/styled";
+import styled, {
+  css,
+  getColor,
+  getRadius,
+  getShadow,
+  getFontFamily
+} from "ui/styled";
 import { Color } from "ui/theme";
 
 export const icons = {
@@ -42,6 +48,7 @@ export const AppContainer = styled.div`
 
 export const AppHeader = styled.header`
   font-size: 2em;
+  font-family: ${getFontFamily("display")};
   text-align: center;
   color: ${getColor("secondary")};
   font-weight: bold;

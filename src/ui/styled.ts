@@ -29,6 +29,7 @@ export const getColor = getThemeProp("colors");
 export const getRadius = getThemeProp("radii");
 export const getFontSize = getThemeProp("fontSizes");
 export const getShadow = getThemeProp("shadows");
+export const getFontFamily = getThemeProp("fontFamilies");
 
 export const css = baseCSS as ThemedCssFunction<Theme>;
 export default styled as ThemedStyledInterface<Theme>;
