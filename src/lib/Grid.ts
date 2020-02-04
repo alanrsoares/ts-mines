@@ -55,7 +55,7 @@ export default class Grid<T = undefined> {
     return new Grid(size, fill);
   }
 
-  public static fromSeed<U>(matrix: Matrix<U>) {
+  public static from<U>(matrix: Matrix<U>) {
     return Grid.make<U>(matrix.length).withSeed(matrix);
   }
 
@@ -65,7 +65,7 @@ export default class Grid<T = undefined> {
     return this;
   }
 
-  public snapshot() {
+  public get snapshot() {
     return this._grid.slice();
   }
 
@@ -82,15 +82,15 @@ export default class Grid<T = undefined> {
     return this;
   }
 
-  public getCell = (row: number, column: number) => {
+  public getCell(row: number, column: number) {
     if (!isOutOfBounds({ row, column }, this._size)) {
       return this._grid[row][column];
     }
 
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
-  };
+  }
 
-  public getCellNeighbours = (row: number, column: number): Row<T> => {
+  public getCellNeighbours(row: number, column: number): Row<T> {
     const neighbourCoordinates: Row<T> = [
       // top-left
       { row: row - 1, column: column - 1 },
@@ -113,13 +113,13 @@ export default class Grid<T = undefined> {
     return neighbourCoordinates
       .filter(cell => !isOutOfBounds(cell, this._size))
       .map(cell => this.getCell(cell.row, cell.column));
-  };
+  }
 
   public map<U>(fn: (cell: Cell<T | undefined>, self: Grid<T>) => Cell<U>) {
     const nextMatrix: Matrix<U> = this._grid.map(cells =>
-      cells.map(x => fn(x, this))
+      cells.map(cell => fn(cell, this))
     );
 
-    return Grid.fromSeed(nextMatrix);
+    return Grid.from(nextMatrix);
   }
 }
