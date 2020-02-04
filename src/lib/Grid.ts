@@ -55,6 +55,10 @@ export default class Grid<T = undefined> {
     return new Grid(size, fill);
   }
 
+  public static fromSeed<U>(matrix: Matrix<U>) {
+    return Grid.make<U>(matrix.length).withSeed(matrix);
+  }
+
   public withSeed(matrix: Matrix<T>) {
     this._grid = matrix;
 
@@ -112,10 +116,10 @@ export default class Grid<T = undefined> {
   };
 
   public map<U>(fn: (cell: Cell<T | undefined>, self: Grid<T>) => Cell<U>) {
-    const nextGrid = this._grid.map(cells => cells.map(x => fn(x, this)));
+    const nextMatrix: Matrix<U> = this._grid.map(cells =>
+      cells.map(x => fn(x, this))
+    );
 
-    const next = Grid.make<U>(nextGrid.length).withSeed(nextGrid);
-
-    return next;
+    return Grid.fromSeed(nextMatrix);
   }
 }
