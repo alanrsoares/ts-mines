@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import flatten from "ramda/es/flatten";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
@@ -10,7 +11,6 @@ import styled, {
 } from "ui/styled";
 
 import mine from "assets/mine.svg";
-import { flatten } from "ramda";
 
 const Root = styled.div`
   font-family: ${getFontFamily("default")};

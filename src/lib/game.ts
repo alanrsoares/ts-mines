@@ -1,4 +1,4 @@
-import { assoc } from "ramda";
+import assoc from "ramda/es/assoc";
 
 import Grid, { Matrix, Cell, Dimensions, FillFn } from "./Grid";
 
