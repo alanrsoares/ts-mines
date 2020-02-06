@@ -1,21 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { assoc } from "ramda";
 
-import Grid, { Cell, FillFn, Matrix } from "lib/Grid";
+import Grid, { Cell, Matrix } from "lib/Grid";
+import * as Game from "lib/game";
 import styled, { getColor, getRadius, getFontFamily } from "ui/styled";
 import { AppHeader } from "ui/components";
 
 import mine from "assets/mine.svg";
-
-export type TileKind = "safe" | "empty" | "mine";
-
-export type Tile = {
-  kind: TileKind;
-  revealed: boolean;
-  surroundingMines: number;
-};
-
-const rand = Math.random;
 
 const Root = styled.div`
   font-family: ${getFontFamily("default")};
@@ -32,6 +22,12 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background: ${getColor("light")};
+  padding: 0.5em 0.4em;
+  border-radius: ${getRadius("lg")};
+  max-width: 100vw;
+  max-height: calc(100vh - 1em);
+  overflow: scroll;
 `;
 
 const GridRow = styled.div`
@@ -39,7 +35,7 @@ const GridRow = styled.div`
 `;
 
 interface GridTileProps {
-  kind?: TileKind;
+  kind?: Game.TileKind;
   active?: boolean;
   revealed?: boolean;
   onClick?: () => void;
@@ -79,74 +75,15 @@ const GridTile: React.FC<GridTileProps> = props => {
   );
 };
 
-const fill: FillFn<Tile> = () => ({
-  kind: rand() >= 0.8 ? "mine" : "empty",
-  surroundingMines: 0,
-  revealed: false
-});
-
-const dimensions = { rows: 20, columns: 30 };
-
-const isMine = (cell: Cell<Tile>) => cell.value.kind === "mine";
-
-const seed = Grid.make<Tile>(dimensions, fill).map<Tile>((tile, cell, self) => {
-  if (tile.kind !== "mine") {
-    const surroundingMines = self.getCellNeighbours(cell).filter(isMine).length;
-
-    return {
-      ...tile,
-      surroundingMines,
-      kind: surroundingMines ? "empty" : "safe"
-    };
-  }
-
-  return tile;
-});
-
-type GameStatus = "new" | "over" | "won";
-
-const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
-  const nextGrid = Grid.from(matrix);
-
-  const { value: tile } = cellClicked;
-
-  // reveal clicked tile
-  nextGrid.updateCell(cellClicked, assoc("revealed", true, tile));
-
-  if (tile.kind !== "safe") {
-    return nextGrid;
-  }
-
-  nextGrid.getCellNeighbours(cellClicked).forEach(neighbourCell => {
-    const { value: neighbourTile } = neighbourCell;
-
-    // skip revealed tiles
-    if (neighbourTile.revealed) {
-      return;
-    }
-
-    switch (neighbourTile.kind) {
-      case "empty":
-        nextGrid.updateCell(
-          neighbourCell,
-          assoc("revealed", true, neighbourTile)
-        );
-        break;
-      case "safe":
-        return getNextGrid(nextGrid.snapshot, neighbourCell);
-    }
-  });
-
-  return nextGrid;
-};
+const seed = Game.makeNewGrid({ rows: 20, columns: 30 }, 80);
 
 export default function App() {
-  const [gameStatus, setGameStatus] = useState<GameStatus>("new");
-  const [activeCell, setActiveCell] = useState<Cell<Tile>>();
-  const [grid, setGrid] = useState<Matrix<Tile>>(seed.snapshot);
+  const [gameStatus, setGameStatus] = useState<Game.GameStatus>("new");
+  const [activeCell, setActiveCell] = useState<Cell<Game.Tile>>();
+  const [grid, setGrid] = useState<Matrix<Game.Tile>>(seed.snapshot);
 
   const handleCellClick = useCallback(
-    (cell: Cell<Tile>) => () => {
+    (cell: Cell<Game.Tile>) => () => {
       if (gameStatus === "over") {
         return;
       }
@@ -157,16 +94,13 @@ export default function App() {
 
       if (tile.kind === "mine") {
         // reveal mines
-        setGrid(
-          Grid.from(grid).map(t =>
-            t.kind === "mine" ? assoc("revealed", true, t) : t
-          ).snapshot
-        );
+        const nextGrid = Grid.from(grid).map(Game.revealMine);
+        setGrid(nextGrid.snapshot);
         setGameStatus("over");
         return;
       }
 
-      const nextGrid = getNextGrid(grid, cell);
+      const nextGrid = Game.getNextGrid(grid, cell);
 
       setGrid(nextGrid.snapshot);
     },
