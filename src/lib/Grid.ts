@@ -1,12 +1,15 @@
-export type FillFn<T> = (cell: Cell<T>, previousValue?: T) => T;
-
-export interface Cell<T> {
+export interface Coordinates {
   row: number;
   column: number;
-  value?: T;
 }
 
-export type Row<T> = Cell<T | undefined>[];
+export type FillFn<T> = (cell: Coordinates, previousValue?: T) => T;
+
+export interface Cell<T> extends Coordinates {
+  value: T;
+}
+
+export type Row<T> = Cell<T>[];
 
 export type Matrix<T> = Row<T>[];
 
@@ -27,7 +30,7 @@ export default class Grid<T = undefined> {
   private _size = 0;
   private _grid: Matrix<T> = [];
 
-  constructor(size: number, fill?: FillFn<T> | T) {
+  constructor(size: number, fill: FillFn<T> | T) {
     const rows: Matrix<T> = [];
 
     for (let y = 0; y < size; y++) {
@@ -36,7 +39,10 @@ export default class Grid<T = undefined> {
       for (let x = 0; x < size; x++) {
         const value =
           typeof fill === "function"
-            ? (fill as FillFn<T>)({ row: y, column: x })
+            ? (fill as FillFn<T>)({
+                row: y,
+                column: x
+              })
             : fill;
 
         row.push({ row: y, column: x, value });
@@ -51,12 +57,14 @@ export default class Grid<T = undefined> {
     return this;
   }
 
-  public static make<T>(size: number, fill?: FillFn<T> | T): Grid<T> {
+  public static make<T>(size: number, fill: FillFn<T> | T): Grid<T> {
     return new Grid(size, fill);
   }
 
   public static from<U>(matrix: Matrix<U>) {
-    return Grid.make<U>(matrix.length).withSeed(matrix);
+    return Grid.make<U>(matrix.length, (undefined as any) as U).withSeed(
+      matrix
+    );
   }
 
   public withSeed(matrix: Matrix<T>) {
@@ -69,8 +77,11 @@ export default class Grid<T = undefined> {
     return this._grid.slice();
   }
 
-  public updateCell(row: number, column: number, fill: FillFn<T> | T): Grid<T> {
-    const previous = this.getCell(row, column);
+  public updateCell(
+    { row, column }: Coordinates,
+    fill: FillFn<T> | T
+  ): Grid<T> {
+    const previous = this.getCell({ row, column });
 
     const value =
       typeof fill === "function"
@@ -82,7 +93,7 @@ export default class Grid<T = undefined> {
     return this;
   }
 
-  public getCell(row: number, column: number) {
+  public getCell({ row, column }: Coordinates) {
     if (!isOutOfBounds({ row, column }, this._size)) {
       return this._grid[row][column];
     }
@@ -90,8 +101,8 @@ export default class Grid<T = undefined> {
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
   }
 
-  public getCellNeighbours(row: number, column: number): Row<T> {
-    const neighbourCoordinates: Row<T> = [
+  public getCellNeighbours({ row, column }: Coordinates): Row<T> {
+    const neighbourCoordinates = [
       // top-left
       { row: row - 1, column: column - 1 },
       // top-middle
@@ -112,12 +123,12 @@ export default class Grid<T = undefined> {
 
     return neighbourCoordinates
       .filter(cell => !isOutOfBounds(cell, this._size))
-      .map(cell => this.getCell(cell.row, cell.column));
+      .map(cell => this.getCell(cell));
   }
 
-  public map<U>(fn: (cell: Cell<T | undefined>, self: Grid<T>) => Cell<U>) {
+  public map<U>(fn: (value: T, cell: Cell<T>, self: Grid<T>) => U) {
     const nextMatrix: Matrix<U> = this._grid.map(cells =>
-      cells.map(cell => fn(cell, this))
+      cells.map(cell => ({ ...cell, value: fn(cell.value, cell, this) }))
     );
 
     return Grid.from(nextMatrix);

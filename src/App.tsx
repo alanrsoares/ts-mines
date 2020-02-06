@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
-import { assocPath, not } from "ramda";
+import { assoc } from "ramda";
 
-import Grid, { Cell, FillFn } from "lib/Grid";
+import Grid, { Cell, FillFn, Matrix } from "lib/Grid";
 import styled, { getColor, getRadius, getFontFamily } from "ui/styled";
 import { AppHeader } from "ui/components";
 
@@ -46,6 +46,8 @@ const GridRow = styled.div`
 interface GridTileProps {
   kind?: TileKind;
   active?: boolean;
+  revealed?: boolean;
+  onClick?: () => void;
 }
 
 const GridTileContainer = styled.div<GridTileProps>`
@@ -58,9 +60,14 @@ const GridTileContainer = styled.div<GridTileProps>`
   border-radius: ${getRadius("lg")};
   margin: 0.1em;
   padding: 0.1em;
-  background: ${getColor(p => (p.active ? "white" : "gray"))};
-  color: ${getColor(p => (p.active ? "black" : "gray"))};
+  background: ${getColor(p =>
+    p.revealed ? (p.kind === "mine" && p.active ? "negative" : "white") : "gray"
+  )};
+  color: ${getColor(p =>
+    p.children === 0 ? "white" : p.revealed ? "black" : "gray"
+  )};
   transition: all 0.2s ease-in-out;
+  font-weight: bold;
 `;
 
 const Mine = styled.img`
@@ -69,15 +76,9 @@ const Mine = styled.img`
 `;
 
 const GridTile: React.FC<GridTileProps> = props => {
-  const [active, setActive] = useState(false);
-
-  const handleClick = useCallback(() => {
-    if (!active) setActive(not);
-  }, [active]);
-
   return (
-    <GridTileContainer onClick={handleClick} {...props} active={active}>
-      {active ? props.children : null}
+    <GridTileContainer onClick={props.onClick} {...props} active={props.active}>
+      {props.revealed ? props.children : null}
     </GridTileContainer>
   );
 };
@@ -87,27 +88,82 @@ const fill: FillFn<Tile> = () =>
     ? { kind: "mine", revealed: false }
     : { kind: "empty", surroundingMines: 0, revealed: false };
 
-const setCellNumber = assocPath(["value", "empty"]);
+const seed = Grid.make<Tile>(20, fill).map<Tile>((tile, cell, self) => {
+  const next =
+    tile.kind !== "mine"
+      ? assoc(
+          "surroundingMines",
+          self.getCellNeighbours(cell).filter(p => p.value?.kind === "mine")
+            .length,
+          tile
+        )
+      : tile;
 
-const seed = Grid.make<Tile>(20, fill).map<Tile>(
-  (cell, self): Cell<Tile> => {
-    const next =
-      cell.value?.kind !== "mine"
-        ? setCellNumber(
-            self
-              .getCellNeighbours(cell.row, cell.column)
-              .filter(p => p.value?.kind === "mine").length,
-            cell
-          )
-        : cell;
+  return next;
+});
 
-    return next as Cell<Tile>;
-  }
-);
-
-const grid = seed.snapshot;
+type GameStatus = "new" | "over" | "won";
 
 export default function App() {
+  const [gameStatus, setGameStatus] = useState<GameStatus>("new");
+  const [activeCell, setActiveCell] = useState<Cell<Tile>>();
+  const [grid, setGrid] = useState<Matrix<Tile>>(seed.snapshot);
+
+  const handleCellClick = useCallback(
+    (cell: Cell<Tile>) => () => {
+      if (gameStatus === "over") {
+        return;
+      }
+
+      setActiveCell(cell);
+
+      const nextGrid = Grid.from(grid);
+
+      const tile = cell.value;
+
+      if (tile.kind === "mine") {
+        // reveal mines
+        setGrid(
+          nextGrid.map(tile =>
+            tile.kind === "mine" ? assoc("revealed", true, tile) : tile
+          ).snapshot
+        );
+        setGameStatus("over");
+        return;
+      }
+
+      if (tile.kind === "empty") {
+        if (tile.surroundingMines === 0) {
+          const neighbours = nextGrid.getCellNeighbours(cell);
+
+          neighbours.forEach(neighbour => {
+            const t = neighbour.value;
+
+            // is not revealed?
+            if (!t.revealed) {
+              // is not a mine?
+              if (t.kind !== "mine") {
+                // is empty?
+                if (t.surroundingMines === 0) {
+                  // schedule a click on the empty cell
+                  setTimeout(handleCellClick(neighbour), 100 / 6);
+                } else {
+                  nextGrid.updateCell(neighbour, assoc("revealed", true, t));
+                }
+              }
+            }
+          });
+        }
+
+        // reveal self
+        nextGrid.updateCell(cell, assoc("revealed", true, tile));
+
+        setGrid(nextGrid.snapshot);
+      }
+    },
+    [grid, gameStatus]
+  );
+
   return (
     <Root>
       <AppHeader>Mines</AppHeader>
@@ -115,8 +171,17 @@ export default function App() {
         {grid.map((row, y) => (
           <GridRow key={y}>
             {row.map((cell, x) => (
-              <GridTile key={x} kind={cell.value?.kind}>
-                {cell.value?.kind === "empty" ? (
+              <GridTile
+                key={x}
+                kind={cell.value.kind}
+                onClick={handleCellClick(cell)}
+                active={
+                  cell.row === activeCell?.row &&
+                  cell.column === activeCell?.column
+                }
+                revealed={cell.value.revealed}
+              >
+                {cell.value.kind === "empty" ? (
                   cell.value.surroundingMines
                 ) : (
                   <Mine alt="mine" src={mine} />
