@@ -10,7 +10,18 @@ import styled, {
   getShadow
 } from "ui/styled";
 
-import mine from "assets/mine.svg";
+const assets = {
+  mine: require("assets/mine.svg"),
+  skull: require("assets/skull.svg"),
+  thinking: require("assets/thinking.svg"),
+  cool: require("assets/cool.svg")
+};
+
+const statusAssets: Record<Game.GameStatus, string> = {
+  new: assets.thinking,
+  won: assets.cool,
+  over: assets.skull
+};
 
 const Root = styled.div`
   font-family: ${getFontFamily("default")};
@@ -41,20 +52,16 @@ const Brand = styled.div`
   margin-left: 0.3em;
 `;
 
-const StatusDisplay = styled.button<{ status: Game.GameStatus }>`
+const StatusDisplay = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  font-size: 1.4em;
-  width: 1.8em;
-  height: 1.8em;
-  margin-top: 0.4em;
-  border: none;
-  border-radius: ${getRadius("round")};
-  box-shadow: 0 0 0.3em ${getColor("shadow")};
-  background: ${getColor(p => (p.status === "over" ? "negative" : "primary"))};
-  outline: none;
+  background: white;
+  border-radius: 50%;
+  box-shadow: ${getShadow("default")};
+  width: 2.8em;
+  height: 2.8em;
+  margin-top: 0.8em;
 `;
 
 const ScoreDisplay = styled.div`
@@ -80,6 +87,11 @@ const GridContainer = styled.div`
 
 const GridRow = styled.div`
   display: flex;
+`;
+
+const Mine = styled.img`
+  width: 1.4em;
+  height: 1.4em;
 `;
 
 interface GridTileProps {
@@ -108,11 +120,6 @@ const GridTileContainer = styled.div<GridTileProps>`
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   user-select: none;
-`;
-
-const Mine = styled.img`
-  width: 1.4em;
-  height: 1.4em;
 `;
 
 const GridTile: React.FC<GridTileProps> = props => {
@@ -169,9 +176,10 @@ export default function App() {
     <Root>
       <AppBar>
         <Brand>Mines</Brand>
-        <StatusDisplay status={gameStatus} onClick={handleStatusClick}>
-          {gameStatus === "over" ? "😒" : "😄"}
-        </StatusDisplay>
+        <StatusDisplay
+          src={statusAssets[gameStatus]}
+          onClick={handleStatusClick}
+        />
         <ScoreDisplay>score: {score}</ScoreDisplay>
       </AppBar>
       <Content>
@@ -190,7 +198,7 @@ export default function App() {
                   revealed={cell.value.revealed}
                 >
                   {cell.value.kind === "mine" ? (
-                    <Mine alt="mine" src={mine} />
+                    <Mine alt="mine" src={assets.mine} />
                   ) : (
                     cell.value.surroundingMines
                   )}
