@@ -144,4 +144,12 @@ export default class Grid<T = undefined> {
 
     return Grid.from(nextMatrix);
   }
+
+  public filter(fn: (value: T, cell: Cell<T>, self: Grid<T>) => boolean) {
+    const nextMatrix: Matrix<T> = this._grid.map(cells =>
+      cells.filter(cell => fn(cell.value, cell, this))
+    );
+
+    return Grid.from(nextMatrix);
+  }
 }

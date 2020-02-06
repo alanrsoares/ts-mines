@@ -22,8 +22,9 @@ export const radii = {
 } as const;
 
 export const shadows = {
-  default: `0 2px 6px ${colors.shadow}`,
-  top: `0 -2px 6px ${colors.shadow}`
+  default: `0 1px 2px ${colors.shadow}`,
+  top: `0 -2px 6px ${colors.shadow}`,
+  none: "none"
 } as const;
 
 export const fontFamilies = {
