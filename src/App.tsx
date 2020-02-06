@@ -56,7 +56,7 @@ const StatusDisplay = styled.img`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: white;
+  background: ${getColor("shadow")};
   border-radius: 50%;
   box-shadow: ${getShadow("default")};
   width: 2.8em;
@@ -169,6 +169,7 @@ export default function App() {
     if (gameStatus === "over") {
       setGrid(Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot);
       setGameStatus("new");
+      setScore(0);
     }
   }, [gameStatus]);
 
