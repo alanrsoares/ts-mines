@@ -68,6 +68,7 @@ const GridTileContainer = styled.div<GridTileProps>`
   )};
   transition: all 0.2s ease-in-out;
   font-weight: bold;
+  user-select: none;
 `;
 
 const Mine = styled.img`
