@@ -3,6 +3,11 @@ export interface Coordinates {
   column: number;
 }
 
+export interface Dimensions {
+  rows: number;
+  columns: number;
+}
+
 export type FillFn<T> = (cell: Coordinates, previousValue?: T) => T;
 
 export interface Cell<T> extends Coordinates {
@@ -21,22 +26,25 @@ const isIndexOutOfBounds = (value: number, gridSize: number) =>
 
 const isOutOfBounds = (
   cell: { row: number; column: number },
-  gridSize: number
+  dimensions: Dimensions
 ) =>
-  isIndexOutOfBounds(cell.row, gridSize) ||
-  isIndexOutOfBounds(cell.column, gridSize);
+  isIndexOutOfBounds(cell.row, dimensions.rows) ||
+  isIndexOutOfBounds(cell.column, dimensions.columns);
 
 export default class Grid<T = undefined> {
-  private _size = 0;
+  private _dimensions: Dimensions = {
+    rows: 0,
+    columns: 0
+  };
   private _grid: Matrix<T> = [];
 
-  constructor(size: number, fill: FillFn<T> | T) {
+  constructor(dimensions: Dimensions, fill: FillFn<T> | T) {
     const rows: Matrix<T> = [];
 
-    for (let y = 0; y < size; y++) {
+    for (let y = 0; y < dimensions.rows; y++) {
       const row: Row<T> = [];
 
-      for (let x = 0; x < size; x++) {
+      for (let x = 0; x < dimensions.columns; x++) {
         const value =
           typeof fill === "function"
             ? (fill as FillFn<T>)({
@@ -51,18 +59,21 @@ export default class Grid<T = undefined> {
       rows.push(row);
     }
 
-    this._size = size;
+    this._dimensions = dimensions;
     this._grid = rows;
 
     return this;
   }
 
-  public static make<T>(size: number, fill: FillFn<T> | T): Grid<T> {
-    return new Grid(size, fill);
+  public static make<T>(dimensions: Dimensions, fill: FillFn<T> | T): Grid<T> {
+    return new Grid(dimensions, fill);
   }
 
   public static from<U>(matrix: Matrix<U>) {
-    return Grid.make<U>(matrix.length, (undefined as any) as U).withSeed(
+    const rows = matrix.length;
+    const columns = matrix[0].length;
+
+    return Grid.make<U>({ rows, columns }, (undefined as any) as U).withSeed(
       matrix
     );
   }
@@ -94,7 +105,7 @@ export default class Grid<T = undefined> {
   }
 
   public getCell({ row, column }: Coordinates) {
-    if (!isOutOfBounds({ row, column }, this._size)) {
+    if (!isOutOfBounds({ row, column }, this._dimensions)) {
       return this._grid[row][column];
     }
 
@@ -122,7 +133,7 @@ export default class Grid<T = undefined> {
     ];
 
     return neighbourCoordinates
-      .filter(cell => !isOutOfBounds(cell, this._size))
+      .filter(cell => !isOutOfBounds(cell, this._dimensions))
       .map(cell => this.getCell(cell));
   }
 

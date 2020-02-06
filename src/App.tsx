@@ -7,18 +7,13 @@ import { AppHeader } from "ui/components";
 
 import mine from "assets/mine.svg";
 
-export type Tile =
-  | {
-      kind: "empty";
-      revealed: boolean;
-      surroundingMines: number;
-    }
-  | {
-      kind: "mine";
-      revealed: boolean;
-    };
+export type TileKind = "safe" | "empty" | "mine";
 
-export type TileKind = "empty" | "mine";
+export type Tile = {
+  kind: TileKind;
+  revealed: boolean;
+  surroundingMines: number;
+};
 
 const rand = Math.random;
 
@@ -51,12 +46,12 @@ interface GridTileProps {
 }
 
 const GridTileContainer = styled.div<GridTileProps>`
-  width: 2em;
-  height: 2em;
+  width: 1.6em;
+  height: 1.6em;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px ${getColor("gray")};
+  border: solid 1px ${getColor(p => (!p.revealed ? "black" : "gray"))};
   border-radius: ${getRadius("lg")};
   margin: 0.1em;
   padding: 0.1em;
@@ -72,8 +67,8 @@ const GridTileContainer = styled.div<GridTileProps>`
 `;
 
 const Mine = styled.img`
-  width: 1.8em;
-  height: 1.8em;
+  width: 1.4em;
+  height: 1.4em;
 `;
 
 const GridTile: React.FC<GridTileProps> = props => {
@@ -84,26 +79,66 @@ const GridTile: React.FC<GridTileProps> = props => {
   );
 };
 
-const fill: FillFn<Tile> = () =>
-  rand() >= 0.75
-    ? { kind: "mine", revealed: false }
-    : { kind: "empty", surroundingMines: 0, revealed: false };
+const fill: FillFn<Tile> = () => ({
+  kind: rand() >= 0.8 ? "mine" : "empty",
+  surroundingMines: 0,
+  revealed: false
+});
 
-const seed = Grid.make<Tile>(20, fill).map<Tile>((tile, cell, self) => {
-  const next =
-    tile.kind !== "mine"
-      ? assoc(
-          "surroundingMines",
-          self.getCellNeighbours(cell).filter(p => p.value?.kind === "mine")
-            .length,
-          tile
-        )
-      : tile;
+const dimensions = { rows: 20, columns: 30 };
 
-  return next;
+const isMine = (cell: Cell<Tile>) => cell.value.kind === "mine";
+
+const seed = Grid.make<Tile>(dimensions, fill).map<Tile>((tile, cell, self) => {
+  if (tile.kind !== "mine") {
+    const surroundingMines = self.getCellNeighbours(cell).filter(isMine).length;
+
+    return {
+      ...tile,
+      surroundingMines,
+      kind: surroundingMines ? "empty" : "safe"
+    };
+  }
+
+  return tile;
 });
 
 type GameStatus = "new" | "over" | "won";
+
+const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
+  const nextGrid = Grid.from(matrix);
+
+  const { value: tile } = cellClicked;
+
+  // reveal clicked tile
+  nextGrid.updateCell(cellClicked, assoc("revealed", true, tile));
+
+  if (tile.kind !== "safe") {
+    return nextGrid;
+  }
+
+  nextGrid.getCellNeighbours(cellClicked).forEach(neighbourCell => {
+    const { value: neighbourTile } = neighbourCell;
+
+    // skip revealed tiles
+    if (neighbourTile.revealed) {
+      return;
+    }
+
+    switch (neighbourTile.kind) {
+      case "empty":
+        nextGrid.updateCell(
+          neighbourCell,
+          assoc("revealed", true, neighbourTile)
+        );
+        break;
+      case "safe":
+        return getNextGrid(nextGrid.snapshot, neighbourCell);
+    }
+  });
+
+  return nextGrid;
+};
 
 export default function App() {
   const [gameStatus, setGameStatus] = useState<GameStatus>("new");
@@ -118,49 +153,22 @@ export default function App() {
 
       setActiveCell(cell);
 
-      const nextGrid = Grid.from(grid);
-
       const tile = cell.value;
 
       if (tile.kind === "mine") {
         // reveal mines
         setGrid(
-          nextGrid.map(tile =>
-            tile.kind === "mine" ? assoc("revealed", true, tile) : tile
+          Grid.from(grid).map(t =>
+            t.kind === "mine" ? assoc("revealed", true, t) : t
           ).snapshot
         );
         setGameStatus("over");
         return;
       }
 
-      if (tile.kind === "empty") {
-        if (tile.surroundingMines === 0) {
-          const neighbours = nextGrid.getCellNeighbours(cell);
+      const nextGrid = getNextGrid(grid, cell);
 
-          neighbours.forEach(neighbour => {
-            const t = neighbour.value;
-
-            // is not revealed?
-            if (!t.revealed) {
-              // is not a mine?
-              if (t.kind !== "mine") {
-                // is empty?
-                if (t.surroundingMines === 0) {
-                  // schedule a click on the empty cell
-                  setTimeout(handleCellClick(neighbour), 100 / 6);
-                } else {
-                  nextGrid.updateCell(neighbour, assoc("revealed", true, t));
-                }
-              }
-            }
-          });
-        }
-
-        // reveal self
-        nextGrid.updateCell(cell, assoc("revealed", true, tile));
-
-        setGrid(nextGrid.snapshot);
-      }
+      setGrid(nextGrid.snapshot);
     },
     [grid, gameStatus]
   );
@@ -182,10 +190,10 @@ export default function App() {
                 }
                 revealed={cell.value.revealed}
               >
-                {cell.value.kind === "empty" ? (
-                  cell.value.surroundingMines
-                ) : (
+                {cell.value.kind === "mine" ? (
                   <Mine alt="mine" src={mine} />
+                ) : (
+                  cell.value.surroundingMines
                 )}
               </GridTile>
             ))}
