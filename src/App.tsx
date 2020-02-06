@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import flatten from "ramda/es/flatten";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
+import Storage from "lib/StorageAdapter";
 import styled, {
   getColor,
   getRadius,
@@ -39,7 +40,7 @@ const AppBar = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 10vh;
+  height: 3em;
   background: ${getColor("gray")};
   box-shadow: ${getShadow("default")};
 `;
@@ -47,15 +48,19 @@ const AppBar = styled.div`
 const Brand = styled.div`
   font-family: ${getFontFamily("display")};
   color: ${getColor("secondary")};
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.8em;
-  margin-left: 0.3em;
+  margin-left: 0.5em;
+`;
+
+const Score = styled.div`
+  font-family: ${getFontFamily("default")};
+  font-weight: 700;
+  font-size: 1.4em;
+  margin-right: 0.5em;
 `;
 
 const StatusDisplay = styled.img`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: ${getColor("shadow")};
   border-radius: 50%;
   box-shadow: ${getShadow("default")};
@@ -64,20 +69,14 @@ const StatusDisplay = styled.img`
   margin-top: 0.8em;
 `;
 
-const ScoreDisplay = styled.div`
-  font-family: ${getFontFamily("default")};
-  font-weight: bold;
-  font-size: 1.4em;
-  margin-right: 0.3em;
-`;
-
 const Content = styled.div`
   display: flex;
-  max-width: 98vw;
-  max-height: 80vh;
+  max-width: calc(100vw - 1em);
+  max-height: calc(100vh - 5em);
   overflow: scroll;
   -ms-overflow-style: none;
-  margin-top: 4vh;
+  margin-top: 1em;
+  margin-bottom: 1em;
 `;
 
 const GridContainer = styled.div`
@@ -131,12 +130,37 @@ const GridTile: React.FC<GridTileProps> = props => {
 };
 
 export default function App() {
-  const [score, setScore] = useState(0);
-  const [gameStatus, setGameStatus] = useState<Game.GameStatus>("new");
-  const [activeCell, setActiveCell] = useState<Cell<Game.Tile>>();
-  const [grid, setGrid] = useState<Matrix<Game.Tile>>(
-    Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot
+  const [score, setScore] = useState(Storage.read(0, "/score"));
+  const [gameStatus, setGameStatus] = useState<Game.GameStatus>(
+    Storage.read("new", "/gameStatus")
   );
+  const [activeCell, setActiveCell] = useState<Cell<Game.Tile> | undefined>(
+    Storage.read(undefined, "/activeCell")
+  );
+  const [grid, setGrid] = useState<Matrix<Game.Tile>>(
+    Storage.read(
+      Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot,
+      "/grid"
+    )
+  );
+
+  useEffect(() => {
+    Storage.persist(score, "/score");
+  }, [score]);
+
+  useEffect(() => {
+    Storage.persist(gameStatus, "/gameStatus");
+  }, [gameStatus]);
+
+  useEffect(() => {
+    Storage.persist(grid, "/grid");
+  }, [grid]);
+
+  useEffect(() => {
+    if (activeCell) {
+      Storage.persist(activeCell, "/activeCell");
+    }
+  }, [activeCell]);
 
   const handleCellClick = useCallback(
     (cell: Cell<Game.Tile>) => () => {
@@ -181,7 +205,7 @@ export default function App() {
           src={statusAssets[gameStatus]}
           onClick={handleStatusClick}
         />
-        <ScoreDisplay>score: {score}</ScoreDisplay>
+        <Score>score: {score}</Score>
       </AppBar>
       <Content>
         <GridContainer>

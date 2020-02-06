@@ -1,4 +1,4 @@
-const LS_KEY = "@THE_ROAD_QUIZ";
+const LS_KEY = "@MINES";
 
 export default {
   persist<T extends {}>(value: T, path: string = "") {
@@ -6,7 +6,6 @@ export default {
 
     localStorage.setItem(key, JSON.stringify(value));
   },
-
   read<T>(defaultValue: T, path: string = ""): T {
     const key = `${LS_KEY}${path}`;
     const value = localStorage.getItem(key);
