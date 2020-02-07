@@ -54,10 +54,25 @@ const Brand = styled.div`
 `;
 
 const Score = styled.div`
-  font-family: ${getFontFamily("default")};
+  font-family: ${getFontFamily("display")};
   font-weight: 700;
-  font-size: 1.4em;
+  font-size: 1em;
   margin-right: 0.5em;
+  border-radius: ${getRadius("lg")};
+  padding: 0.2em 0.4em;
+  background: ${getColor("black")};
+  color: palegoldenrod;
+  border: solid 2px palegoldenrod;
+  box-shadow: ${getShadow("default")};
+  display: flex;
+  align-items: center;
+`;
+
+const ScoreLabel = styled.span`
+  color: ${getColor("muted")};
+  margin-right: 0.3em;
+  font-size: 0.9em;
+  font-family: ${getFontFamily("display")};
 `;
 
 const StatusDisplay = styled.img`
@@ -205,7 +220,9 @@ export default function App() {
           src={statusAssets[gameStatus]}
           onClick={handleStatusClick}
         />
-        <Score>score: {score}</Score>
+        <Score>
+          <ScoreLabel>score</ScoreLabel> {score}
+        </Score>
       </AppBar>
       <Content>
         <GridContainer>
