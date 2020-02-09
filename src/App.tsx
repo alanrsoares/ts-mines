@@ -10,12 +10,25 @@ import styled, {
   getFontFamily,
   getShadow
 } from "ui/styled";
+import useUpdateChecker from "lib/useUpdateChecker";
 
 const assets = {
   mine: require("assets/mine.svg"),
   skull: require("assets/skull.svg"),
   thinking: require("assets/thinking.svg"),
   cool: require("assets/cool.svg")
+};
+
+const numberColors: Record<number, string> = {
+  0: "white",
+  1: "blue",
+  2: "green",
+  3: "red",
+  4: "darkblue",
+  5: "darkgreen",
+  6: "darkred",
+  7: "purple",
+  8: "darkpurple"
 };
 
 const statusAssets: Record<Game.GameStatus, string> = {
@@ -128,12 +141,14 @@ const GridTileContainer = styled.div<GridTileProps>`
   background: ${getColor(p =>
     p.revealed ? (p.kind === "mine" && p.active ? "negative" : "white") : "gray"
   )};
-  color: ${getColor(p =>
-    p.children === 0 ? "white" : p.revealed ? "black" : "gray"
-  )};
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   user-select: none;
+  ${p =>
+    // dynamic number-color mapping
+    typeof p.children === "number"
+      ? `color:  ${numberColors[p.children]}`
+      : undefined};
 `;
 
 const GridTile: React.FC<GridTileProps> = props => {
@@ -145,6 +160,8 @@ const GridTile: React.FC<GridTileProps> = props => {
 };
 
 export default function App() {
+  useUpdateChecker();
+
   const [score, setScore] = useState(Storage.read(0, "/score"));
   const [gameStatus, setGameStatus] = useState<Game.GameStatus>(
     Storage.read("new", "/gameStatus")
