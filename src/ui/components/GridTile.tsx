@@ -28,20 +28,24 @@ const GridTileContainer = styled.div<Props>`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: ${getShadow(p => (p.revealed ? "none" : "default"))};
+  box-shadow: ${getShadow(props => (props.revealed ? "none" : "default"))};
   border-radius: ${getRadius("lg")};
   margin: 0.2em;
   padding: 0.2em;
-  background: ${getColor(p =>
-    p.revealed ? (p.kind === "mine" && p.active ? "negative" : "white") : "gray"
+  background: ${getColor(props =>
+    props.revealed
+      ? props.kind === "mine" && props.active
+        ? "negative"
+        : "white"
+      : "gray"
   )};
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   user-select: none;
-  ${p =>
+  ${props =>
     // dynamic number-color mapping
-    typeof p.children === "number"
-      ? `color:  ${numberColors[p.children]}`
+    typeof props.children === "number"
+      ? `color:  ${numberColors[props.children]}`
       : undefined};
 `;
 
