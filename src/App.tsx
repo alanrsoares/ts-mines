@@ -4,13 +4,19 @@ import flatten from "ramda/es/flatten";
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
 import Storage from "lib/StorageAdapter";
-import styled, {
-  getColor,
-  getRadius,
-  getFontFamily,
-  getShadow
-} from "ui/styled";
 import useUpdateChecker from "lib/useUpdateChecker";
+
+import {
+  Root,
+  AppBar,
+  Brand,
+  StatusDisplay,
+  Score,
+  ScoreLabel,
+  Content
+} from "ui/components/core";
+
+import GridComponent from "ui/components/Grid";
 
 const assets = {
   mine: require("assets/mine.svg"),
@@ -19,144 +25,10 @@ const assets = {
   cool: require("assets/cool.svg")
 };
 
-const numberColors: Record<number, string> = {
-  0: "white",
-  1: "blue",
-  2: "green",
-  3: "red",
-  4: "darkblue",
-  5: "darkgreen",
-  6: "darkred",
-  7: "purple",
-  8: "darkpurple"
-};
-
 const statusAssets: Record<Game.GameStatus, string> = {
   new: assets.thinking,
   won: assets.cool,
   over: assets.skull
-};
-
-const Root = styled.div`
-  font-family: ${getFontFamily("default")};
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 16px;
-  background: ${getColor("muted")};
-`;
-
-const AppBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 3em;
-  background: ${getColor("gray")};
-  box-shadow: ${getShadow("default")};
-`;
-
-const Brand = styled.div`
-  font-family: ${getFontFamily("display")};
-  color: ${getColor("secondary")};
-  font-weight: 700;
-  font-size: 1.8em;
-  margin-left: 0.5em;
-`;
-
-const Score = styled.div`
-  font-family: ${getFontFamily("display")};
-  font-weight: 700;
-  font-size: 1em;
-  margin-right: 0.5em;
-  border-radius: ${getRadius("lg")};
-  padding: 0.2em 0.4em;
-  background: ${getColor("black")};
-  color: palegoldenrod;
-  border: solid 2px palegoldenrod;
-  box-shadow: ${getShadow("default")};
-  display: flex;
-  align-items: center;
-`;
-
-const ScoreLabel = styled.span`
-  color: ${getColor("muted")};
-  margin-right: 0.3em;
-  font-size: 0.9em;
-  font-family: ${getFontFamily("display")};
-`;
-
-const StatusDisplay = styled.img`
-  background: ${getColor("shadow")};
-  border-radius: 50%;
-  box-shadow: ${getShadow("default")};
-  width: 2.8em;
-  height: 2.8em;
-  margin-top: 0.8em;
-`;
-
-const Content = styled.div`
-  display: flex;
-  max-width: calc(100vw - 1em);
-  max-height: calc(100vh - 5em);
-  overflow: scroll;
-  -ms-overflow-style: none;
-  margin-top: 1em;
-  margin-bottom: 1em;
-`;
-
-const GridContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const GridRow = styled.div`
-  display: flex;
-`;
-
-const Mine = styled.img`
-  width: 1.4em;
-  height: 1.4em;
-`;
-
-interface GridTileProps {
-  kind?: Game.TileKind;
-  active?: boolean;
-  revealed?: boolean;
-  onClick?: () => void;
-}
-
-const GridTileContainer = styled.div<GridTileProps>`
-  width: 1.6em;
-  height: 1.6em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: ${getShadow(p => (p.revealed ? "none" : "default"))};
-  border-radius: ${getRadius("lg")};
-  margin: 0.2em;
-  padding: 0.2em;
-  background: ${getColor(p =>
-    p.revealed ? (p.kind === "mine" && p.active ? "negative" : "white") : "gray"
-  )};
-  transition: all 0.2s ease-in-out;
-  font-weight: bold;
-  user-select: none;
-  ${p =>
-    // dynamic number-color mapping
-    typeof p.children === "number"
-      ? `color:  ${numberColors[p.children]}`
-      : undefined};
-`;
-
-const GridTile: React.FC<GridTileProps> = props => {
-  return (
-    <GridTileContainer onClick={props.onClick} {...props} active={props.active}>
-      {props.revealed ? props.children : null}
-    </GridTileContainer>
-  );
 };
 
 export default function App() {
@@ -195,7 +67,7 @@ export default function App() {
   }, [activeCell]);
 
   const handleCellClick = useCallback(
-    (cell: Cell<Game.Tile>) => () => {
+    (cell: Cell<Game.Tile>) => {
       if (gameStatus === "over" || gameStatus === "won") {
         return;
       }
@@ -242,30 +114,11 @@ export default function App() {
         </Score>
       </AppBar>
       <Content>
-        <GridContainer>
-          {grid.map((row, y) => (
-            <GridRow key={y}>
-              {row.map((cell, x) => (
-                <GridTile
-                  key={x}
-                  kind={cell.value.kind}
-                  onClick={handleCellClick(cell)}
-                  active={
-                    cell.row === activeCell?.row &&
-                    cell.column === activeCell?.column
-                  }
-                  revealed={cell.value.revealed}
-                >
-                  {cell.value.kind === "mine" ? (
-                    <Mine alt="mine" src={assets.mine} />
-                  ) : (
-                    cell.value.surroundingMines
-                  )}
-                </GridTile>
-              ))}
-            </GridRow>
-          ))}
-        </GridContainer>
+        <GridComponent
+          grid={grid}
+          activeCell={activeCell}
+          onTileClick={handleCellClick}
+        />
       </Content>
     </Root>
   );
