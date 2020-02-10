@@ -48,7 +48,7 @@ const GridTileContainer = styled.div<Props>`
 const GridTile: React.FC<Props> = props => {
   return (
     <GridTileContainer onClick={props.onClick} {...props} active={props.active}>
-      {props.revealed && !props.kind === "safe" ? props.children : null}
+      {props.revealed && props.kind !== "safe" ? props.children : null}
     </GridTileContainer>
   );
 };
