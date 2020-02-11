@@ -58,8 +58,8 @@ export const ScoreLabel = styled.span`
 
 export const StatusDisplay = styled.img`
   background: ${getColor("shadow")};
-  border-radius: 50%;
   box-shadow: ${getShadow("default")};
+  border-radius: 50%;
   width: 2.8em;
   height: 2.8em;
   margin-top: 0.8em;
@@ -70,7 +70,7 @@ export const Content = styled.div`
   max-width: calc(100vw - 1em);
   max-height: calc(100vh - 5em);
   overflow: scroll;
-  -ms-overflow-style: none;
   margin-top: 1em;
   margin-bottom: 1em;
+  -ms-overflow-style: none;
 `;
