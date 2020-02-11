@@ -2,9 +2,7 @@
 
 Mine Sweeper in React + TypeScript
 
-<center>
-    <img src="https://github.com/alanrsoares/ts-mines/blob/master/public/logo192.png?raw=true" alt="Mines" width="192" height="192"/>
-</center>
+![mines](/public/logo192.png)
 
 ## Live demo
 
