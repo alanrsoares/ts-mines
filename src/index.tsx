@@ -4,13 +4,13 @@ import { ThemeProvider } from "styled-components";
 
 import "normalize.css";
 
-import App from "App";
 import theme from "ui/theme";
 
+import { version } from "../package.json";
+
+import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import "./styles.css";
-
-import { version } from "../package.json";
 
 // add appVersion to global scope
 global.appVersion = version;
