@@ -1,6 +1,6 @@
 # TS-mines
 
-Mine Sweeper in React + TypeScript
+A Mine Sweeper PWA in React + TypeScript
 
 ![mines](/public/logo192.png)
 
@@ -39,3 +39,7 @@ Or with npm:
 ```bash
 npm start
 ```
+
+### License
+
+MIT
