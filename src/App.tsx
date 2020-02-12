@@ -13,13 +13,22 @@ import {
   StatusDisplay,
   Score,
   ScoreLabel,
-  Content
+  Content,
+  Clamp,
+  Footer,
+  GithubIcon,
+  GithubBadge,
+  ButtonGroup,
+  Button
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
 
+import { ReactComponent as FlagIcon } from "assets/red.svg";
+import { ReactComponent as EyeIcon } from "assets/london-eye.svg";
+import styled from "ui/styled";
+
 const assets = {
-  mine: require("assets/mine.svg"),
   skull: require("assets/skull.svg"),
   thinking: require("assets/thinking.svg"),
   cool: require("assets/cool.svg")
@@ -31,6 +40,18 @@ const statusAssets: Record<Game.GameStatus, string> = {
   over: assets.skull
 };
 
+const Eye = styled(EyeIcon)`
+  width: 1.4em;
+  height: 1.4em;
+`;
+
+const Flag = styled(FlagIcon)`
+  width: 1.4em;
+  height: 1.4em;
+`;
+
+type Mode = "reveal" | "flag";
+
 export default function App() {
   useUpdateChecker();
 
@@ -38,6 +59,8 @@ export default function App() {
   const [gameStatus, setGameStatus] = useState<Game.GameStatus>(
     Storage.read("new", "/gameStatus")
   );
+  const [mode, setMode] = useState<Mode>(Storage.read("reveal", "/mode"));
+
   const [activeCell, setActiveCell] = useState<Cell<Game.Tile> | undefined>(
     Storage.read(undefined, "/activeCell")
   );
@@ -104,14 +127,16 @@ export default function App() {
   return (
     <Root>
       <AppBar>
-        <Brand>Mines</Brand>
-        <StatusDisplay
-          src={statusAssets[gameStatus]}
-          onClick={handleStatusClick}
-        />
-        <Score>
-          <ScoreLabel>score</ScoreLabel> {score}
-        </Score>
+        <Clamp>
+          <Brand>Mines</Brand>
+          <StatusDisplay
+            src={statusAssets[gameStatus]}
+            onClick={handleStatusClick}
+          />
+          <Score>
+            <ScoreLabel>score</ScoreLabel> {score}
+          </Score>
+        </Clamp>
       </AppBar>
       <Content>
         <GridComponent
@@ -120,6 +145,39 @@ export default function App() {
           onTileClick={handleCellClick}
         />
       </Content>
+      <Footer>
+        <Clamp>
+          <GithubBadge
+            target="_blank"
+            href="https://github.com/alanrsoares/ts-mines"
+          >
+            <GithubIcon />
+            @alanrsoares/ts-mines
+          </GithubBadge>
+          <ButtonGroup>
+            <Button
+              side="left"
+              color="light"
+              active={mode === "flag"}
+              onClick={() => {
+                setMode("flag");
+              }}
+            >
+              <Flag />
+            </Button>
+            <Button
+              side="right"
+              color="muted"
+              active={mode === "reveal"}
+              onClick={() => {
+                setMode("reveal");
+              }}
+            >
+              <Eye />
+            </Button>
+          </ButtonGroup>
+        </Clamp>
+      </Footer>
     </Root>
   );
 }

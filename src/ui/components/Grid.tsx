@@ -4,11 +4,9 @@ import styled from "ui/styled";
 import { Tile } from "lib/game";
 import { Matrix, Cell } from "lib/Grid";
 
-import GridTile from "./GridTile";
+import { ReactComponent as MineIcon } from "assets/mine.svg";
 
-const assets = {
-  mine: require("assets/mine.svg")
-};
+import GridTile from "./GridTile";
 
 export const GridContainer = styled.div`
   display: flex;
@@ -19,7 +17,7 @@ export const GridRow = styled.div`
   display: flex;
 `;
 
-export const Mine = styled.img`
+export const Mine = styled(MineIcon)`
   width: 1.4em;
   height: 1.4em;
 `;
@@ -52,7 +50,7 @@ const GridComponent: React.FC<Props> = props => {
               revealed={cell.value.revealed}
             >
               {cell.value.kind === "mine" ? (
-                <Mine alt="mine" src={assets.mine} />
+                <Mine />
               ) : (
                 cell.value.surroundingMines
               )}

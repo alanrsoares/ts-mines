@@ -10,6 +10,7 @@ export const colors = {
   black: "#333",
   white: "#FFF",
   gray: "#CCC",
+  dark: "#666",
   shadow: "rgba(0, 0, 0, 0.4)"
 } as const;
 
@@ -18,11 +19,15 @@ export const radii = {
   sm: "0.1em",
   md: "0.2em",
   lg: "0.3em",
+  xl: "0.4em",
+  xxl: "0.6em",
+  xxxl: "1em",
   round: "50%"
 } as const;
 
 export const shadows = {
   default: `0 1px 2px ${colors.shadow}`,
+  inset: `inset 1px 0 2px`,
   top: `0 -2px 6px ${colors.shadow}`,
   none: "none"
 } as const;
