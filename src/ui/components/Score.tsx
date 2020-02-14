@@ -19,7 +19,6 @@ export const ScoreWrapper = styled.div`
   box-shadow: ${getShadow("default")};
   display: flex;
   align-items: center;
-  min-width: 5em;
   justify-content: space-between;
 `;
 

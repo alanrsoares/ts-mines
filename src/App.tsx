@@ -19,7 +19,8 @@ import {
   Clamp,
   Footer,
   ButtonGroup,
-  Button
+  Button,
+  Controls
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
@@ -168,7 +169,9 @@ export default function App() {
           <StatusDisplay onClick={handleStatusClick}>
             {statusAssets[gameStatus]}
           </StatusDisplay>
-          <Score score={score} />
+          <Controls>
+            <Score score={score} />
+          </Controls>
         </Clamp>
       </AppBar>
       <Content>

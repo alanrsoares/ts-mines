@@ -43,7 +43,14 @@ export const Brand = styled.div`
   color: ${getColor("secondary")};
   font-weight: 700;
   font-size: 1.8em;
-  min-width: 5em;
+  display: flex;
+  flex: 1;
+`;
+
+export const Controls = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row-reverse;
 `;
 
 export const StatusDisplay = styled.div`
