@@ -1,3 +1,5 @@
+import { keyframes } from "styled-components";
+
 export const colors = {
   primary: "#FFD400",
   secondary: "#3482B9",
@@ -47,12 +49,22 @@ export const fontSizes = {
   lg: baseFontSize * 1.2
 } as const;
 
+const animations = {
+  appear: keyframes`
+    0% {
+      transform: scale(0.1);
+      opacity: 0.1;
+    }
+  `
+} as const;
+
 const theme = {
   colors,
   radii,
   fontSizes,
   fontFamilies,
-  shadows
+  shadows,
+  animations
 } as const;
 
 export type Color = keyof typeof colors;

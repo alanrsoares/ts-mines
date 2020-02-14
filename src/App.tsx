@@ -15,13 +15,9 @@ import {
   AppBar,
   Brand,
   StatusDisplay,
-  Score,
-  ScoreLabel,
   Content,
   Clamp,
   Footer,
-  GithubIcon,
-  GithubBadge,
   ButtonGroup,
   Button
 } from "ui/components/core";
@@ -31,6 +27,8 @@ import GridComponent from "ui/components/Grid";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
 import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import styled, { getRadius, getColor } from "ui/styled";
+import Github from "ui/components/Github";
+import Score from "ui/components/Score";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -170,9 +168,7 @@ export default function App() {
           <StatusDisplay onClick={handleStatusClick}>
             {statusAssets[gameStatus]}
           </StatusDisplay>
-          <Score>
-            <ScoreLabel>score</ScoreLabel> {score}
-          </Score>
+          <Score score={score} />
         </Clamp>
       </AppBar>
       <Content>
@@ -184,13 +180,7 @@ export default function App() {
       </Content>
       <Footer>
         <Clamp>
-          <GithubBadge
-            target="_blank"
-            href="https://github.com/alanrsoares/ts-mines"
-          >
-            <GithubIcon />
-            @alanrsoares/ts-mines
-          </GithubBadge>
+          <Github />
           <ButtonGroup>
             <Button
               side="left"

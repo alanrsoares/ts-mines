@@ -1,12 +1,6 @@
-import styled, {
-  getColor,
-  getFontFamily,
-  getShadow,
-  getRadius
-} from "ui/styled";
+import { darken } from "polished";
+import styled, { getColor, getFontFamily, getShadow } from "ui/styled";
 import { Color } from "ui/theme";
-
-import { ReactComponent as Github } from "assets/github.svg";
 
 export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
@@ -49,27 +43,7 @@ export const Brand = styled.div`
   color: ${getColor("secondary")};
   font-weight: 700;
   font-size: 1.8em;
-`;
-
-export const Score = styled.div`
-  font-family: ${getFontFamily("display")};
-  font-weight: 700;
-  font-size: 1em;
-  border-radius: ${getRadius("lg")};
-  padding: 0.2em 0.4em;
-  background: ${getColor("black")};
-  color: palegoldenrod;
-  border: solid 2px palegoldenrod;
-  box-shadow: ${getShadow("default")};
-  display: flex;
-  align-items: center;
-`;
-
-export const ScoreLabel = styled.span`
-  color: ${getColor("muted")};
-  margin-right: 0.3em;
-  font-size: 0.9em;
-  font-family: ${getFontFamily("display")};
+  min-width: 5em;
 `;
 
 export const StatusDisplay = styled.div`
@@ -110,32 +84,14 @@ export const Footer = styled.div`
   bottom: 0;
 `;
 
-export const GithubBadge = styled.a`
-  border-radius: ${getRadius("xxxl")};
-  color: ${getColor("secondary")};
-  background: ${getColor("white")};
-  display: flex;
-  padding: 0.3em 0.4em;
-  width: 12.3em;
-  justify-content: space-around;
-  align-items: center;
-  box-shadow: ${getShadow("default")};
-  font-weight: 700;
-  text-decoration: none;
-`;
-
-export const GithubIcon = styled(Github)`
-  height: 1.6em;
-  width: 1.6em;
-`;
-
 export const Button = styled.button<{
   color: Color;
   side: "left" | "right";
   active?: boolean;
 }>`
   border: none;
-  background-color: ${getColor(props => props.color)};
+  background-color: ${p =>
+    p.active ? getColor(p.color)(p) : darken(0.5, getColor(p.color)(p))};
   height: 2.1em;
   width: 2.8em;
   ${p => `
@@ -145,7 +101,7 @@ export const Button = styled.button<{
   box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
   outline: none;
   transition: all .1s ease;
-  opacity: ${p => (p.active ? 1 : 0.4)};
+  
   display: flex;
   justify-content: center;
   align-items: center;

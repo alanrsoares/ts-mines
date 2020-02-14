@@ -1,6 +1,11 @@
 import React, { useMemo } from "react";
 
-import styled, { getShadow, getRadius, getColor } from "ui/styled";
+import styled, {
+  getShadow,
+  getRadius,
+  getColor,
+  getAnimation
+} from "ui/styled";
 import * as Game from "lib/game";
 
 import { ReactComponent as MineIcon } from "assets/mine.svg";
@@ -9,11 +14,13 @@ import { ReactComponent as FlagIcon } from "assets/flag.svg";
 export const Mine = styled(MineIcon)`
   width: 1.4em;
   height: 1.4em;
+  animation: ${getAnimation("appear")} 0.2s ease-in-out;
 `;
 
 export const Flag = styled(FlagIcon)`
   width: 1.4em;
   height: 1.4em;
+  animation: ${getAnimation("appear")} 0.2s ease-in-out;
 `;
 
 const numberColors: Record<number, string> = {
