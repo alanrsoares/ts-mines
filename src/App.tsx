@@ -30,7 +30,7 @@ import GridComponent from "ui/components/Grid";
 
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
 import { ReactComponent as EyeIcon } from "assets/eye.svg";
-import styled from "ui/styled";
+import styled, { getRadius, getColor } from "ui/styled";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -39,13 +39,24 @@ const statusAssets: Record<Game.GameStatus, JSX.Element> = {
 };
 
 const Eye = styled(EyeIcon)`
-  width: 1.4em;
-  height: 1.4em;
+  width: 1em;
+  height: 1em;
 `;
 
 const Flag = styled(FlagIcon)`
+  width: 1em;
+  height: 1em;
+`;
+
+const Circle = styled.div`
+  border-radius: ${getRadius("round")};
+  background-color: ${getColor("gray")};
   width: 1.4em;
   height: 1.4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.1em;
 `;
 
 export default function App() {
@@ -104,6 +115,10 @@ export default function App() {
       switch (gameMode) {
         case "flag":
           {
+            // ignore clicking on a "revealed" tile while on "flag" mode
+            if (tile.revealed) {
+              return;
+            }
             const nextGrid = Grid.from(grid).updateCell(cell, {
               ...tile,
               flagged: !tile.flagged
@@ -113,6 +128,11 @@ export default function App() {
           break;
         case "reveal":
           {
+            // ignore clicking on a "flagged" tile while on "reveal" mode
+            if (tile.flagged) {
+              return;
+            }
+
             if (tile.kind === "mine") {
               // reveal mines
               const nextGrid = Grid.from(grid).map(Game.revealMine);
@@ -180,7 +200,9 @@ export default function App() {
                 setGameMode("flag");
               }}
             >
-              <Flag />
+              <Circle>
+                <Flag />
+              </Circle>
             </Button>
             <Button
               side="right"
@@ -190,7 +212,9 @@ export default function App() {
                 setGameMode("reveal");
               }}
             >
-              <Eye />
+              <Circle>
+                <Eye />
+              </Circle>
             </Button>
           </ButtonGroup>
         </Clamp>

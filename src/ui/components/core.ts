@@ -145,7 +145,12 @@ export const Button = styled.button<{
   box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
   outline: none;
   transition: all .1s ease;
-  opacity: ${p => (p.active ? 1 : 0.6)}
+  opacity: ${p => (p.active ? 1 : 0.4)};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const ButtonGroup = styled.div``;
+export const ButtonGroup = styled.div`
+  display: flex;
+`;
