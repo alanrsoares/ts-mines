@@ -72,13 +72,14 @@ export const ScoreLabel = styled.span`
   font-family: ${getFontFamily("display")};
 `;
 
-export const StatusDisplay = styled.img`
+export const StatusDisplay = styled.div`
   background: ${getColor("shadow")};
   box-shadow: ${getShadow("default")};
   border-radius: 50%;
   width: 2.8em;
   height: 2.8em;
   margin-top: 0.8em;
+  padding: 0.4em;
 `;
 
 export const Content = styled.div`

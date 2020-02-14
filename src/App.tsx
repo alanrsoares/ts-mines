@@ -6,6 +6,10 @@ import * as Game from "lib/game";
 import Storage from "lib/StorageAdapter";
 import useUpdateChecker from "lib/useUpdateChecker";
 
+import { ReactComponent as SkullIcon } from "assets/skull.svg";
+import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
+import { ReactComponent as CoolIcon } from "assets/cool.svg";
+
 import {
   Root,
   AppBar,
@@ -24,20 +28,14 @@ import {
 
 import GridComponent from "ui/components/Grid";
 
-import { ReactComponent as FlagIcon } from "assets/red.svg";
-import { ReactComponent as EyeIcon } from "assets/london-eye.svg";
+import { ReactComponent as FlagIcon } from "assets/flag.svg";
+import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import styled from "ui/styled";
 
-const assets = {
-  skull: require("assets/skull.svg"),
-  thinking: require("assets/thinking.svg"),
-  cool: require("assets/cool.svg")
-};
-
-const statusAssets: Record<Game.GameStatus, string> = {
-  new: assets.thinking,
-  won: assets.cool,
-  over: assets.skull
+const statusAssets: Record<Game.GameStatus, JSX.Element> = {
+  new: <ThinkingIcon />,
+  won: <CoolIcon />,
+  over: <SkullIcon />
 };
 
 const Eye = styled(EyeIcon)`
@@ -50,8 +48,6 @@ const Flag = styled(FlagIcon)`
   height: 1.4em;
 `;
 
-type Mode = "reveal" | "flag";
-
 export default function App() {
   useUpdateChecker();
 
@@ -59,7 +55,9 @@ export default function App() {
   const [gameStatus, setGameStatus] = useState<Game.GameStatus>(
     Storage.read("new", "/gameStatus")
   );
-  const [mode, setMode] = useState<Mode>(Storage.read("reveal", "/mode"));
+  const [gameMode, setGameMode] = useState<Game.Mode>(
+    Storage.read("reveal", "/mode")
+  );
 
   const [activeCell, setActiveCell] = useState<Cell<Game.Tile> | undefined>(
     Storage.read(undefined, "/activeCell")
@@ -84,6 +82,10 @@ export default function App() {
   }, [grid]);
 
   useEffect(() => {
+    Storage.persist(gameMode, "/mode");
+  }, [gameMode]);
+
+  useEffect(() => {
     if (activeCell) {
       Storage.persist(activeCell, "/activeCell");
     }
@@ -99,21 +101,37 @@ export default function App() {
 
       const tile = cell.value;
 
-      if (tile.kind === "mine") {
-        // reveal mines
-        const nextGrid = Grid.from(grid).map(Game.revealMine);
-        setGrid(nextGrid.snapshot);
-        setGameStatus("over");
-        return;
+      switch (gameMode) {
+        case "flag":
+          {
+            const nextGrid = Grid.from(grid).updateCell(cell, {
+              ...tile,
+              flagged: !tile.flagged
+            });
+            setGrid(nextGrid.snapshot);
+          }
+          break;
+        case "reveal":
+          {
+            if (tile.kind === "mine") {
+              // reveal mines
+              const nextGrid = Grid.from(grid).map(Game.revealMine);
+              setGrid(nextGrid.snapshot);
+              setGameStatus("over");
+              return;
+            }
+
+            const nextGrid = Game.getNextGrid(grid, cell).snapshot;
+            const nextScore = flatten(nextGrid).filter(c => c.value.revealed)
+              .length;
+
+            setGrid(nextGrid);
+            setScore(nextScore);
+          }
+          break;
       }
-
-      const nextGrid = Game.getNextGrid(grid, cell).snapshot;
-      const nextScore = flatten(nextGrid).filter(c => c.value.revealed).length;
-
-      setGrid(nextGrid);
-      setScore(nextScore);
     },
-    [grid, gameStatus]
+    [grid, gameStatus, gameMode]
   );
 
   const handleStatusClick = useCallback(() => {
@@ -129,10 +147,9 @@ export default function App() {
       <AppBar>
         <Clamp>
           <Brand>Mines</Brand>
-          <StatusDisplay
-            src={statusAssets[gameStatus]}
-            onClick={handleStatusClick}
-          />
+          <StatusDisplay onClick={handleStatusClick}>
+            {statusAssets[gameStatus]}
+          </StatusDisplay>
           <Score>
             <ScoreLabel>score</ScoreLabel> {score}
           </Score>
@@ -157,20 +174,20 @@ export default function App() {
           <ButtonGroup>
             <Button
               side="left"
-              color="light"
-              active={mode === "flag"}
+              color="white"
+              active={gameMode === "flag"}
               onClick={() => {
-                setMode("flag");
+                setGameMode("flag");
               }}
             >
               <Flag />
             </Button>
             <Button
               side="right"
-              color="muted"
-              active={mode === "reveal"}
+              color="white"
+              active={gameMode === "reveal"}
               onClick={() => {
-                setMode("reveal");
+                setGameMode("reveal");
               }}
             >
               <Eye />

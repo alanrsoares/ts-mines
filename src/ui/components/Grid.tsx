@@ -4,8 +4,6 @@ import styled from "ui/styled";
 import { Tile } from "lib/game";
 import { Matrix, Cell } from "lib/Grid";
 
-import { ReactComponent as MineIcon } from "assets/mine.svg";
-
 import GridTile from "./GridTile";
 
 export const GridContainer = styled.div`
@@ -15,11 +13,6 @@ export const GridContainer = styled.div`
 
 export const GridRow = styled.div`
   display: flex;
-`;
-
-export const Mine = styled(MineIcon)`
-  width: 1.4em;
-  height: 1.4em;
 `;
 
 interface Props {
@@ -41,20 +34,13 @@ const GridComponent: React.FC<Props> = props => {
           {row.map((cell, x) => (
             <GridTile
               key={x}
-              kind={cell.value.kind}
-              onClick={handleCellClick(cell)}
+              {...cell.value}
               active={
                 cell.row === props.activeCell?.row &&
                 cell.column === props.activeCell?.column
               }
-              revealed={cell.value.revealed}
-            >
-              {cell.value.kind === "mine" ? (
-                <Mine />
-              ) : (
-                cell.value.surroundingMines
-              )}
-            </GridTile>
+              onClick={handleCellClick(cell)}
+            />
           ))}
         </GridRow>
       ))}

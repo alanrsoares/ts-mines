@@ -8,9 +8,12 @@ export type Tile = {
   kind: TileKind;
   revealed: boolean;
   surroundingMines: number;
+  flagged?: boolean;
 };
 
 export type GameStatus = "new" | "over" | "won";
+
+export type Mode = "reveal" | "flag";
 
 export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
 

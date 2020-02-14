@@ -1,7 +1,20 @@
-import React from "react";
-import styled, { getShadow, getRadius, getColor } from "ui/styled";
+import React, { useMemo } from "react";
 
+import styled, { getShadow, getRadius, getColor } from "ui/styled";
 import * as Game from "lib/game";
+
+import { ReactComponent as MineIcon } from "assets/mine.svg";
+import { ReactComponent as FlagIcon } from "assets/flag.svg";
+
+export const Mine = styled(MineIcon)`
+  width: 1.4em;
+  height: 1.4em;
+`;
+
+export const Flag = styled(FlagIcon)`
+  width: 1.4em;
+  height: 1.4em;
+`;
 
 const numberColors: Record<number, string> = {
   0: "white",
@@ -15,10 +28,8 @@ const numberColors: Record<number, string> = {
   8: "darkpurple"
 };
 
-interface Props {
-  kind?: Game.TileKind;
+interface Props extends Game.Tile {
   active?: boolean;
-  revealed?: boolean;
   onClick?: () => void;
 }
 
@@ -50,9 +61,24 @@ const GridTileContainer = styled.div<Props>`
 `;
 
 const GridTile: React.FC<Props> = props => {
+  const content = useMemo(() => {
+    if (props.flagged) {
+      return <Flag />;
+    }
+    if (!props.revealed || props.kind === "safe") {
+      return null;
+    }
+
+    switch (props.kind) {
+      case "empty":
+        return props.surroundingMines;
+      case "mine":
+        return <Mine />;
+    }
+  }, [props]);
   return (
     <GridTileContainer onClick={props.onClick} {...props} active={props.active}>
-      {props.revealed && props.kind !== "safe" ? props.children : null}
+      {content}
     </GridTileContainer>
   );
 };
