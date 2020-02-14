@@ -17,46 +17,18 @@ import {
   StatusDisplay,
   Content,
   Clamp,
-  Footer,
-  ButtonGroup,
-  Button,
   Controls
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
-
-import { ReactComponent as FlagIcon } from "assets/flag.svg";
-import { ReactComponent as EyeIcon } from "assets/eye.svg";
-import styled, { getRadius, getColor } from "ui/styled";
-import Github from "ui/components/Github";
 import Score from "ui/components/Score";
+import Footer from "ui/components/Footer";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
   won: <CoolIcon />,
   over: <SkullIcon />
 };
-
-const Eye = styled(EyeIcon)`
-  width: 1em;
-  height: 1em;
-`;
-
-const Flag = styled(FlagIcon)`
-  width: 1em;
-  height: 1em;
-`;
-
-const Circle = styled.div`
-  border-radius: ${getRadius("round")};
-  background-color: ${getColor("gray")};
-  width: 1.4em;
-  height: 1.4em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.1em;
-`;
 
 export default function App() {
   useUpdateChecker();
@@ -161,6 +133,23 @@ export default function App() {
     }
   }, [gameStatus]);
 
+  const handleToggleGameMode = useCallback(() => {
+    setGameMode(mode => (mode === "flag" ? "reveal" : "flag"));
+  }, []);
+
+  useEffect(() => {
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.keyCode === 32) {
+        handleToggleGameMode();
+      }
+    };
+    document.addEventListener("keyup", onKeyUp);
+
+    return () => {
+      document.removeEventListener("keyup", onKeyUp);
+    };
+  }, [handleToggleGameMode]);
+
   return (
     <Root>
       <AppBar>
@@ -181,37 +170,7 @@ export default function App() {
           onTileClick={handleCellClick}
         />
       </Content>
-      <Footer>
-        <Clamp>
-          <Github />
-          <ButtonGroup>
-            <Button
-              side="left"
-              color="white"
-              active={gameMode === "flag"}
-              onClick={() => {
-                setGameMode("flag");
-              }}
-            >
-              <Circle>
-                <Flag />
-              </Circle>
-            </Button>
-            <Button
-              side="right"
-              color="white"
-              active={gameMode === "reveal"}
-              onClick={() => {
-                setGameMode("reveal");
-              }}
-            >
-              <Circle>
-                <Eye />
-              </Circle>
-            </Button>
-          </ButtonGroup>
-        </Clamp>
-      </Footer>
+      <Footer onToggleGameMode={handleToggleGameMode} gameMode={gameMode} />
     </Root>
   );
 }

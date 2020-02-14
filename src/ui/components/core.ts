@@ -1,6 +1,4 @@
-import { darken } from "polished";
 import styled, { getColor, getFontFamily, getShadow } from "ui/styled";
-import { Color } from "ui/theme";
 
 export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
@@ -76,44 +74,4 @@ export const Content = styled.div`
   @media screen and (max-width: ${BOARD_WIDTH}) {
     overflow: scroll;
   }
-`;
-
-export const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 3em;
-  background: ${getColor("dark")};
-  color: ${getColor("white")};
-  box-shadow: ${getShadow("default")};
-  position: fixed;
-  bottom: 0;
-`;
-
-export const Button = styled.button<{
-  color: Color;
-  side: "left" | "right";
-  active?: boolean;
-}>`
-  border: none;
-  background-color: ${p =>
-    p.active ? getColor(p.color)(p) : darken(0.5, getColor(p.color)(p))};
-  height: 2.1em;
-  width: 2.8em;
-  ${p => `
-    border-top-${p.side}-radius: ${p.theme.radii.xxxl};
-    border-bottom-${p.side}-radius: ${p.theme.radii.xxxl};
-  `}
-  box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
-  outline: none;
-  transition: all .1s ease;
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ButtonGroup = styled.div`
-  display: flex;
 `;
