@@ -17,5 +17,5 @@ jobs:
         uses: Cecilapp/GitHub-Pages-deploy@master
         env:
           EMAIL: alanrsoars@gmail.com
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }} # https://github.com/settings/tokens
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BUILD_DIR: build/
