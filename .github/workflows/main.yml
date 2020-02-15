@@ -13,5 +13,9 @@ jobs:
         uses: bahmutov/npm-install@v1.1.0
       - name: Build
         run: yarn build
-      - name: GH Pages deploy
-        run: yarn deploy
+       - name: Deploy to GitHub Pages
+        uses: Cecilapp/GitHub-Pages-deploy@master
+        env:
+          EMAIL: alanrsoars@gmail.com
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }} # https://github.com/settings/tokens
+          BUILD_DIR: build/                     # "_site/" by default
