@@ -4,18 +4,14 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: NPM or Yarn install with caching
-      uses: bahmutov/npm-install@v1.1.0
-    - name: Build
-      run: yarn build
-    - name: GH Pages deploy
-      uses: Cecilapp/GitHub-Pages-deploy@2.0.0
-      env:
-        BUILD_DIR: build/
-        
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: NPM or Yarn install with caching
+        uses: bahmutov/npm-install@v1.1.0
+      - name: Build
+        run: yarn build
+      - name: GH Pages deploy
+        run: yarn deploy
