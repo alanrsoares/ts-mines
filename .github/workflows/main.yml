@@ -14,4 +14,6 @@ jobs:
       - name: Build
         run: yarn build
       - name: GH Pages deploy
-        run: yarn deploy
+        run: git config --global user.email "alanrsoars@gmail.com"
+          git config --global user.name "Alan Soares"
+          yarn deploy
