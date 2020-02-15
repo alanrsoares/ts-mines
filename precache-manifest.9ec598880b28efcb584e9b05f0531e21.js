@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "b3a68cbeaf2e73913d867f5c5f44d714",
+    "revision": "34a3f7e1e7ce283504e4a8f097d759cf",
     "url": "/ts-mines/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ts-mines/static/css/2.764ccc25.chunk.css"
   },
   {
-    "revision": "391c479fa04ec0882da1",
+    "revision": "1e37f4cbe15c46f1bcfd",
     "url": "/ts-mines/static/css/main.0d9c4cf7.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ts-mines/static/js/2.ece8bd81.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "391c479fa04ec0882da1",
-    "url": "/ts-mines/static/js/main.98d20dd3.chunk.js"
+    "revision": "1e37f4cbe15c46f1bcfd",
+    "url": "/ts-mines/static/js/main.c821d272.chunk.js"
   },
   {
     "revision": "d87a453fd1ae4f6a66f3",
