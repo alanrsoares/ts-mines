@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/ts-mines/static/css/main.0d9c4cf7.chunk.css",
+    "main.js": "/ts-mines/static/js/main.98d20dd3.chunk.js",
+    "main.js.map": "/ts-mines/static/js/main.98d20dd3.chunk.js.map",
+    "runtime-main.js": "/ts-mines/static/js/runtime-main.a248a427.js",
+    "runtime-main.js.map": "/ts-mines/static/js/runtime-main.a248a427.js.map",
+    "static/css/2.764ccc25.chunk.css": "/ts-mines/static/css/2.764ccc25.chunk.css",
+    "static/js/2.ece8bd81.chunk.js": "/ts-mines/static/js/2.ece8bd81.chunk.js",
+    "static/js/2.ece8bd81.chunk.js.map": "/ts-mines/static/js/2.ece8bd81.chunk.js.map",
+    "index.html": "/ts-mines/index.html",
+    "precache-manifest.a138bfa626760829f34006d18ba723a6.js": "/ts-mines/precache-manifest.a138bfa626760829f34006d18ba723a6.js",
+    "service-worker.js": "/ts-mines/service-worker.js",
+    "static/css/2.764ccc25.chunk.css.map": "/ts-mines/static/css/2.764ccc25.chunk.css.map",
+    "static/css/main.0d9c4cf7.chunk.css.map": "/ts-mines/static/css/main.0d9c4cf7.chunk.css.map",
+    "static/js/2.ece8bd81.chunk.js.LICENSE.txt": "/ts-mines/static/js/2.ece8bd81.chunk.js.LICENSE.txt",
+    "static/media/cool.d7708325.svg": "/ts-mines/static/media/cool.d7708325.svg",
+    "static/media/eye.4a335def.svg": "/ts-mines/static/media/eye.4a335def.svg",
+    "static/media/flag.b21a81c5.svg": "/ts-mines/static/media/flag.b21a81c5.svg",
+    "static/media/github.1f33e75d.svg": "/ts-mines/static/media/github.1f33e75d.svg",
+    "static/media/mine.b4c92d62.svg": "/ts-mines/static/media/mine.b4c92d62.svg",
+    "static/media/skull.7d5904ce.svg": "/ts-mines/static/media/skull.7d5904ce.svg",
+    "static/media/thinking.611e6828.svg": "/ts-mines/static/media/thinking.611e6828.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a248a427.js",
+    "static/css/2.764ccc25.chunk.css",
+    "static/js/2.ece8bd81.chunk.js",
+    "static/css/main.0d9c4cf7.chunk.css",
+    "static/js/main.98d20dd3.chunk.js"
+  ]
+}
