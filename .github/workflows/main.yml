@@ -14,3 +14,8 @@ jobs:
       uses: bahmutov/npm-install@v1.1.0
     - name: Build
       run: yarn build
+    - name: GH Pages deploy
+      uses: Cecilapp/GitHub-Pages-deploy@2.0.0
+      env:
+        BUILD_DIR: build/
+        
