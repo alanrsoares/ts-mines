@@ -2,6 +2,31 @@
   "name": "ts-mines",
   "version": "1.0.10",
   "private": true,
+  "homepage": "https://alanrsoares.github.io/ts-mines",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "prebuild": "yarn generate-build-version && yarn write-app-name-to-manifest",
+    "generate-build-version": "node scripts/generate-build-version",
+    "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest",
+    "deploy": "gh-pages -d build/"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -19,29 +44,6 @@
     "react-scripts": "3.3.1",
     "styled-components": "^5.0.0",
     "typescript": "~3.8.1-rc"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "prebuild": "yarn generate-build-version && yarn write-app-name-to-manifest",
-    "generate-build-version": "node scripts/generate-build-version",
-    "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "devDependencies": {
     "@types/styled-components": "^4.4.2",
