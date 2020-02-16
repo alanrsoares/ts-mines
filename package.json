@@ -2,7 +2,6 @@
   "name": "ts-mines",
   "version": "1.0.10",
   "private": true,
-  "homepage": "https://alanrsoares.github.io/ts-mines",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
