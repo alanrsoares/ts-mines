@@ -1,32 +1,32 @@
 {
   "files": {
     "main.css": "/ts-mines/static/css/main.0d9c4cf7.chunk.css",
-    "main.js": "/ts-mines/static/js/main.c821d272.chunk.js",
-    "main.js.map": "/ts-mines/static/js/main.c821d272.chunk.js.map",
+    "main.js": "/ts-mines/static/js/main.ed9d7a0b.chunk.js",
+    "main.js.map": "/ts-mines/static/js/main.ed9d7a0b.chunk.js.map",
     "runtime-main.js": "/ts-mines/static/js/runtime-main.a248a427.js",
     "runtime-main.js.map": "/ts-mines/static/js/runtime-main.a248a427.js.map",
     "static/css/2.764ccc25.chunk.css": "/ts-mines/static/css/2.764ccc25.chunk.css",
     "static/js/2.ece8bd81.chunk.js": "/ts-mines/static/js/2.ece8bd81.chunk.js",
     "static/js/2.ece8bd81.chunk.js.map": "/ts-mines/static/js/2.ece8bd81.chunk.js.map",
     "index.html": "/ts-mines/index.html",
-    "precache-manifest.9ec598880b28efcb584e9b05f0531e21.js": "/ts-mines/precache-manifest.9ec598880b28efcb584e9b05f0531e21.js",
+    "precache-manifest.b659e71e04d9fdf9ba710f0be34af958.js": "/ts-mines/precache-manifest.b659e71e04d9fdf9ba710f0be34af958.js",
     "service-worker.js": "/ts-mines/service-worker.js",
     "static/css/2.764ccc25.chunk.css.map": "/ts-mines/static/css/2.764ccc25.chunk.css.map",
     "static/css/main.0d9c4cf7.chunk.css.map": "/ts-mines/static/css/main.0d9c4cf7.chunk.css.map",
     "static/js/2.ece8bd81.chunk.js.LICENSE.txt": "/ts-mines/static/js/2.ece8bd81.chunk.js.LICENSE.txt",
-    "static/media/cool.d7708325.svg": "/ts-mines/static/media/cool.d7708325.svg",
-    "static/media/eye.4a335def.svg": "/ts-mines/static/media/eye.4a335def.svg",
-    "static/media/flag.b21a81c5.svg": "/ts-mines/static/media/flag.b21a81c5.svg",
-    "static/media/github.1f33e75d.svg": "/ts-mines/static/media/github.1f33e75d.svg",
-    "static/media/mine.b4c92d62.svg": "/ts-mines/static/media/mine.b4c92d62.svg",
-    "static/media/skull.7d5904ce.svg": "/ts-mines/static/media/skull.7d5904ce.svg",
-    "static/media/thinking.611e6828.svg": "/ts-mines/static/media/thinking.611e6828.svg"
+    "static/media/cool.76aceb28.svg": "/ts-mines/static/media/cool.76aceb28.svg",
+    "static/media/eye.a2510f3f.svg": "/ts-mines/static/media/eye.a2510f3f.svg",
+    "static/media/flag.5193edf2.svg": "/ts-mines/static/media/flag.5193edf2.svg",
+    "static/media/github.1c80c8c6.svg": "/ts-mines/static/media/github.1c80c8c6.svg",
+    "static/media/mine.de166f20.svg": "/ts-mines/static/media/mine.de166f20.svg",
+    "static/media/skull.29919b5b.svg": "/ts-mines/static/media/skull.29919b5b.svg",
+    "static/media/thinking.eb8e855e.svg": "/ts-mines/static/media/thinking.eb8e855e.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.a248a427.js",
     "static/css/2.764ccc25.chunk.css",
     "static/js/2.ece8bd81.chunk.js",
     "static/css/main.0d9c4cf7.chunk.css",
-    "static/js/main.c821d272.chunk.js"
+    "static/js/main.ed9d7a0b.chunk.js"
   ]
 }
