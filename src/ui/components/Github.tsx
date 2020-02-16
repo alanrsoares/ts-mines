@@ -50,7 +50,11 @@ export const GithubBadge = styled.a`
 
 const Github: React.FC = () => {
   return (
-    <GithubBadge target="_blank" href="https://github.com/alanrsoares/ts-mines">
+    <GithubBadge
+      target="_blank"
+      rel="noreferrer"
+      href="https://github.com/alanrsoares/ts-mines"
+    >
       <GithubIcon />
       <GithubLabel>@alanrsoares/ts-mines</GithubLabel>
     </GithubBadge>
