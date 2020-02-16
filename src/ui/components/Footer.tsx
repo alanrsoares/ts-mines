@@ -86,6 +86,7 @@ const Footer: React.FC<{
             color="white"
             active={props.gameMode === "flag"}
             onClick={props.onToggleGameMode}
+            aria-label="Toggle game mode"
           >
             <Circle>
               <Flag />
@@ -96,6 +97,7 @@ const Footer: React.FC<{
             color="white"
             active={props.gameMode === "reveal"}
             onClick={props.onToggleGameMode}
+            aria-label="Toggle game mode"
           >
             <Circle>
               <Eye />
