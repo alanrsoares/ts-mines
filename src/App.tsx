@@ -109,8 +109,14 @@ export default function App() {
 
             if (tile.kind === "mine") {
               // reveal mines
-              const nextGrid = Grid.from(grid).map(Game.revealMine);
+              const nextGrid = Grid.from(grid).updateCell(cell, {
+                ...tile,
+                revealed: true
+              });
+
               setGrid(nextGrid.snapshot);
+
+              setGrid(nextGrid.map(Game.revealMine).snapshot);
               setGameStatus("over");
               return;
             }

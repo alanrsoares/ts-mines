@@ -12,6 +12,10 @@ import { css } from "styled-components";
 export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
 
+export const APP_BAR_HEIGHT = "3.8em";
+export const FOOTER_HEIGHT = "3em";
+export const CONTENT_MARGIN = "1em";
+
 export const Root = styled.div`
   font-family: ${getFontFamily("default")};
   height: 100vh;
@@ -27,7 +31,7 @@ export const AppBar = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 3.8em;
+  height: ${APP_BAR_HEIGHT};
   background: ${getColor("black")};
   box-shadow: ${getShadow("default")};
 `;
@@ -78,10 +82,12 @@ export const StatusDisplay = styled.div<{ isGameOver: boolean }>`
 
 export const Content = styled.div`
   display: flex;
-  max-width: calc(100vw - 1em);
-  max-height: calc(100vh - 7em);
-  margin-top: 1em;
-  margin-bottom: 1em;
+  max-width: calc(100vw - ${CONTENT_MARGIN});
+  max-height: calc(
+    100vh - ((2 * ${CONTENT_MARGIN}) + ${APP_BAR_HEIGHT} + ${FOOTER_HEIGHT})
+  );
+  margin-top: ${CONTENT_MARGIN};
+  margin-bottom: ${CONTENT_MARGIN};
   -ms-overflow-style: none;
   @media screen and (max-height: ${BOARD_HEIGHT}) {
     overflow: scroll;

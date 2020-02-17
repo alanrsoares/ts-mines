@@ -6,7 +6,7 @@ import { Mode } from "lib/game";
 import styled, { getColor, getShadow, getRadius } from "ui/styled";
 
 import { Color } from "ui/theme";
-import { Clamp } from "ui/components/core";
+import { Clamp, FOOTER_HEIGHT } from "ui/components/core";
 import Github from "ui/components/Github";
 import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
@@ -63,7 +63,7 @@ export const Root = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 3em;
+  height: ${FOOTER_HEIGHT};
   background: ${getColor("dark")};
   color: ${getColor("white")};
   box-shadow: ${getShadow("default")};
