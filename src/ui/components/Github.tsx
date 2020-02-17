@@ -54,6 +54,7 @@ const Github: React.FC = () => {
       target="_blank"
       rel="noreferrer"
       href="https://github.com/alanrsoares/ts-mines"
+      aria-label="got to the project's github page"
     >
       <GithubIcon />
       <GithubLabel>@alanrsoares/ts-mines</GithubLabel>
