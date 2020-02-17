@@ -9,7 +9,6 @@ import styled, {
 
 export const ScoreWrapper = styled.div`
   font-family: ${getFontFamily("display")};
-  font-weight: 700;
   font-size: 1em;
   border-radius: ${getRadius("lg")};
   padding: 0.2em 0.4em;
