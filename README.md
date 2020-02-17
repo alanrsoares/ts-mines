@@ -1,4 +1,4 @@
-# TS-mines
+# ![mines logo](/public/mines-brand.png)
 
 A Mine Sweeper PWA in React + TypeScript
 
