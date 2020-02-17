@@ -154,7 +154,7 @@ export default function App() {
     <Root>
       <AppBar>
         <Clamp>
-          <Brand>Mines</Brand>
+          <Brand>[MINES]</Brand>
           <StatusDisplay onClick={handleStatusClick}>
             {statusAssets[gameStatus]}
           </StatusDisplay>

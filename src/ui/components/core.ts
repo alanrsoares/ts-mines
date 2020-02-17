@@ -19,7 +19,7 @@ export const AppBar = styled.div`
   justify-content: center;
   width: 100%;
   height: 3em;
-  background: ${getColor("gray")};
+  background: ${getColor("black")};
   box-shadow: ${getShadow("default")};
 `;
 
@@ -38,9 +38,8 @@ export const Clamp = styled.div`
 
 export const Brand = styled.div`
   font-family: ${getFontFamily("display")};
-  color: ${getColor("secondary")};
-  font-weight: 700;
-  font-size: 1.8em;
+  color: ${getColor("primary")};
+  font-size: 3em;
   display: flex;
   flex: 1;
 `;

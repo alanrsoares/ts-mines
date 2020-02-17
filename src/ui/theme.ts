@@ -2,7 +2,7 @@ import { keyframes } from "styled-components";
 
 export const colors = {
   primary: "#FFD400",
-  secondary: "#3482B9",
+  secondary: "#F00",
   positive: "#49C04A",
   negative: "#D03930",
   neutral: "#AAA",
@@ -35,7 +35,7 @@ export const shadows = {
 } as const;
 
 export const fontFamilies = {
-  display: "'Major Mono Display', monospace",
+  display: "'Black Ops One', cursive",
   default: "'Lato', sans-serif",
   voice: "'Vollkorn', serif"
 };
