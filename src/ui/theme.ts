@@ -1,4 +1,5 @@
 import { keyframes } from "styled-components";
+import { darken } from "polished";
 
 export const colors = {
   primary: "#FFD400",
@@ -44,6 +45,7 @@ const baseFontSize = 18;
 
 export const fontSizes = {
   default: baseFontSize,
+  xs: baseFontSize * 0.6,
   sm: baseFontSize * 0.8,
   md: baseFontSize,
   lg: baseFontSize * 1.2
@@ -54,6 +56,12 @@ const animations = {
     0% {
       transform: scale(0.1);
       opacity: 0.1;
+    }
+  `,
+  glow: keyframes`
+    70% {
+      opacity: 1;
+      background-color: ${darken(0.2, colors.negative)};
     }
   `
 } as const;

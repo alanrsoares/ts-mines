@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import flatten from "ramda/es/flatten";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
@@ -17,11 +17,14 @@ import {
   StatusDisplay,
   Content,
   Clamp,
-  Controls
+  Controls,
+  Progress,
+  ProgressIcon,
+  ProgressLine,
+  ProgressContainer
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
-import Score from "ui/components/Score";
 import Footer from "ui/components/Footer";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
@@ -139,6 +142,7 @@ export default function App() {
 
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
+      e.preventDefault();
       if (e.keyCode === 32) {
         handleToggleGameMode();
       }
@@ -150,16 +154,29 @@ export default function App() {
     };
   }, [handleToggleGameMode]);
 
+  const progress = useMemo(
+    () => (score / (grid.length * grid[0].length)) * 100,
+    [score, grid]
+  );
+
   return (
     <Root>
       <AppBar>
         <Clamp>
           <Brand>[MINES]</Brand>
-          <StatusDisplay onClick={handleStatusClick}>
+          <StatusDisplay
+            isGameOver={gameStatus === "over"}
+            onClick={handleStatusClick}
+          >
             {statusAssets[gameStatus]}
           </StatusDisplay>
           <Controls>
-            <Score score={score} />
+            <Progress>
+              <ProgressContainer>
+                <ProgressIcon /> {score}
+              </ProgressContainer>
+              <ProgressLine progress={progress} />
+            </Progress>
           </Controls>
         </Clamp>
       </AppBar>

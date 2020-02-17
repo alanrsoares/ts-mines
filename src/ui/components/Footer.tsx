@@ -49,7 +49,6 @@ export const Button = styled.button<{
     box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
     outline: none;
     transition: all .1s ease;
-    
     display: flex;
     justify-content: center;
     align-items: center;

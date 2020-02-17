@@ -29,22 +29,21 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "@types/ramda": "^0.26.40",
-    "@types/react": "^16.9.19",
-    "@types/react-dom": "^16.9.5",
     "normalize.css": "^8.0.1",
     "polished": "^3.4.4",
     "ramda": "^0.27.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1",
+    "react-scripts": "3.4.0",
     "styled-components": "^5.0.0",
-    "typescript": "~3.8.1-rc"
+    "typescript": "~3.7.5"
   },
   "devDependencies": {
-    "@types/styled-components": "^4.4.2",
-    "gh-pages": "^2.2.0"
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/ramda": "^0.26.40",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@types/styled-components": "^4.4.2"
   }
 }

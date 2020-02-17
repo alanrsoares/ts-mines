@@ -12,9 +12,10 @@ export const ScoreWrapper = styled.div`
   font-size: 1em;
   border-radius: ${getRadius("lg")};
   padding: 0.2em 0.4em;
-  background: ${getColor("black")};
+  background: ${getColor("shadow")};
+  border-radius: ${getRadius("lg")};
+  margin-top: 0.2em;
   color: ${getColor("primary")};
-  border: solid 2px ${getColor("primary")};
   box-shadow: ${getShadow("default")};
   display: flex;
   align-items: center;
@@ -29,12 +30,7 @@ export const ScoreLabel = styled.span`
 `;
 
 const Score: React.FC<{ score: number }> = props => {
-  return (
-    <ScoreWrapper>
-      <ScoreLabel>score</ScoreLabel>
-      {props.score}
-    </ScoreWrapper>
-  );
+  return <ScoreWrapper>{props.score}</ScoreWrapper>;
 };
 
 export default Score;
