@@ -1,4 +1,5 @@
 import styled, { getColor, getFontFamily, getShadow } from "ui/styled";
+import between from "polished/lib/mixins/between";
 
 export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
@@ -39,7 +40,7 @@ export const Clamp = styled.div`
 export const Brand = styled.div`
   font-family: ${getFontFamily("display")};
   color: ${getColor("primary")};
-  font-size: 3em;
+  font-size: ${between("2em", "3em")};
   display: flex;
   flex: 1;
 `;
