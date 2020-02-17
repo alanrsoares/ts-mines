@@ -2,7 +2,7 @@ import { keyframes } from "styled-components";
 
 export const colors = {
   primary: "#FFD400",
-  secondary: "#F00",
+  secondary: "#3482B9",
   positive: "#49C04A",
   negative: "#D03930",
   neutral: "#AAA",
