@@ -13,7 +13,7 @@ export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
 
 export const APP_BAR_HEIGHT = "3.8em";
-export const FOOTER_HEIGHT = "3em";
+export const FOOTER_HEIGHT = "3.8em";
 export const CONTENT_MARGIN = "1em";
 
 export const Root = styled.div`

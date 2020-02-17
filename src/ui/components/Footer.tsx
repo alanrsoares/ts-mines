@@ -21,15 +21,19 @@ const Flag = styled(FlagIcon)`
   height: 1em;
 `;
 
-const Circle = styled.div`
+const Circle = styled.div<{ active: boolean }>`
   border-radius: ${getRadius("round")};
-  background-color: ${getColor("gray")};
-  width: 1.4em;
-  height: 1.4em;
+  background-color: ${p =>
+    p.active ? getColor("gray")(p) : darken(0.1, getColor("gray")(p))};
+  width: 1.8em;
+  height: 1.8em;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.1em;
+  transition-delay: 0.3s;
+  transition: background-color 0.2s ease-in-out;
+  box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
 `;
 
 export const Button = styled.button<{
@@ -40,11 +44,11 @@ export const Button = styled.button<{
     border: none;
     background-color: ${p =>
       p.active ? getColor(p.color)(p) : darken(0.5, getColor(p.color)(p))};
-    height: 2.1em;
-    width: 2.8em;
+    height: 2.8em;
+    width: 4em;
     ${p => `
-      border-top-${p.side}-radius: ${p.theme.radii.xxxl};
-      border-bottom-${p.side}-radius: ${p.theme.radii.xxxl};
+      border-top-${p.side}-radius: 2em;
+      border-bottom-${p.side}-radius: 2em;
     `}
     box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
     outline: none;
@@ -52,6 +56,7 @@ export const Button = styled.button<{
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease-in-out;
   `;
 
 export const ButtonGroup = styled.div`
@@ -87,7 +92,7 @@ const Footer: React.FC<{
             onClick={props.onToggleGameMode}
             aria-label="Toggle game mode"
           >
-            <Circle>
+            <Circle active={props.gameMode === "flag"}>
               <Flag />
             </Circle>
           </Button>
@@ -98,7 +103,7 @@ const Footer: React.FC<{
             onClick={props.onToggleGameMode}
             aria-label="Toggle game mode"
           >
-            <Circle>
+            <Circle active={props.gameMode === "reveal"}>
               <Eye />
             </Circle>
           </Button>
