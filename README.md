@@ -1,6 +1,6 @@
 # ![mines logo](/public/mines-brand.png)
 
-A Mine Sweeper PWA in React + TypeScript
+A Minesweeper PWA in React + TypeScript
 
 ![mines](/public/logo192.png)
 
