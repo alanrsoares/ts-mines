@@ -1,9 +1,8 @@
-import React, { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import flatten from "ramda/es/flatten";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
-import Storage from "lib/StorageAdapter";
 import useUpdateChecker from "lib/useUpdateChecker";
 
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
@@ -26,6 +25,7 @@ import {
 
 import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
+import { useCachedState, useRightClick } from "lib/hooks";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -36,45 +36,22 @@ const statusAssets: Record<Game.GameStatus, JSX.Element> = {
 export default function App() {
   useUpdateChecker();
 
-  const [score, setScore] = useState(Storage.read(0, "/score"));
-  const [gameStatus, setGameStatus] = useState<Game.GameStatus>(
-    Storage.read("new", "/gameStatus")
+  const [score, setScore] = useCachedState<number>("/score", 0);
+
+  const [gameStatus, setGameStatus] = useCachedState<Game.GameStatus>(
+    "/gameStatus",
+    "new"
   );
-  const [gameMode, setGameMode] = useState<Game.Mode>(
-    Storage.read("reveal", "/mode")
+  const [gameMode, setGameMode] = useCachedState<Game.Mode>("/mode", "reveal");
+
+  const [activeCell, setActiveCell] = useCachedState<
+    Cell<Game.Tile> | undefined
+  >("/activeCell", undefined);
+
+  const [grid, setGrid] = useCachedState<Matrix<Game.Tile>>(
+    "/grid",
+    Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot
   );
-
-  const [activeCell, setActiveCell] = useState<Cell<Game.Tile> | undefined>(
-    Storage.read(undefined, "/activeCell")
-  );
-  const [grid, setGrid] = useState<Matrix<Game.Tile>>(
-    Storage.read(
-      Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot,
-      "/grid"
-    )
-  );
-
-  useEffect(() => {
-    Storage.persist(score, "/score");
-  }, [score]);
-
-  useEffect(() => {
-    Storage.persist(gameStatus, "/gameStatus");
-  }, [gameStatus]);
-
-  useEffect(() => {
-    Storage.persist(grid, "/grid");
-  }, [grid]);
-
-  useEffect(() => {
-    Storage.persist(gameMode, "/mode");
-  }, [gameMode]);
-
-  useEffect(() => {
-    if (activeCell) {
-      Storage.persist(activeCell, "/activeCell");
-    }
-  }, [activeCell]);
 
   const handleCellClick = useCallback(
     (cell: Cell<Game.Tile>) => {
@@ -131,7 +108,15 @@ export default function App() {
           break;
       }
     },
-    [grid, gameStatus, gameMode]
+    [
+      grid,
+      gameStatus,
+      gameMode,
+      setGrid,
+      setScore,
+      setActiveCell,
+      setGameStatus
+    ]
   );
 
   const handleStatusClick = useCallback(() => {
@@ -140,25 +125,13 @@ export default function App() {
       setGameStatus("new");
       setScore(0);
     }
-  }, [gameStatus]);
+  }, [gameStatus, setGameStatus, setScore, setGrid]);
 
   const handleToggleGameMode = useCallback(() => {
     setGameMode(mode => (mode === "flag" ? "reveal" : "flag"));
-  }, []);
+  }, [setGameMode]);
 
-  useEffect(() => {
-    const onKeyUp = (e: KeyboardEvent) => {
-      e.preventDefault();
-      if (e.keyCode === 32) {
-        handleToggleGameMode();
-      }
-    };
-    document.addEventListener("keyup", onKeyUp);
-
-    return () => {
-      document.removeEventListener("keyup", onKeyUp);
-    };
-  }, [handleToggleGameMode]);
+  useRightClick(handleToggleGameMode);
 
   const progress = useMemo(
     () => (score / (grid.length * grid[0].length)) * 100,

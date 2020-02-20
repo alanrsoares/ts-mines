@@ -2,7 +2,8 @@ import styled, {
   getColor,
   getFontFamily,
   getShadow,
-  getRadius
+  getRadius,
+  getAnimation
 } from "ui/styled";
 import between from "polished/lib/mixins/between";
 
@@ -12,9 +13,9 @@ import { css } from "styled-components";
 export const BOARD_WIDTH = "1151.42px";
 export const BOARD_HEIGHT = "893px";
 
-export const APP_BAR_HEIGHT = "3.8em";
-export const FOOTER_HEIGHT = "3.8em";
-export const CONTENT_MARGIN = "1em";
+export const APP_BAR_HEIGHT = "3.8rem";
+export const FOOTER_HEIGHT = "3.8rem";
+export const CONTENT_MARGIN = "1rem";
 
 export const Root = styled.div`
   font-family: ${getFontFamily("default")};
@@ -44,15 +45,15 @@ export const Clamp = styled.div`
   justify-content: space-between;
   @media screen and (max-width: ${BOARD_WIDTH}) {
     width: 100vw;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 `;
 
 export const Brand = styled.div`
   font-family: ${getFontFamily("display")};
   color: ${getColor("primary")};
-  font-size: ${between("2em", "3em")};
+  font-size: ${between("2rem", "3rem")};
   display: flex;
   flex: 1;
 `;
@@ -68,10 +69,10 @@ export const StatusDisplay = styled.div<{ isGameOver: boolean }>`
   background: ${getColor("shadow")};
   box-shadow: ${getShadow("default")};
   border-radius: 50%;
-  width: 2.8em;
-  height: 2.8em;
-  margin-top: 0.8em;
-  padding: 0.4em;
+  width: 2.8rem;
+  height: 2.8rem;
+  margin-top: 0.8rem;
+  padding: 0.4rem;
   animation: ${p =>
     p.isGameOver
       ? css`
@@ -100,12 +101,12 @@ export const Content = styled.div`
 export const Progress = styled.div`
   display: flex;
   color: ${getColor("primary")};
-  min-width: 8em;
+  min-width: 8rem;
   flex-direction: column;
   align-items: center;
   background: ${getColor("shadow")};
   border-radius: ${getRadius("lg")};
-  height: 3em;
+  height: 3rem;
   justify-content: space-around;
 `;
 
@@ -114,11 +115,11 @@ export const ProgressContainer = styled.div`
   align-items: center;
   justify-content: center;
   color: ${getColor("primary")};
-  font-size: 1.3em;
+  font-size: 1.3rem;
 `;
 
 export const ProgressLine = styled.div<{ progress: number }>`
-  height: 0.3em;
+  height: 0.3rem;
   overflow: hidden;
   border-radius: ${getRadius("default")};
   width: 80%;
@@ -133,7 +134,22 @@ export const ProgressLine = styled.div<{ progress: number }>`
 `;
 
 export const ProgressIcon = styled(EyeIcon)`
-  width: 0.9em;
-  height: 0.9em;
-  margin-right: 0.5em;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.5rem;
+`;
+
+export const Splash = styled.div`
+  height: 100vh;
+  background: ${getColor("black")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const SplashBrand = styled.span`
+  color: ${getColor("primary")};
+  font-family: ${getFontFamily("display")};
+  font-size: 10rem;
+  animation: ${getAnimation("glow")} 1s infinite;
 `;

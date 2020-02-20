@@ -18,13 +18,13 @@ export const colors = {
 } as const;
 
 export const radii = {
-  default: "0.2em",
-  sm: "0.1em",
-  md: "0.2em",
-  lg: "0.3em",
-  xl: "0.4em",
-  xxl: "0.6em",
-  xxxl: "1em",
+  default: "0.2rem",
+  sm: "0.1rem",
+  md: "0.2rem",
+  lg: "0.3rem",
+  xl: "0.4rem",
+  xxl: "0.6rem",
+  xxxl: "1rem",
   round: "50%"
 } as const;
 
@@ -36,7 +36,7 @@ export const shadows = {
 } as const;
 
 export const fontFamilies = {
-  display: "'Black Ops One', cursive",
+  display: "'Black Ops One', monospace",
   default: "'Lato', sans-serif",
   voice: "'Vollkorn', serif"
 };

@@ -9,12 +9,12 @@ import styled, {
 
 export const ScoreWrapper = styled.div`
   font-family: ${getFontFamily("display")};
-  font-size: 1em;
+  font-size: 1rem;
   border-radius: ${getRadius("lg")};
-  padding: 0.2em 0.4em;
+  padding: 0.2rem 0.4rem;
   background: ${getColor("shadow")};
   border-radius: ${getRadius("lg")};
-  margin-top: 0.2em;
+  margin-top: 0.2rem;
   color: ${getColor("primary")};
   box-shadow: ${getShadow("default")};
   display: flex;
@@ -24,8 +24,8 @@ export const ScoreWrapper = styled.div`
 
 export const ScoreLabel = styled.span`
   color: ${getColor("muted")};
-  margin-right: 0.3em;
-  font-size: 0.8em;
+  margin-right: 0.3rem;
+  font-size: 0.8rem;
   font-family: ${getFontFamily("display")};
 `;
 

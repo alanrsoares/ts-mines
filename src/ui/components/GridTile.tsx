@@ -12,14 +12,14 @@ import { ReactComponent as MineIcon } from "assets/mine.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
 
 export const Mine = styled(MineIcon)`
-  width: 1.4em;
-  height: 1.4em;
+  width: 1.4rem;
+  height: 1.4rem;
   animation: ${getAnimation("appear")} 0.2s ease-in-out;
 `;
 
 export const Flag = styled(FlagIcon)`
-  width: 1.4em;
-  height: 1.4em;
+  width: 1.4rem;
+  height: 1.4rem;
   animation: ${getAnimation("appear")} 0.2s ease-in-out;
 `;
 
@@ -41,15 +41,15 @@ interface Props extends Game.Tile {
 }
 
 const GridTileContainer = styled.div<Props>`
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.6rem;
+  height: 1.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: ${getShadow(props => (props.revealed ? "none" : "default"))};
   border-radius: ${getRadius("lg")};
-  margin: 0.2em;
-  padding: 0.2em;
+  margin: 0.2rem;
+  padding: 0.2rem;
   background: ${getColor(props =>
     props.revealed
       ? props.kind === "mine" && props.active

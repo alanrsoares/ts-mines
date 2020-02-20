@@ -10,8 +10,8 @@ import styled, {
 import { ReactComponent as GithubSVG } from "assets/github.svg";
 
 export const GithubIcon = styled(GithubSVG)`
-  height: 1.6em;
-  width: 1.6em;
+  height: 1.6rem;
+  width: 1.6rem;
 `;
 
 export const GithubLabel = styled.div`
@@ -23,9 +23,9 @@ export const GithubBadge = styled.a`
   color: ${getColor("secondary")};
   background: ${getColor("white")};
   display: flex;
-  padding: 0.3em 0.4em;
-  width: 1.8em;
-  height: 1.8em;
+  padding: 0.3rem 0.4rem;
+  width: 1.8rem;
+  height: 1.8rem;
   overflow: hidden;
   ${GithubLabel} {
     display: none;
@@ -40,8 +40,8 @@ export const GithubBadge = styled.a`
       display: flex;
       animation: ${getAnimation("appear")} 0.3s;
     }
-    width: 12em;
-    border-radius: calc(1.8em);
+    width: 12rem;
+    border-radius: calc(1.8rem);
   }
   transition: all 0.3s ease-in-out;
   user-select: none;

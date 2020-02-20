@@ -12,25 +12,25 @@ import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
 
 const Eye = styled(EyeIcon)`
-  width: 1em;
-  height: 1em;
+  width: 1rem;
+  height: 1rem;
 `;
 
 const Flag = styled(FlagIcon)`
-  width: 1em;
-  height: 1em;
+  width: 1rem;
+  height: 1rem;
 `;
 
 const Circle = styled.div<{ active: boolean }>`
   border-radius: ${getRadius("round")};
   background-color: ${p =>
     p.active ? getColor("gray")(p) : darken(0.1, getColor("gray")(p))};
-  width: 1.8em;
-  height: 1.8em;
+  width: 1.8rem;
+  height: 1.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.1em;
+  padding: 0.1rem;
   transition-delay: 0.3s;
   transition: background-color 0.2s ease-in-out;
   box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
@@ -42,13 +42,15 @@ export const Button = styled.button<{
   active?: boolean;
 }>`
     border: none;
-    background-color: ${p =>
-      p.active ? getColor(p.color)(p) : darken(0.5, getColor(p.color)(p))};
-    height: 2.8em;
-    width: 4em;
+    background-color: ${p => {
+      const color = getColor(p.color)(p);
+      return p.active ? color : darken(0.5, color);
+    }};
+    height: 2.8rem;
+    width: 4rem;
     ${p => `
-      border-top-${p.side}-radius: 2em;
-      border-bottom-${p.side}-radius: 2em;
+      border-top-${p.side}-radius: 2rem;
+      border-bottom-${p.side}-radius: 2rem;
     `}
     box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
     outline: none;
