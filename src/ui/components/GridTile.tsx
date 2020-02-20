@@ -87,7 +87,7 @@ const GridTile: React.FC<Props> = props => {
     }
   }, [props]);
 
-  const longPressProps = useLongPress(props.onLongPress);
+  const longPressProps = useLongPress(props.onLongPress, 400);
 
   return (
     <GridTileContainer
