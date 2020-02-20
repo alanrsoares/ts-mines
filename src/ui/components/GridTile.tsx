@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import omit from "ramda/es/omit";
 
 import styled, {
   getShadow,
@@ -7,6 +8,7 @@ import styled, {
   getAnimation
 } from "ui/styled";
 import * as Game from "lib/game";
+import { useLongPress } from "lib/hooks";
 
 import { ReactComponent as MineIcon } from "assets/mine.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
@@ -36,11 +38,12 @@ const numberColors: Record<number, string> = {
 };
 
 interface Props extends Game.Tile {
+  onLongPress(): void;
+  onClick(): void;
   active?: boolean;
-  onClick?: () => void;
 }
 
-const GridTileContainer = styled.div<Props>`
+const GridTileContainer = styled.div<Omit<Props, "onLongPress">>`
   width: 1.6rem;
   height: 1.6rem;
   display: flex;
@@ -83,8 +86,15 @@ const GridTile: React.FC<Props> = props => {
         return <Mine />;
     }
   }, [props]);
+
+  const longPressProps = useLongPress(props.onLongPress);
+
   return (
-    <GridTileContainer onClick={props.onClick} {...props} active={props.active}>
+    <GridTileContainer
+      {...omit(["onLongPress"], props)}
+      {...longPressProps}
+      active={props.active}
+    >
       {content}
     </GridTileContainer>
   );

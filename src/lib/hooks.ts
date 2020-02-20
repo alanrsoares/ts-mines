@@ -24,19 +24,28 @@ export function useCachedState<T>(
 export function useLongPress(callback = () => {}, ms = 300) {
   const [running, setRunning] = useState(false);
 
-  useEffect(() => {
-    let timerId = 0;
+  useEffect(
+    () => {
+      let timerId = 0;
 
-    if (running) {
-      timerId = setTimeout(callback, ms);
-    } else {
-      clearTimeout(timerId);
-    }
+      if (running) {
+        timerId = setTimeout(callback, ms);
+      } else {
+        clearTimeout(timerId);
+      }
 
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [running, callback, ms]);
+      return () => {
+        clearTimeout(timerId);
+      };
+    },
+
+    /* 
+      Explicitly disable rules of hooks on the next line 
+      to prevent the callback from being called multiple times
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [running]
+  );
 
   return {
     onMouseDown: () => setRunning(true),

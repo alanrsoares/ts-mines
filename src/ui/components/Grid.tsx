@@ -18,12 +18,18 @@ export const GridRow = styled.div`
 interface Props {
   grid: Matrix<Tile>;
   onTileClick(cell: Cell<Tile>): void;
+  onTileLongPress(cell: Cell<Tile>): void;
   activeCell?: Cell<Tile>;
 }
 
 const GridComponent: React.FC<Props> = props => {
-  const handleCellClick = useCallback(
+  const handleClick = useCallback(
     (cell: Cell<Tile>) => () => props.onTileClick(cell),
+    [props]
+  );
+
+  const handleLongPress = useCallback(
+    (cell: Cell<Tile>) => () => props.onTileLongPress(cell),
     [props]
   );
 
@@ -39,7 +45,8 @@ const GridComponent: React.FC<Props> = props => {
                 cell.row === props.activeCell?.row &&
                 cell.column === props.activeCell?.column
               }
-              onClick={handleCellClick(cell)}
+              onClick={handleClick(cell)}
+              onLongPress={handleLongPress(cell)}
             />
           ))}
         </GridRow>

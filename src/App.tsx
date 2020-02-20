@@ -4,6 +4,7 @@ import flatten from "ramda/es/flatten";
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
 import useUpdateChecker from "lib/useUpdateChecker";
+import { useCachedState, useRightClick } from "lib/hooks";
 
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
 import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
@@ -25,13 +26,14 @@ import {
 
 import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
-import { useCachedState, useRightClick } from "lib/hooks";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
   won: <CoolIcon />,
   over: <SkullIcon />
 };
+
+const NO_OP = () => {};
 
 export default function App() {
   useUpdateChecker();
@@ -54,7 +56,7 @@ export default function App() {
   );
 
   const handleCellClick = useCallback(
-    (cell: Cell<Game.Tile>) => {
+    (cell: Cell<Game.Tile>, mode?: Game.Mode) => {
       if (gameStatus === "over" || gameStatus === "won") {
         return;
       }
@@ -63,7 +65,9 @@ export default function App() {
 
       const tile = cell.value;
 
-      switch (gameMode) {
+      const $mode = mode ?? gameMode;
+
+      switch ($mode) {
         case "flag":
           {
             // ignore clicking on a "revealed" tile while on "flag" mode
@@ -119,6 +123,13 @@ export default function App() {
     ]
   );
 
+  const handleCellLongPress = useCallback(
+    (cell: Cell<Game.Tile>) => {
+      handleCellClick(cell, "flag");
+    },
+    [handleCellClick]
+  );
+
   const handleStatusClick = useCallback(() => {
     if (gameStatus === "over") {
       setGrid(Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot);
@@ -131,7 +142,7 @@ export default function App() {
     setGameMode(mode => (mode === "flag" ? "reveal" : "flag"));
   }, [setGameMode]);
 
-  useRightClick(handleToggleGameMode);
+  useRightClick(NO_OP);
 
   const progress = useMemo(
     () => (score / (grid.length * grid[0].length)) * 100,
@@ -164,6 +175,7 @@ export default function App() {
           grid={grid}
           activeCell={activeCell}
           onTileClick={handleCellClick}
+          onTileLongPress={handleCellLongPress}
         />
       </Content>
       <Footer onToggleGameMode={handleToggleGameMode} gameMode={gameMode} />
