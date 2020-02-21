@@ -2,8 +2,6 @@ import React, { StrictMode } from "react";
 import { render } from "react-dom";
 import { ThemeProvider } from "styled-components";
 
-import "normalize.css";
-
 import theme from "ui/theme";
 import { Splash, SplashBrand } from "ui/components/core";
 
