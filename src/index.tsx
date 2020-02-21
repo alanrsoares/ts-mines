@@ -8,7 +8,6 @@ import { Splash, SplashBrand } from "ui/components/core";
 import { version } from "../package.json";
 
 import registerServiceWorker from "./registerServiceWorker";
-import "./styles.css";
 
 const App = React.lazy(() => import("./App"));
 
