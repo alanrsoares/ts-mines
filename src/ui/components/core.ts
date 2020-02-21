@@ -27,7 +27,7 @@ export const Root = styled.div`
   background: ${getColor("muted")};
 `;
 
-export const AppBar = styled.div`
+export const AppBar = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +58,7 @@ export const Brand = styled.div`
   flex: 1;
 `;
 
-export const Controls = styled.div`
+export const Controls = styled.nav`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const StatusDisplay = styled.div<{ isGameOver: boolean }>`
       : "none"};
 `;
 
-export const Content = styled.div`
+export const Content = styled.main`
   display: flex;
   max-width: calc(100vw - ${CONTENT_MARGIN});
   max-height: calc(
