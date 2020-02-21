@@ -1,36 +1,59 @@
 import React from "react";
 
-import styled, {
-  getColor,
-  getShadow,
-  getRadius,
-  getFontFamily
-} from "ui/styled";
+import styled, { getColor, getRadius } from "ui/styled";
 
-export const ScoreWrapper = styled.div`
-  font-family: ${getFontFamily("display")};
-  font-size: 1rem;
-  border-radius: ${getRadius("lg")};
-  padding: 0.2rem 0.4rem;
+import { ReactComponent as EyeIcon } from "assets/eye.svg";
+
+export const Root = styled.div`
+  display: flex;
+  color: ${getColor("primary")};
+  min-width: 8rem;
+  flex-direction: column;
+  align-items: center;
   background: ${getColor("shadow")};
   border-radius: ${getRadius("lg")};
-  margin-top: 0.2rem;
-  color: ${getColor("primary")};
-  box-shadow: ${getShadow("default")};
+  height: 3rem;
+  justify-content: space-around;
+`;
+
+export const ProgressContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  color: ${getColor("primary")};
+  font-size: 1.3rem;
 `;
 
-export const ScoreLabel = styled.span`
-  color: ${getColor("muted")};
-  margin-right: 0.3rem;
-  font-size: 0.8rem;
-  font-family: ${getFontFamily("display")};
+export const ProgressLine = styled.div<{ progress: number }>`
+  height: 0.3rem;
+  overflow: hidden;
+  border-radius: ${getRadius("default")};
+  width: 80%;
+  align-self: center;
+  background: linear-gradient(
+    to right,
+    ${getColor("positive")} 0%,
+    ${getColor("positive")} ${p => p.progress}%,
+    ${getColor("white")} ${p => p.progress}%,
+    ${getColor("white")} 100%
+  );
 `;
 
-const Score: React.FC<{ score: number }> = props => {
-  return <ScoreWrapper>{props.score}</ScoreWrapper>;
+export const ProgressIcon = styled(EyeIcon)`
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 0.5rem;
+`;
+
+const Score: React.FC<{ score: number; progress: number }> = props => {
+  return (
+    <Root>
+      <ProgressContainer>
+        <ProgressIcon /> {props.score}
+      </ProgressContainer>
+      <ProgressLine progress={props.progress} />
+    </Root>
+  );
 };
 
 export default Score;

@@ -43,6 +43,37 @@
     <style>
       @import url("https://fonts.googleapis.com/css?family=Lato|Black+Ops+One|Vollkorn:400i&display=swap");
       @import url("https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css");
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .Splash {
+        height: 100vh;
+        background: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .Splash-icon {
+        height: 5rem;
+        width: 5rem;
+        animation: rotate 3s linear infinite;
+      }
+
+      .Splash-label {
+        font-size: 2rem;
+        font-family: "Black Ops One", monospace;
+        color: #ffd400;
+        text-shadow: 2px 4px 2px rgba(0, 0, 0, 0.8);
+      }
     </style>
   </body>
 </html>

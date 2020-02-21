@@ -17,15 +17,12 @@ import {
   StatusDisplay,
   Content,
   Clamp,
-  Controls,
-  Progress,
-  ProgressIcon,
-  ProgressLine,
-  ProgressContainer
+  Controls
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
+import Score from "ui/components/Score";
 
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -161,12 +158,7 @@ export default function App() {
             {statusAssets[gameStatus]}
           </StatusDisplay>
           <Controls>
-            <Progress>
-              <ProgressContainer>
-                <ProgressIcon /> {score}
-              </ProgressContainer>
-              <ProgressLine progress={progress} />
-            </Progress>
+            <Score score={score} progress={progress} />
           </Controls>
         </Clamp>
       </AppBar>

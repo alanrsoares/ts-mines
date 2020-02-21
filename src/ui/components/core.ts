@@ -1,13 +1,6 @@
-import styled, {
-  getColor,
-  getFontFamily,
-  getShadow,
-  getRadius,
-  getAnimation
-} from "ui/styled";
+import styled, { getColor, getFontFamily, getShadow } from "ui/styled";
 import between from "polished/lib/mixins/between";
 
-import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import { css } from "styled-components";
 
 export const BOARD_WIDTH = "1151.42px";
@@ -96,60 +89,4 @@ export const Content = styled.main`
   @media screen and (max-width: ${BOARD_WIDTH}) {
     overflow: scroll;
   }
-`;
-
-export const Progress = styled.div`
-  display: flex;
-  color: ${getColor("primary")};
-  min-width: 8rem;
-  flex-direction: column;
-  align-items: center;
-  background: ${getColor("shadow")};
-  border-radius: ${getRadius("lg")};
-  height: 3rem;
-  justify-content: space-around;
-`;
-
-export const ProgressContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${getColor("primary")};
-  font-size: 1.3rem;
-`;
-
-export const ProgressLine = styled.div<{ progress: number }>`
-  height: 0.3rem;
-  overflow: hidden;
-  border-radius: ${getRadius("default")};
-  width: 80%;
-  align-self: center;
-  background: linear-gradient(
-    to right,
-    ${getColor("positive")} 0%,
-    ${getColor("positive")} ${p => p.progress}%,
-    ${getColor("white")} ${p => p.progress}%,
-    ${getColor("white")} 100%
-  );
-`;
-
-export const ProgressIcon = styled(EyeIcon)`
-  width: 0.9rem;
-  height: 0.9rem;
-  margin-right: 0.5rem;
-`;
-
-export const Splash = styled.div`
-  height: 100vh;
-  background: ${getColor("black")};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const SplashBrand = styled.span`
-  color: ${getColor("primary")};
-  font-family: ${getFontFamily("display")};
-  font-size: 10rem;
-  animation: ${getAnimation("glow")} 1s infinite;
 `;
