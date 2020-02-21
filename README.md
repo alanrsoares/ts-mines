@@ -4,7 +4,7 @@
 
 A Minesweeper PWA in React + TypeScript
 
-![mines](/public/logo192.png)
+![mines](/public/icon192.png)
 
 ## Live demo
 
