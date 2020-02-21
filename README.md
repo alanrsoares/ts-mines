@@ -4,7 +4,7 @@
 
 A Minesweeper PWA in React + TypeScript
 
-![mines](/public/icon192.png)
+<img width="192" height="192" src="./src/assets/mine.svg" alt="mines logo"/>
 
 ## Live demo
 
