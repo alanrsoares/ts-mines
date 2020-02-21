@@ -1,5 +1,7 @@
 # ![mines logo](/public/mines-brand.png)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/11660de5-a44d-4931-9a02-062585be2288/deploy-status)](https://app.netlify.com/sites/ts-mines/deploys)
+
 A Minesweeper PWA in React + TypeScript
 
 ![mines](/public/logo192.png)
