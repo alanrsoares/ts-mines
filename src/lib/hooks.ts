@@ -3,7 +3,8 @@ import {
   useEffect,
   useCallback,
   Dispatch,
-  SetStateAction
+  SetStateAction,
+  useRef
 } from "react";
 
 import Storage from "lib/StorageAdapter";
@@ -23,20 +24,30 @@ export function useCachedState<T>(
 
 export function useLongPress(callback = () => {}, ms = 300) {
   const [running, setRunning] = useState(false);
+  const timeoutIdRef = useRef(0);
+
+  const cancelTimeout = useCallback(() => {
+    clearTimeout(timeoutIdRef.current);
+  }, [timeoutIdRef]);
+
+  const start = useCallback(() => {
+    setRunning(true);
+  }, []);
+
+  const stop = useCallback(() => {
+    setRunning(false);
+  }, []);
 
   useEffect(
     () => {
-      let timerId = 0;
-
       if (running) {
-        timerId = setTimeout(callback, ms);
+        timeoutIdRef.current = setTimeout(callback, ms);
       } else {
-        clearTimeout(timerId);
+        cancelTimeout();
       }
 
-      return () => {
-        clearTimeout(timerId);
-      };
+      // cleanup
+      return cancelTimeout;
     },
 
     /* 
@@ -48,11 +59,12 @@ export function useLongPress(callback = () => {}, ms = 300) {
   );
 
   return {
-    onMouseDown: () => setRunning(true),
-    onMouseUp: () => setRunning(false),
-    onMouseLeave: () => setRunning(false),
-    onTouchStart: () => setRunning(true),
-    onTouchEnd: () => setRunning(false)
+    onMouseDown: start,
+    onMouseUp: stop,
+    onMouseLeave: stop,
+    onTouchStart: start,
+    onTouchEnd: stop,
+    onMouseMove: cancelTimeout
   };
 }
 
