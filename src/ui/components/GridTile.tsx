@@ -1,14 +1,15 @@
 import React, { useMemo } from "react";
 import omit from "ramda/es/omit";
 
+import type { Tile } from "lib/game";
+import { useLongPress } from "lib/hooks";
+
 import styled, {
   getShadow,
   getRadius,
   getColor,
   getAnimation
 } from "ui/styled";
-import * as Game from "lib/game";
-import { useLongPress } from "lib/hooks";
 
 import { ReactComponent as MineIcon } from "assets/mine.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
@@ -37,7 +38,7 @@ const numberColors: Record<number, string> = {
   8: "darkpurple"
 };
 
-interface Props extends Game.Tile {
+interface Props extends Tile {
   onLongPress(): void;
   onClick(): void;
   active?: boolean;
