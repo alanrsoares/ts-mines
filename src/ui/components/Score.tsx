@@ -14,6 +14,9 @@ export const Root = styled.div`
   border-radius: ${getRadius("lg")};
   height: 3rem;
   justify-content: space-around;
+  @media screen and (max-width: 360px) {
+    min-width: 6rem;
+  }
 `;
 
 export const ProgressContainer = styled.div`
@@ -21,7 +24,7 @@ export const ProgressContainer = styled.div`
   align-items: center;
   justify-content: center;
   color: ${getColor("primary")};
-  font-size: 1.3rem;
+  font-size: 1.6rem;
 `;
 
 export const ProgressLine = styled.div<{ progress: number }>`

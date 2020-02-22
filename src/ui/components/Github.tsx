@@ -10,12 +10,13 @@ import styled, {
 import { ReactComponent as GithubSVG } from "assets/github.svg";
 
 export const GithubIcon = styled(GithubSVG)`
-  height: 1.6rem;
-  width: 1.6rem;
+  height: 2rem;
+  width: 2rem;
 `;
 
 export const GithubLabel = styled.div`
   white-space: nowrap;
+  font-size: 0.9rem;
 `;
 
 export const GithubBadge = styled.a`
@@ -23,9 +24,9 @@ export const GithubBadge = styled.a`
   color: ${getColor("secondary")};
   background: ${getColor("white")};
   display: flex;
-  padding: 0.3rem 0.4rem;
-  width: 1.8rem;
-  height: 1.8rem;
+  padding: 0.4rem;
+  width: 2.2rem;
+  height: 2.2rem;
   overflow: hidden;
   ${GithubLabel} {
     display: none;
@@ -38,10 +39,11 @@ export const GithubBadge = styled.a`
   :hover {
     ${GithubLabel} {
       display: flex;
-      animation: ${getAnimation("appear")} 0.3s;
+      animation: ${getAnimation("appear")} 0.3s ease;
+      padding: 0.4rem;
     }
     width: 12rem;
-    border-radius: calc(1.8rem);
+    border-radius: 2rem;
   }
   transition: all 0.3s ease-in-out;
   user-select: none;

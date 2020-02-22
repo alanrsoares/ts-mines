@@ -1,10 +1,13 @@
-import styled, { getColor, getFontFamily, getShadow } from "ui/styled";
-import between from "polished/lib/mixins/between";
-
 import { css } from "styled-components";
+import styled, {
+  getColor,
+  getFontFamily,
+  getShadow,
+  getAnimation
+} from "ui/styled";
 
-export const BOARD_WIDTH = "1151.42px";
-export const BOARD_HEIGHT = "893px";
+export const BOARD_WIDTH = "1072.16px";
+export const BOARD_HEIGHT = "840.44px";
 
 export const APP_BAR_HEIGHT = "3.8rem";
 export const FOOTER_HEIGHT = "3.8rem";
@@ -46,9 +49,12 @@ export const Clamp = styled.div`
 export const Brand = styled.div`
   font-family: ${getFontFamily("display")};
   color: ${getColor("primary")};
-  font-size: ${between("2rem", "3rem")};
+  font-size: 2rem;
   display: flex;
   flex: 1;
+  @media screen and (max-width: 360px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export const Controls = styled.nav`
@@ -62,14 +68,14 @@ export const StatusDisplay = styled.div<{ isGameOver: boolean }>`
   background: ${getColor("shadow")};
   box-shadow: ${getShadow("default")};
   border-radius: 50%;
-  width: 2.8rem;
-  height: 2.8rem;
-  margin-top: 0.8rem;
-  padding: 0.4rem;
+  width: 4rem;
+  height: 4rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
   animation: ${p =>
     p.isGameOver
       ? css`
-          ${p.theme.animations.glow} 4s infinite ease
+          ${getAnimation("glow")} 4s infinite ease
         `
       : "none"};
 `;

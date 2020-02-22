@@ -44,8 +44,8 @@ interface Props extends Game.Tile {
 }
 
 const GridTileContainer = styled.div<Omit<Props, "onLongPress">>`
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.8rem;
+  height: 1.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
