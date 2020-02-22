@@ -13,10 +13,8 @@ global.appVersion = version;
 
 const rootElement = document.getElementById("root");
 
-const fallback = <Splash />;
-
 const app = (
-  <React.Suspense fallback={fallback}>
+  <React.Suspense fallback={<Splash />}>
     <App />
   </React.Suspense>
 );
