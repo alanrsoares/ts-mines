@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import flatten from "ramda/es/flatten";
+import { ThemeProvider } from "styled-components";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
 import * as Game from "lib/game";
@@ -9,6 +10,8 @@ import { useCachedState, useRightClick } from "lib/hooks";
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
 import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
 import { ReactComponent as CoolIcon } from "assets/cool.svg";
+
+import theme from "ui/theme";
 
 import {
   Root,
@@ -32,7 +35,7 @@ const statusAssets: Record<Game.GameStatus, JSX.Element> = {
 
 const NO_OP = () => {};
 
-export default function App() {
+export function App() {
   useUpdateChecker();
 
   const [score, setScore] = useCachedState<number>("/score", 0);
@@ -172,5 +175,13 @@ export default function App() {
       </Content>
       <Footer onToggleGameMode={handleToggleGameMode} gameMode={gameMode} />
     </Root>
+  );
+}
+
+export default function() {
+  return (
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   );
 }
