@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import omit from "ramda/es/omit";
 
-import type { Tile } from "lib/game";
+import { Tile } from "lib/game";
 import { useLongPress } from "lib/hooks";
 
 import styled, {
