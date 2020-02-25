@@ -8,7 +8,8 @@
     "test": "react-scripts test",
     "prebuild": "yarn generate-build-version && yarn write-app-name-to-manifest",
     "generate-build-version": "node scripts/generate-build-version",
-    "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest"
+    "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest",
+    "postversion": "git push && git push --tags"
   },
   "eslintConfig": {
     "extends": "react-app"
