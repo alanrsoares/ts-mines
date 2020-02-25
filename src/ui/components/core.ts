@@ -35,7 +35,7 @@ export const AppBar = styled.header`
 
 export const Clamp = styled.div`
   display: flex;
-  width: ${BOARD_WIDTH};
+  width: calc(${BOARD_WIDTH} - 1rem);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -52,6 +52,7 @@ export const Brand = styled.div`
   font-size: 2rem;
   display: flex;
   flex: 1;
+  text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.9);
   @media screen and (max-width: 360px) {
     font-size: 1.5rem;
   }
