@@ -1,15 +1,19 @@
-const LS_KEY = "@MINES";
+export default class StorageAdapter {
+  private namespace = "";
+  constructor(namespace: string) {
+    this.namespace = namespace;
+  }
 
-export default {
   persist<T extends {}>(value: T, path: string = "") {
-    const key = `${LS_KEY}${path}`;
+    localStorage.setItem(
+      `${this.namespace}${path}`,
+      JSON.stringify(value ?? null)
+    );
+  }
 
-    localStorage.setItem(key, JSON.stringify(value));
-  },
   read<T>(defaultValue: T, path: string = ""): T {
-    const key = `${LS_KEY}${path}`;
-    const value = localStorage.getItem(key);
+    const value = localStorage.getItem(`${this.namespace}${path}`);
 
     return value !== null ? JSON.parse(value) : defaultValue;
   }
-};
+}

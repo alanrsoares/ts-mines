@@ -7,16 +7,20 @@ import {
   useRef
 } from "react";
 
-import Storage from "lib/StorageAdapter";
+import StorageAdapter from "lib/StorageAdapter";
+
+const STORAGE_NAMESPACE = "@TS-MINES";
+
+const storage = new StorageAdapter(STORAGE_NAMESPACE);
 
 export function useCachedState<T>(
   cacheKey: string,
   defaultState: T
 ): [T, Dispatch<SetStateAction<T>>] {
-  const [state, setState] = useState(Storage.read(defaultState, cacheKey));
+  const [state, setState] = useState(storage.read(defaultState, cacheKey));
 
   useEffect(() => {
-    Storage.persist<T>(state, cacheKey);
+    storage.persist<T>(state, cacheKey);
   }, [state, cacheKey]);
 
   return [state, setState];
