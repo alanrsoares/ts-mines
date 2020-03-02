@@ -41,9 +41,7 @@ export default class Grid<T = undefined> {
   constructor(seed: Matrix<T>);
   constructor(dimensions: Dimensions, fill: FillFn<T> | T);
   constructor(...args: any[]) {
-    const argLen = args.length;
-
-    if (argLen === 1 && Array.isArray(args[0])) {
+    if (args.length === 1 && Array.isArray(args[0])) {
       this._grid = args[0] as Matrix<T>;
 
       const dimensions: Dimensions = {
@@ -153,9 +151,12 @@ export default class Grid<T = undefined> {
       { row: row + 1, column: column + 1 }
     ];
 
-    return neighbourCoordinates
-      .filter(cell => !isOutOfBounds(cell, this._dimensions))
-      .map(cell => this.getCell(cell));
+    return neighbourCoordinates.reduce<Row<T>>((acc, cell) => {
+      if (!isOutOfBounds(cell, this._dimensions)) {
+        return [...acc, this.getCell(cell)];
+      }
+      return acc;
+    }, []);
   }
 
   public map<U>(fn: (value: T, cell: Cell<T>, self: Grid<T>) => U) {
