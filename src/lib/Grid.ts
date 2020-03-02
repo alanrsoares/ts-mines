@@ -38,44 +38,65 @@ export default class Grid<T = undefined> {
   };
   private _grid: Matrix<T> = [];
 
-  constructor(dimensions: Dimensions, fill: FillFn<T> | T) {
-    const rows: Matrix<T> = [];
+  constructor(seed: Matrix<T>);
+  constructor(dimensions: Dimensions, fill: FillFn<T> | T);
+  constructor(...args: any[]) {
+    const argLen = args.length;
 
-    for (let y = 0; y < dimensions.rows; y++) {
-      const row: Row<T> = [];
+    if (argLen === 1 && Array.isArray(args[0])) {
+      this._grid = args[0] as Matrix<T>;
 
-      for (let x = 0; x < dimensions.columns; x++) {
-        const value =
-          typeof fill === "function"
-            ? (fill as FillFn<T>)({
-                row: y,
-                column: x
-              })
-            : fill;
+      const dimensions: Dimensions = {
+        rows: this._grid.length,
+        columns: this._grid[0].length
+      };
 
-        row.push({ row: y, column: x, value });
-      }
+      this._dimensions = dimensions;
 
-      rows.push(row);
+      return this;
     }
 
-    this._dimensions = dimensions;
-    this._grid = rows;
+    if (typeof args[0] === "object" && args[0] !== null) {
+      const dimensions = args[0] as Dimensions;
+      const fill = args[1] as FillFn<T>;
 
-    return this;
+      const rows: Matrix<T> = [];
+
+      for (let y = 0; y < dimensions.rows; y++) {
+        const row: Row<T> = [];
+
+        for (let x = 0; x < dimensions.columns; x++) {
+          const value =
+            typeof fill === "function"
+              ? (fill as FillFn<T>)({
+                  row: y,
+                  column: x
+                })
+              : fill;
+
+          row.push({ row: y, column: x, value });
+        }
+
+        rows.push(row);
+      }
+
+      this._dimensions = dimensions;
+      this._grid = rows;
+
+      return this;
+    }
+
+    throw new Error(`Invalid argument: ${args[0]}`);
   }
 
-  public static make<T>(dimensions: Dimensions, fill: FillFn<T> | T): Grid<T> {
-    return new Grid(dimensions, fill);
+  public static make<T>(seed: Matrix<T>): Grid<T>;
+  public static make<T>(dimensions: Dimensions, fill: FillFn<T> | T): Grid<T>;
+  public static make<T>(...args: any[]): Grid<T> {
+    return new Grid(args[0], args[1]);
   }
 
   public static from<U>(matrix: Matrix<U>) {
-    const rows = matrix.length;
-    const columns = matrix[0].length;
-
-    return Grid.make<U>({ rows, columns }, (undefined as any) as U).withSeed(
-      matrix
-    );
+    return new Grid(matrix);
   }
 
   public withSeed(matrix: Matrix<T>) {
@@ -140,14 +161,6 @@ export default class Grid<T = undefined> {
   public map<U>(fn: (value: T, cell: Cell<T>, self: Grid<T>) => U) {
     const nextMatrix: Matrix<U> = this._grid.map(cells =>
       cells.map(cell => ({ ...cell, value: fn(cell.value, cell, this) }))
-    );
-
-    return Grid.from(nextMatrix);
-  }
-
-  public filter(fn: (value: T, cell: Cell<T>, self: Grid<T>) => boolean) {
-    const nextMatrix: Matrix<T> = this._grid.map(cells =>
-      cells.filter(cell => fn(cell.value, cell, this))
     );
 
     return Grid.from(nextMatrix);
