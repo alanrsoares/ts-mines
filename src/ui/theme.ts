@@ -25,7 +25,7 @@ export const radii = {
   xl: "0.4rem",
   xxl: "0.6rem",
   xxxl: "1rem",
-  round: "50%"
+  round: "1000px"
 } as const;
 
 export const shadows = {
