@@ -9,7 +9,9 @@
     "prebuild": "yarn generate-build-version && yarn write-app-name-to-manifest",
     "generate-build-version": "node scripts/generate-build-version",
     "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "lint:fix": "yarn lint --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -28,22 +30,22 @@
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.5.0",
-    "@testing-library/react": "^9.5.0",
+    "@testing-library/react": "^10.0.2",
     "@testing-library/user-event": "^10.0.2",
     "polished": "^3.5.1",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.0",
+    "react-scripts": "3.4.1",
     "styled-components": "^5.1.0",
     "typescript": "~3.8.3"
   },
   "devDependencies": {
-    "@types/jest": "^25.1.3",
-    "@types/node": "^13.7.4",
-    "@types/ramda": "^0.26.41",
-    "@types/react": "^16.9.21",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "@types/ramda": "^0.27.3",
+    "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
-    "@types/styled-components": "^5.0.0"
+    "@types/styled-components": "^5.1.0"
   }
 }

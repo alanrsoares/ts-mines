@@ -23,7 +23,7 @@ const Flag = styled(FlagIcon)`
 
 const Circle = styled.div<{ active: boolean }>`
   border-radius: ${getRadius("round")};
-  background-color: ${p =>
+  background-color: ${(p) =>
     p.active ? getColor("gray")(p) : darken(0.1, getColor("gray")(p))};
   width: 1.8rem;
   height: 1.8rem;
@@ -33,7 +33,7 @@ const Circle = styled.div<{ active: boolean }>`
   padding: 0.1rem;
   transition-delay: 0.3s;
   transition: background-color 0.2s ease-in-out;
-  box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
+  box-shadow: ${getShadow((p) => (p.active ? "inset" : "default"))};
 `;
 
 export const Button = styled.button<{
@@ -42,17 +42,17 @@ export const Button = styled.button<{
   active?: boolean;
 }>`
     border: none;
-    background-color: ${p => {
+    background-color: ${(p) => {
       const color = getColor(p.color)(p);
       return p.active ? color : darken(0.5, color);
     }};
     height: 2.8rem;
     width: 4rem;
-    ${p => `
+    ${(p) => `
       border-top-${p.side}-radius: 2rem;
       border-bottom-${p.side}-radius: 2rem;
     `}
-    box-shadow: ${getShadow(p => (p.active ? "inset" : "default"))};
+    box-shadow: ${getShadow((p) => (p.active ? "inset" : "default"))};
     outline: none;
     transition: all .1s ease;
     display: flex;
@@ -81,7 +81,7 @@ export const Root = styled.div`
 const Footer: React.FC<{
   onToggleGameMode(): void;
   gameMode: Mode;
-}> = props => {
+}> = (props) => {
   return (
     <Root>
       <Clamp>
