@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import flatten from "ramda/es/flatten";
+
 import { ThemeProvider } from "styled-components";
 
 import Grid, { Cell, Matrix } from "lib/Grid";
@@ -20,7 +20,7 @@ import {
   StatusDisplay,
   Content,
   Clamp,
-  Controls
+  Controls,
 } from "ui/components/core";
 
 import GridComponent from "ui/components/Grid";
@@ -30,7 +30,7 @@ import Score from "ui/components/Score";
 const statusAssets: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
   won: <CoolIcon />,
-  over: <SkullIcon />
+  over: <SkullIcon />,
 };
 
 const NO_OP = () => {};
@@ -76,9 +76,13 @@ export function App() {
             }
             const nextGrid = Grid.from(grid).updateCell(cell, {
               ...tile,
-              flagged: !tile.flagged
+              flagged: !tile.flagged,
             });
             setGrid(nextGrid.snapshot);
+
+            if (Game.didWin(nextGrid)) {
+              setGameStatus("won");
+            }
           }
           break;
         case "reveal":
@@ -92,7 +96,7 @@ export function App() {
               // reveal mines
               const nextGrid = Grid.from(grid).updateCell(cell, {
                 ...tile,
-                revealed: true
+                revealed: true,
               });
 
               setGrid(nextGrid.snapshot);
@@ -102,12 +106,17 @@ export function App() {
               return;
             }
 
-            const nextGrid = Game.getNextGrid(grid, cell).snapshot;
-            const nextScore = flatten(nextGrid).filter(c => c.value.revealed)
-              .length;
+            const nextGrid = Game.getNextGrid(grid, cell);
+            const nextScore = nextGrid.snapshot
+              .flat()
+              .filter((c) => c.value.revealed).length;
 
-            setGrid(nextGrid);
+            setGrid(nextGrid.snapshot);
             setScore(nextScore);
+
+            if (Game.didWin(nextGrid)) {
+              setGameStatus("won");
+            }
           }
           break;
       }
@@ -119,7 +128,7 @@ export function App() {
       setGrid,
       setScore,
       setActiveCell,
-      setGameStatus
+      setGameStatus,
     ]
   );
 
@@ -139,7 +148,7 @@ export function App() {
   }, [gameStatus, setGameStatus, setScore, setGrid]);
 
   const handleToggleGameMode = useCallback(() => {
-    setGameMode(mode => (mode === "flag" ? "reveal" : "flag"));
+    setGameMode((mode) => (mode === "flag" ? "reveal" : "flag"));
   }, [setGameMode]);
 
   useRightClick(NO_OP);
@@ -178,7 +187,7 @@ export function App() {
   );
 }
 
-export default function() {
+export default function () {
   return (
     <ThemeProvider theme={theme}>
       <App />

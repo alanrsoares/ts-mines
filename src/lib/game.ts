@@ -32,7 +32,7 @@ export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
     return nextGrid;
   }
 
-  nextGrid.getCellNeighbours(cellClicked).forEach(neighbourCell => {
+  nextGrid.getCellNeighbours(cellClicked).forEach((neighbourCell) => {
     const { value: neighbourTile } = neighbourCell;
 
     // skip revealed tiles
@@ -58,7 +58,7 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
   const fill: FillFn<Tile> = () => ({
     kind: Math.random() >= chanceOfMines / 100 ? "mine" : "empty",
     surroundingMines: 0,
-    revealed: false
+    revealed: false,
   });
 
   return Grid.make<Tile>(dimensions, fill).map<Tile>((tile, cell, self) => {
@@ -70,10 +70,28 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
       return {
         ...tile,
         surroundingMines,
-        kind: surroundingMines ? "empty" : "safe"
+        kind: surroundingMines ? "empty" : "safe",
       };
     }
 
     return tile;
   });
+};
+
+export const didWin = (grid: Grid<Tile>) => {
+  const cells = grid.snapshot.flat();
+
+  const summary = cells.reduce(
+    (acc, cell) => ({
+      flagged: cell.value.flagged ? acc.flagged + 1 : acc.flagged,
+      revealed: cell.value.revealed ? acc.revealed + 1 : acc.revealed,
+      mines: cell.value.kind === "mine" ? acc.mines + 1 : acc.mines,
+    }),
+    { flagged: 0, revealed: 0, mines: 0 }
+  );
+
+  return (
+    summary.mines === summary.flagged &&
+    summary.revealed + summary.flagged === cells.length
+  );
 };
