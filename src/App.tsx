@@ -26,11 +26,14 @@ import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
 import Score from "ui/components/Score";
 
-const statusAssets: Record<Game.GameStatus, JSX.Element> = {
+const STATUS_ICONS: Record<Game.GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
   won: <CoolIcon />,
   over: <SkullIcon />,
 };
+
+const StatusIcon: React.FC<{ status: Game.GameStatus }> = (props) =>
+  STATUS_ICONS[props.status];
 
 const NO_OP = () => {};
 
@@ -49,7 +52,7 @@ export function App() {
             isGameOver={state.gameStatus === "over"}
             onClick={handlers.onStatusClick}
           >
-            {statusAssets[state.gameStatus]}
+            <StatusIcon status={state.gameStatus} />
           </StatusDisplay>
           <Controls>
             <Score score={state.score} progress={state.progress} />
