@@ -1,17 +1,15 @@
 import React from "react";
-
 import { ThemeProvider } from "styled-components";
 
 import * as Game from "lib/game";
-import useUpdateChecker from "lib/useUpdateChecker";
-import { useRightClick, useGame } from "lib/hooks";
+import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
+import { useRightClick, useGameState } from "lib/hooks";
 
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
 import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
 import { ReactComponent as CoolIcon } from "assets/cool.svg";
 
 import theme from "ui/theme";
-
 import {
   Root,
   AppBar,
@@ -21,7 +19,6 @@ import {
   Clamp,
   Controls,
 } from "ui/components/core";
-
 import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
 import Score from "ui/components/Score";
@@ -38,10 +35,10 @@ const StatusIcon: React.FC<{ status: Game.GameStatus }> = (props) =>
 const NO_OP = () => {};
 
 export function App() {
-  useUpdateChecker();
+  useUpdateChecker(UPDATE_CHECK_INTERVAL);
   useRightClick(NO_OP);
 
-  const { state, handlers } = useGame();
+  const { state, handlers } = useGameState();
 
   return (
     <Root>

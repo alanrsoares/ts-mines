@@ -44,7 +44,7 @@ export const fetchWithTimeout = (
 export async function purgeCache() {
   if (window.caches) {
     const keys = await window.caches.keys();
-    const deleteKeys = keys.map(key => window.caches.delete(key));
+    const deleteKeys = keys.map((key) => window.caches.delete(key));
 
     await Promise.all(deleteKeys);
   }
@@ -95,7 +95,7 @@ export async function tryCheckForUpdates() {
   }
 }
 
-const UPDATE_CHECK_INTERVAL = 60000 * 30;
+export const UPDATE_CHECK_INTERVAL = 60000 * 30;
 
 export default function useUpdateChecker(interval = UPDATE_CHECK_INTERVAL) {
   useEffect(() => {

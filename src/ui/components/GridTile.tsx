@@ -8,7 +8,7 @@ import styled, {
   getShadow,
   getRadius,
   getColor,
-  getAnimation
+  getAnimation,
 } from "ui/styled";
 
 import { ReactComponent as MineIcon } from "assets/mine.svg";
@@ -35,7 +35,7 @@ const numberColors: Record<number, string> = {
   5: "darkgreen",
   6: "darkred",
   7: "purple",
-  8: "darkpurple"
+  8: "darkpurple",
 };
 
 interface Props extends Tile {
@@ -50,11 +50,11 @@ const GridTileContainer = styled.div<Omit<Props, "onLongPress">>`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: ${getShadow(props => (props.revealed ? "none" : "default"))};
+  box-shadow: ${getShadow((props) => (props.revealed ? "none" : "default"))};
   border-radius: ${getRadius("lg")};
   margin: 0.2rem;
   padding: 0.2rem;
-  background: ${getColor(props =>
+  background: ${getColor((props) =>
     props.revealed
       ? props.kind === "mine" && props.active
         ? "negative"
@@ -64,16 +64,16 @@ const GridTileContainer = styled.div<Omit<Props, "onLongPress">>`
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   user-select: none;
-  ${props =>
+  ${(props) =>
     // dynamic number-color mapping
     typeof props.children === "number"
       ? `color:  ${numberColors[props.children]}`
       : undefined};
 `;
 
-const GridTile: React.FC<Props> = props => {
+const GridTile: React.FC<Props> = (props) => {
   const content = useMemo(() => {
-    if (props.flagged) {
+    if (props.defused) {
       return <Flag />;
     }
     if (!props.revealed || props.kind === "safe") {

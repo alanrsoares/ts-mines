@@ -90,11 +90,11 @@ const Footer: React.FC<{
           <Button
             side="left"
             color="white"
-            active={props.gameMode === "flag"}
+            active={props.gameMode === "defuse"}
             onClick={props.onToggleGameMode}
             aria-label="Toggle game mode"
           >
-            <Circle active={props.gameMode === "flag"}>
+            <Circle active={props.gameMode === "defuse"}>
               <Flag />
             </Circle>
           </Button>

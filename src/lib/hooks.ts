@@ -3,28 +3,29 @@ import {
   useEffect,
   useCallback,
   Dispatch,
-  SetStateAction,
   useRef,
   useMemo,
+  useReducer,
+  Reducer,
 } from "react";
 
-import StorageAdapter from "lib/StorageAdapter";
-
+import storage from "lib/storage";
 import * as Game from "lib/game";
-import Grid, { Cell, Matrix } from "lib/Grid";
+import { State, Action, INITIAL_STATE, reducer } from "lib/state";
+import { Cell } from "./Grid";
 
-const STORAGE_NAMESPACE = "@TS-MINES";
-
-const storage = new StorageAdapter(STORAGE_NAMESPACE);
-
-export function useCachedState<T>(
+export function useCachedReducer<S, A>(
   cacheKey: string,
-  defaultState: T
-): [T, Dispatch<SetStateAction<T>>] {
-  const [state, setState] = useState(storage.read(defaultState, cacheKey));
+  defaultState: S,
+  reducer: Reducer<S, A>
+): [S, Dispatch<A>] {
+  const [state, setState] = useReducer(
+    reducer,
+    storage.read(defaultState, cacheKey)
+  );
 
   useEffect(() => {
-    storage.persist<T>(state, cacheKey);
+    storage.persist<S>(state, cacheKey);
   }, [state, cacheKey]);
 
   return [state, setState];
@@ -94,134 +95,44 @@ export function useRightClick<T extends () => void>(callback: T) {
   }, [onContextMenu]);
 }
 
-export function useGame() {
-  const [score, setScore] = useCachedState<number>("/score", 0);
-
-  const [gameStatus, setGameStatus] = useCachedState<Game.GameStatus>(
-    "/gameStatus",
-    "new"
+export function useGameState() {
+  const [state, dispatch] = useCachedReducer<State, Action>(
+    "/state",
+    INITIAL_STATE,
+    reducer
   );
 
-  const [gameMode, setGameMode] = useCachedState<Game.Mode>("/mode", "reveal");
-
-  const [activeCell, setActiveCell] = useCachedState<
-    Cell<Game.Tile> | undefined
-  >("/activeCell", undefined);
-
-  const [grid, setGrid] = useCachedState<Matrix<Game.Tile>>(
-    "/grid",
-    Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot
+  const progress = useMemo(
+    () => (state.score / (state.grid.length * state.grid[0].length)) * 100,
+    [state.score, state.grid]
   );
 
   const onCellClick = useCallback(
     (cell: Cell<Game.Tile>, mode?: Game.Mode) => {
-      if (gameStatus === "over" || gameStatus === "won") {
-        return;
-      }
-
-      setActiveCell(cell);
-
-      const tile = cell.value;
-
-      const $mode = mode ?? gameMode;
-
-      switch ($mode) {
-        case "flag":
-          {
-            // ignore clicking on a "revealed" tile while on "flag" mode
-            if (tile.revealed) {
-              return;
-            }
-            const nextGrid = Grid.from(grid).updateCell(cell, {
-              ...tile,
-              flagged: !tile.flagged,
-            });
-            setGrid(nextGrid.snapshot);
-
-            if (Game.didWin(nextGrid)) {
-              setGameStatus("won");
-            }
-          }
-          break;
-        case "reveal":
-          {
-            // ignore clicking on a "flagged" tile while on "reveal" mode
-            if (tile.flagged) {
-              return;
-            }
-
-            if (tile.kind === "mine") {
-              // reveal mines
-              const nextGrid = Grid.from(grid).updateCell(cell, {
-                ...tile,
-                revealed: true,
-              });
-
-              setGrid(nextGrid.snapshot);
-
-              setGrid(nextGrid.map(Game.revealMine).snapshot);
-              setGameStatus("over");
-              return;
-            }
-
-            const nextGrid = Game.getNextGrid(grid, cell);
-            const nextScore = nextGrid.snapshot
-              .flat()
-              .filter((c) => c.value.revealed).length;
-
-            setGrid(nextGrid.snapshot);
-            setScore(nextScore);
-
-            if (Game.didWin(nextGrid)) {
-              setGameStatus("won");
-            }
-          }
-          break;
-      }
+      dispatch({ type: "TOGGLE_CELL", payload: { cell, mode } });
     },
-    [
-      grid,
-      gameStatus,
-      gameMode,
-      setGrid,
-      setScore,
-      setActiveCell,
-      setGameStatus,
-    ]
+    [dispatch]
   );
 
   const onCellLongPress = useCallback(
     (cell: Cell<Game.Tile>) => {
-      onCellClick(cell, "flag");
+      dispatch({ type: "TOGGLE_CELL", payload: { cell, mode: "defuse" } });
     },
-    [onCellClick]
+    [dispatch]
   );
 
   const onStatusClick = useCallback(() => {
-    if (gameStatus === "over") {
-      setGrid(Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot);
-      setGameStatus("new");
-      setScore(0);
-    }
-  }, [gameStatus, setGameStatus, setScore, setGrid]);
+    dispatch({ type: "RESET" });
+  }, [dispatch]);
 
   const onToggleGameMode = useCallback(() => {
-    setGameMode((mode) => (mode === "flag" ? "reveal" : "flag"));
-  }, [setGameMode]);
-
-  const progress = useMemo(
-    () => (score / (grid.length * grid[0].length)) * 100,
-    [score, grid]
-  );
+    dispatch({ type: "TOGGLE_GAME_MODE" });
+  }, [dispatch]);
 
   return {
     state: {
-      gameStatus,
-      gameMode,
-      activeCell,
+      ...state,
       progress,
-      score,
-      grid,
     },
     handlers: {
       onCellClick,

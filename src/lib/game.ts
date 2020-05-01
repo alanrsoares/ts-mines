@@ -8,12 +8,12 @@ export type Tile = {
   kind: TileKind;
   revealed: boolean;
   surroundingMines: number;
-  flagged?: boolean;
+  defused?: boolean;
 };
 
 export type GameStatus = "new" | "over" | "won";
 
-export type Mode = "reveal" | "flag";
+export type Mode = "reveal" | "defuse";
 
 export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
 
@@ -33,16 +33,16 @@ export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
   }
 
   nextGrid.getCellNeighbours(cellClicked).forEach((neighbourCell) => {
-    const { value: neighbourTile } = neighbourCell;
+    const { value: neighbour } = neighbourCell;
 
     // skip revealed tiles
-    if (neighbourTile.revealed) {
+    if (neighbour.revealed) {
       return;
     }
 
-    switch (neighbourTile.kind) {
+    switch (neighbour.kind) {
       case "empty":
-        nextGrid.updateCell(neighbourCell, revealTile(neighbourTile));
+        nextGrid.updateCell(neighbourCell, revealTile(neighbour));
         break;
       case "safe":
         return getNextGrid(nextGrid.snapshot, neighbourCell);
@@ -83,7 +83,7 @@ export const didWin = (grid: Grid<Tile>) => {
 
   const summary = cells.reduce(
     (acc, cell) => ({
-      flagged: cell.value.flagged ? acc.flagged + 1 : acc.flagged,
+      flagged: cell.value.defused ? acc.flagged + 1 : acc.flagged,
       revealed: cell.value.revealed ? acc.revealed + 1 : acc.revealed,
       mines: cell.value.kind === "mine" ? acc.mines + 1 : acc.mines,
     }),
