@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { GameStatus } from "lib/game";
 import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
 import { useRightClick } from "lib/hooks";
-import { Game } from "lib/containers";
+import { Game } from "lib/contexts";
 
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
 import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
