@@ -1,9 +1,10 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
-import * as Game from "lib/game";
+import { GameStatus } from "lib/game";
 import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
-import { useRightClick, useGameState } from "lib/hooks";
+import { useRightClick } from "lib/hooks";
+import { Game } from "lib/containers";
 
 import { ReactComponent as SkullIcon } from "assets/skull.svg";
 import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
@@ -23,13 +24,13 @@ import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
 import Score from "ui/components/Score";
 
-const STATUS_ICONS: Record<Game.GameStatus, JSX.Element> = {
+const STATUS_ICONS: Record<GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
   won: <CoolIcon />,
   over: <SkullIcon />,
 };
 
-const StatusIcon: React.FC<{ status: Game.GameStatus }> = (props) =>
+const StatusIcon: React.FC<{ status: GameStatus }> = (props) =>
   STATUS_ICONS[props.status];
 
 const NO_OP = () => {};
@@ -38,7 +39,7 @@ export function App() {
   useUpdateChecker(UPDATE_CHECK_INTERVAL);
   useRightClick(NO_OP);
 
-  const { state, handlers } = useGameState();
+  const { state, handlers } = Game.useContainer();
 
   return (
     <Root>
@@ -75,7 +76,9 @@ export function App() {
 export default function () {
   return (
     <ThemeProvider theme={theme}>
-      <App />
+      <Game.Provider>
+        <App />
+      </Game.Provider>
     </ThemeProvider>
   );
 }
