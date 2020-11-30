@@ -32,7 +32,7 @@ export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
     return nextGrid;
   }
 
-  nextGrid.getCellNeighbours(cellClicked).forEach((neighbourCell) => {
+  nextGrid.getCellNeighbors(cellClicked).forEach((neighbourCell) => {
     const { value: neighbour } = neighbourCell;
 
     // skip revealed tiles
@@ -63,8 +63,8 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
 
   return Grid.make<Tile>(dimensions, fill).map<Tile>((tile, cell, self) => {
     if (tile.kind !== "mine") {
-      const neighbours = self.getCellNeighbours(cell);
-      const mines = neighbours.filter(isMine);
+      const neighbors = self.getCellNeighbors(cell);
+      const mines = neighbors.filter(isMine);
       const surroundingMines = mines.length;
 
       return {

@@ -34,7 +34,7 @@ const isOutOfBounds = (
 export default class Grid<T = undefined> {
   private _dimensions: Dimensions = {
     rows: 0,
-    columns: 0
+    columns: 0,
   };
   private _grid: Matrix<T> = [];
 
@@ -46,7 +46,7 @@ export default class Grid<T = undefined> {
 
       const dimensions: Dimensions = {
         rows: this._grid.length,
-        columns: this._grid[0].length
+        columns: this._grid[0].length,
       };
 
       this._dimensions = dimensions;
@@ -68,7 +68,7 @@ export default class Grid<T = undefined> {
             typeof fill === "function"
               ? (fill as FillFn<T>)({
                   row: y,
-                  column: x
+                  column: x,
                 })
               : fill;
 
@@ -131,8 +131,8 @@ export default class Grid<T = undefined> {
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
   }
 
-  public getCellNeighbours({ row, column }: Coordinates): Row<T> {
-    const neighbourCoordinates = [
+  public getCellNeighbors({ row, column }: Coordinates): Row<T> {
+    const coordinates = [
       // top-left
       { row: row - 1, column: column - 1 },
       // top-middle
@@ -148,10 +148,10 @@ export default class Grid<T = undefined> {
       // bottom-middle
       { row: row + 1, column },
       // bottom-right
-      { row: row + 1, column: column + 1 }
+      { row: row + 1, column: column + 1 },
     ];
 
-    return neighbourCoordinates.reduce<Row<T>>((acc, cell) => {
+    return coordinates.reduce<Row<T>>((acc, cell) => {
       if (!isOutOfBounds(cell, this._dimensions)) {
         return [...acc, this.getCell(cell)];
       }
@@ -160,8 +160,8 @@ export default class Grid<T = undefined> {
   }
 
   public map<U>(fn: (value: T, cell: Cell<T>, self: Grid<T>) => U) {
-    const nextMatrix: Matrix<U> = this._grid.map(cells =>
-      cells.map(cell => ({ ...cell, value: fn(cell.value, cell, this) }))
+    const nextMatrix: Matrix<U> = this._grid.map((cells) =>
+      cells.map((cell) => ({ ...cell, value: fn(cell.value, cell, this) }))
     );
 
     return Grid.from(nextMatrix);
