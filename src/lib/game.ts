@@ -78,7 +78,7 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
   });
 };
 
-export const didWin = (grid: Grid<Tile>) => {
+export function didWin(grid: Grid<Tile>) {
   const cells = grid.snapshot.flat();
 
   const summary = cells.reduce(
@@ -94,4 +94,4 @@ export const didWin = (grid: Grid<Tile>) => {
     summary.mines === summary.flagged &&
     summary.revealed + summary.flagged === cells.length
   );
-};
+}
