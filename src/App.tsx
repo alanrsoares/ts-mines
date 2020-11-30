@@ -73,7 +73,7 @@ export function App() {
   );
 }
 
-export default function () {
+export default function AppWithProviders() {
   return (
     <ThemeProvider theme={theme}>
       <Game.Provider>
