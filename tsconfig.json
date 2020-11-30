@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // default CRA configs
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,13 +14,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    // custom configs
     "baseUrl": "src",
     "plugins": [
       {
         "name": "typescript-styled-plugin"
       }
-    ]
+    ],
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
 }
