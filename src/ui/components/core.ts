@@ -35,14 +35,24 @@ export const AppBar = styled.header`
 
 export const Clamp = styled.div`
   display: flex;
-  width: calc(${BOARD_WIDTH} - 1rem);
+  width: ${BOARD_WIDTH};
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   @media screen and (max-width: ${BOARD_WIDTH}) {
     width: 100vw;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+  }
+`;
+
+export const Version = styled.span`
+  font-size: 0.325em;
+  position: absolute;
+  bottom: -0.5rem;
+  left: 10em;
+  ::before {
+    content: "v";
   }
 `;
 
@@ -54,6 +64,7 @@ export const Brand = styled.div`
   flex: 1;
   text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.9);
   cursor: pointer;
+  position: relative;
   @media screen and (max-width: 360px) {
     font-size: 1.5rem;
   }

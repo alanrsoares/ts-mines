@@ -19,10 +19,13 @@ import {
   Content,
   Clamp,
   Controls,
+  Version,
 } from "ui/components/core";
 import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
 import Score from "ui/components/Score";
+
+import { version } from "../package.json";
 
 const STATUS_ICONS: Record<GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -45,7 +48,10 @@ export function App() {
     <Root>
       <AppBar>
         <Clamp>
-          <Brand>[MINES]</Brand>
+          <Brand>
+            [MINES]
+            <Version>{version}</Version>
+          </Brand>
           <StatusDisplay
             isGameOver={state.gameStatus === "over"}
             onClick={handlers.onStatusClick}
