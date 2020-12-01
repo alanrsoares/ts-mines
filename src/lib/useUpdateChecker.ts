@@ -52,7 +52,7 @@ export async function purgeCache() {
 
 export async function checkForAppUpdates() {
   const onTimeout = () => {
-    throw new Error("Timout reached while fetching meta.json");
+    throw new Error("Timeout reached while fetching meta.json");
   };
 
   const fetchWithTimeoutHandler = fetchWithTimeout(5000, onTimeout);

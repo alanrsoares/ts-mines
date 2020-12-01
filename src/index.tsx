@@ -3,8 +3,9 @@ import { render } from "react-dom";
 
 import { version } from "../package.json";
 
-import registerServiceWorker from "./registerServiceWorker";
 import Splash from "ui/components/Splash";
+
+import registerServiceWorker from "./registerServiceWorker";
 
 const App = React.lazy(() => import("./App"));
 

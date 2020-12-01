@@ -14,7 +14,7 @@ export const colors = {
   white: "#FFF",
   gray: "#CCC",
   dark: "#666",
-  shadow: "rgba(0, 0, 0, 0.4)"
+  shadow: "rgba(0, 0, 0, 0.4)",
 } as const;
 
 export const radii = {
@@ -25,20 +25,20 @@ export const radii = {
   xl: "0.4rem",
   xxl: "0.6rem",
   xxxl: "1rem",
-  round: "1000px"
+  round: "1000px",
 } as const;
 
 export const shadows = {
   default: `0 1px 2px ${colors.shadow}`,
   inset: `inset 1px 0 2px`,
   top: `0 -2px 6px ${colors.shadow}`,
-  none: "none"
+  none: "none",
 } as const;
 
 export const fontFamilies = {
   display: "'Black Ops One', monospace",
   default: "'Lato', sans-serif",
-  voice: "'Vollkorn', serif"
+  voice: "'Vollkorn', serif",
 };
 
 const baseFontSize = 18;
@@ -48,7 +48,7 @@ export const fontSizes = {
   xs: baseFontSize * 0.6,
   sm: baseFontSize * 0.8,
   md: baseFontSize,
-  lg: baseFontSize * 1.2
+  lg: baseFontSize * 1.2,
 } as const;
 
 const animations = {
@@ -63,7 +63,7 @@ const animations = {
       opacity: 1;
       background-color: ${darken(0.2, colors.negative)};
     }
-  `
+  `,
 } as const;
 
 const theme = {
@@ -72,7 +72,7 @@ const theme = {
   fontSizes,
   fontFamilies,
   shadows,
-  animations
+  animations,
 } as const;
 
 export type Color = keyof typeof colors;
