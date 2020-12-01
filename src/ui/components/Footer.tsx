@@ -41,25 +41,26 @@ export const Button = styled.button<{
   side: "left" | "right";
   active?: boolean;
 }>`
-    border: none;
-    background-color: ${(p) => {
-      const color = getColor(p.color)(p);
-      return p.active ? color : darken(0.5, color);
-    }};
-    height: 2.8rem;
-    width: 4rem;
-    ${(p) => `
+  border: none;
+  background-color: ${(p) => {
+    const color = getColor(p.color)(p);
+    return p.active ? color : darken(0.5, color);
+  }};
+  height: 2.8rem;
+  width: 4rem;
+  ${(p) => `
       border-top-${p.side}-radius: 2rem;
       border-bottom-${p.side}-radius: 2rem;
     `}
-    box-shadow: ${getShadow((p) => (p.active ? "inset" : "default"))};
-    outline: none;
-    transition: all .1s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.3s ease-in-out;
-  `;
+  box-shadow: ${getShadow((p) => (p.active ? "inset" : "default"))};
+  outline: none;
+  transition: all 0.1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+`;
 
 export const ButtonGroup = styled.div`
   display: flex;

@@ -3,7 +3,7 @@ import styled, {
   getColor,
   getFontFamily,
   getShadow,
-  getAnimation
+  getAnimation,
 } from "ui/styled";
 
 export const BOARD_WIDTH = "1072.16px";
@@ -53,6 +53,7 @@ export const Brand = styled.div`
   display: flex;
   flex: 1;
   text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
   @media screen and (max-width: 360px) {
     font-size: 1.5rem;
   }
@@ -73,7 +74,8 @@ export const StatusDisplay = styled.div<{ isGameOver: boolean }>`
   height: 4rem;
   margin-top: 1rem;
   padding: 0.5rem;
-  animation: ${p =>
+  cursor: pointer;
+  animation: ${(p) =>
     p.isGameOver
       ? css`
           ${getAnimation("glow")} 4s infinite ease
