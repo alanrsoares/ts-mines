@@ -47,10 +47,11 @@ export const Clamp = styled.div`
 `;
 
 export const Version = styled.span`
-  font-size: 0.325em;
+  font-size: 0.375em;
   position: absolute;
-  bottom: -0.5rem;
-  left: 10em;
+  bottom: -0.75em;
+  left: 8.75em;
+  font-family: sans-serif;
   ::before {
     content: "v";
   }
