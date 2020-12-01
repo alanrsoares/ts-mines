@@ -13,6 +13,7 @@ import styled, {
 
 import { ReactComponent as MineIcon } from "assets/mine.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
+import { css } from "styled-components";
 
 export const Mine = styled(MineIcon)`
   width: 1.4rem;
@@ -44,31 +45,37 @@ interface Props extends Tile {
   active?: boolean;
 }
 
-const GridTileContainer = styled.div<Omit<Props, "onLongPress">>`
+const GridTileContainer = styled.button<Omit<Props, "onLongPress">>`
   width: 1.8rem;
   height: 1.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: ${getShadow((props) => (props.revealed ? "none" : "default"))};
+  box-shadow: ${getShadow(({ revealed }) => (revealed ? "none" : "default"))};
   border-radius: ${getRadius("lg")};
   margin: 0.2rem;
   padding: 0.2rem;
-  background: ${getColor((props) =>
-    props.revealed
-      ? props.kind === "mine" && props.active
-        ? "negative"
-        : "white"
-      : "gray"
+  background: ${getColor(({ revealed, kind, active }) =>
+    revealed ? (kind === "mine" && active ? "negative" : "white") : "gray"
   )};
+  appearance: none;
+  border: none;
   transition: all 0.2s ease-in-out;
   font-weight: bold;
   user-select: none;
-  ${(props) =>
+  outline: none;
+  cursor: ${({ active }) => (!active ? "pointer" : "auto")};
+  ${({ children }) =>
     // dynamic number-color mapping
-    typeof props.children === "number"
-      ? `color:  ${numberColors[props.children]}`
+    typeof children === "number"
+      ? css`
+          color: ${numberColors[children]};
+        `
       : undefined};
+  :active {
+    opacity: 0.8;
+    box-shadow: 0 0 0 0.125rem rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const GridTile: React.FC<Props> = (props) => {
