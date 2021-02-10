@@ -15,6 +15,16 @@ export type GameStatus = "new" | "over" | "won";
 
 export type Mode = "reveal" | "defuse";
 
+export type Level = "easy" | "medium" | "hard" | "ultra" | "god";
+
+export const CHANCE_OF_MINES_PER_LEVEL: Record<Level, number> = {
+  easy: 20,
+  medium: 30,
+  hard: 40,
+  ultra: 40,
+  god: 80,
+};
+
 export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
 
 export const revealMine = (tile: Tile) =>
@@ -32,20 +42,20 @@ export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
     return nextGrid;
   }
 
-  nextGrid.getCellNeighbors(cellClicked).forEach((neighbourCell) => {
-    const { value: neighbour } = neighbourCell;
+  nextGrid.getCellNeighbors(cellClicked).forEach((neighborCell) => {
+    const { value: neighbor } = neighborCell;
 
     // skip revealed tiles
-    if (neighbour.revealed) {
+    if (neighbor.revealed) {
       return;
     }
 
-    switch (neighbour.kind) {
+    switch (neighbor.kind) {
       case "empty":
-        nextGrid.updateCell(neighbourCell, revealTile(neighbour));
+        nextGrid.updateCell(neighborCell, revealTile(neighbor));
         break;
       case "safe":
-        return getNextGrid(nextGrid.snapshot, neighbourCell);
+        return getNextGrid(nextGrid.snapshot, neighborCell);
     }
   });
 
@@ -56,7 +66,7 @@ export const isMine = (cell: Cell<Tile>) => cell.value.kind === "mine";
 
 export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
   const fill: FillFn<Tile> = () => ({
-    kind: Math.random() >= chanceOfMines / 100 ? "mine" : "empty",
+    kind: Math.random() >= chanceOfMines / 100 ? "empty" : "mine",
     surroundingMines: 0,
     revealed: false,
   });

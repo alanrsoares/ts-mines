@@ -7,6 +7,7 @@ export interface State {
   score: number;
   gameStatus: Game.GameStatus;
   gameMode: Game.Mode;
+  gameLevel: Game.Level;
   activeCell?: Cell<Game.Tile>;
   grid: Matrix<Game.Tile>;
 }
@@ -25,12 +26,18 @@ export type Actions =
   | Action<"TOGGLE_GAME_MODE">
   | Action<"TOGGLE_CELL", CellClickPayload>;
 
+export const DEFAULT_GAME_LEVEL: Game.Level = "easy";
+
 export const INITIAL_STATE: State = {
   gameStatus: "new",
   gameMode: "reveal",
+  gameLevel: DEFAULT_GAME_LEVEL,
   activeCell: undefined,
   score: 0,
-  grid: Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot,
+  grid: Game.makeNewGrid(
+    { rows: 20, columns: 30 },
+    Game.CHANCE_OF_MINES_PER_LEVEL[DEFAULT_GAME_LEVEL]
+  ).snapshot,
 };
 
 export const reducer: Reducer<State, Actions> = (state, action) => {
@@ -45,7 +52,10 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         ? state
         : {
             ...INITIAL_STATE,
-            grid: Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot,
+            grid: Game.makeNewGrid(
+              { rows: 20, columns: 30 },
+              Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel]
+            ).snapshot,
           };
     case "TOGGLE_CELL": {
       const { cell, mode } = action.payload;
