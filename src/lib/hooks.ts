@@ -11,7 +11,7 @@ import {
 
 import storage from "lib/storage";
 import * as Game from "lib/game";
-import { State, Action, INITIAL_STATE, reducer } from "lib/state";
+import { State, Actions, INITIAL_STATE, reducer } from "lib/state";
 import { Cell } from "./Grid";
 
 export function useCachedReducer<S, A>(
@@ -96,7 +96,7 @@ export function useRightClick<T extends () => void>(callback: T) {
 }
 
 export function useGameState() {
-  const [state, dispatch] = useCachedReducer<State, Action>(
+  const [state, dispatch] = useCachedReducer<State, Actions>(
     "/state",
     INITIAL_STATE,
     reducer

@@ -16,13 +16,14 @@ export interface CellClickPayload {
   mode?: Game.Mode;
 }
 
-export type Action =
-  | { type: "RESET" }
-  | { type: "TOGGLE_GAME_MODE" }
-  | {
-      type: "TOGGLE_CELL";
-      payload: CellClickPayload;
-    };
+export type Action<T extends string, P = undefined> = P extends undefined
+  ? { type: T }
+  : { type: T; payload: P };
+
+export type Actions =
+  | Action<"RESET">
+  | Action<"TOGGLE_GAME_MODE">
+  | Action<"TOGGLE_CELL", CellClickPayload>;
 
 export const INITIAL_STATE: State = {
   gameStatus: "new",
@@ -32,7 +33,7 @@ export const INITIAL_STATE: State = {
   grid: Game.makeNewGrid({ rows: 20, columns: 30 }, 80).snapshot,
 };
 
-export const reducer: Reducer<State, Action> = (state, action) => {
+export const reducer: Reducer<State, Actions> = (state, action) => {
   switch (action.type) {
     case "TOGGLE_GAME_MODE":
       return {
