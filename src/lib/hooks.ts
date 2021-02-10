@@ -36,7 +36,7 @@ export function useLongPress(callback = () => {}, ms = 300) {
   const timeoutIdRef = useRef(0);
 
   const cancelTimeout = useCallback(() => {
-    clearTimeout(timeoutIdRef.current);
+    window.clearTimeout(timeoutIdRef.current);
   }, [timeoutIdRef]);
 
   const start = useCallback(() => {
