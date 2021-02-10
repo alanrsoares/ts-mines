@@ -50,7 +50,7 @@ export function useLongPress(callback = () => {}, ms = 300) {
   useEffect(
     () => {
       if (running) {
-        timeoutIdRef.current = setTimeout(callback, ms);
+        timeoutIdRef.current = window.setTimeout(callback, ms);
       } else {
         cancelTimeout();
       }
