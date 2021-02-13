@@ -30,7 +30,7 @@ export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
 export const revealMine = (tile: Tile) =>
   tile.kind === "mine" ? revealTile(tile) : tile;
 
-export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
+export function getNextGrid(matrix: Matrix<Tile>, cellClicked: Cell<Tile>) {
   const nextGrid = Grid.from(matrix);
 
   const { value: tile } = cellClicked;
@@ -60,7 +60,7 @@ export const getNextGrid = (matrix: Matrix<Tile>, cellClicked: Cell<Tile>) => {
   });
 
   return nextGrid;
-};
+}
 
 export const isMine = (cell: Cell<Tile>) => cell.value.kind === "mine";
 

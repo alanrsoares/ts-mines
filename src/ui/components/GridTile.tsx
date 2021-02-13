@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import omit from "ramda/es/omit";
+import { css } from "styled-components";
 
 import { Tile } from "lib/game";
 import { useLongPress } from "lib/hooks";
@@ -11,9 +12,8 @@ import styled, {
   getAnimation,
 } from "ui/styled";
 
-import { ReactComponent as MineIcon } from "assets/mine.svg";
-import { ReactComponent as FlagIcon } from "assets/flag.svg";
-import { css } from "styled-components";
+import MineIcon from "assets/mine.svg";
+import FlagIcon from "assets/flag.svg";
 
 export const Mine = styled(MineIcon)`
   width: 1.4rem;
