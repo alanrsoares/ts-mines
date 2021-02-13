@@ -2,7 +2,7 @@ import React from "react";
 
 import styled, { getColor, getRadius } from "ui/styled";
 
-import { ReactComponent as EyeIcon } from "assets/eye.svg";
+import EyeIcon from "assets/eye.svg";
 
 export const Root = styled.div`
   display: flex;
@@ -36,8 +36,8 @@ export const ProgressLine = styled.div<{ progress: number }>`
   background: linear-gradient(
     to right,
     ${getColor("positive")} 0%,
-    ${getColor("positive")} ${p => p.progress}%,
-    ${getColor("white")} ${p => p.progress}%,
+    ${getColor("positive")} ${(p) => p.progress}%,
+    ${getColor("white")} ${(p) => p.progress}%,
     ${getColor("white")} 100%
   );
 `;
@@ -48,7 +48,7 @@ export const ProgressIcon = styled(EyeIcon)`
   margin-right: 0.5rem;
 `;
 
-const Score: React.FC<{ score: number; progress: number }> = props => {
+const Score: React.FC<{ score: number; progress: number }> = (props) => {
   return (
     <Root>
       <ProgressContainer>

@@ -4,10 +4,10 @@ import styled, {
   getColor,
   getShadow,
   getRadius,
-  getAnimation
+  getAnimation,
 } from "ui/styled";
 
-import { ReactComponent as GithubSVG } from "assets/github.svg";
+import GithubSVG from "assets/github.svg";
 
 export const GithubIcon = styled(GithubSVG)`
   height: 2rem;

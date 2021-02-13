@@ -6,9 +6,9 @@ import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
 import { useRightClick } from "lib/hooks";
 import { Game } from "lib/contexts";
 
-import { ReactComponent as SkullIcon } from "assets/skull.svg";
-import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
-import { ReactComponent as CoolIcon } from "assets/cool.svg";
+import SkullIcon from "assets/skull.svg";
+import ThinkingIcon from "assets/thinking.svg";
+import CoolIcon from "assets/cool.svg";
 
 import theme from "ui/theme";
 import {

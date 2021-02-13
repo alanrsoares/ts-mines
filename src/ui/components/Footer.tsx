@@ -4,12 +4,12 @@ import { darken } from "polished";
 import { Mode } from "lib/game";
 
 import styled, { getColor, getShadow, getRadius } from "ui/styled";
-
 import { Color } from "ui/theme";
 import { Clamp, FOOTER_HEIGHT } from "ui/components/core";
 import Github from "ui/components/Github";
-import { ReactComponent as EyeIcon } from "assets/eye.svg";
-import { ReactComponent as FlagIcon } from "assets/flag.svg";
+
+import EyeIcon from "assets/eye.svg";
+import FlagIcon from "assets/flag.svg";
 
 const Eye = styled(EyeIcon)`
   width: 1rem;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ReactComponent as MineIcon } from "assets/mine.svg";
+import MineIcon from "assets/mine.svg";
 
 export default function Splash() {
   return (
