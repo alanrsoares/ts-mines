@@ -1,7 +1,9 @@
 import { Reducer } from "react";
+import { flatten } from "ramda";
 
 import * as Game from "lib/game";
 import Grid, { Cell, Matrix } from "lib/Grid";
+import { playSoundEffect } from "./fx";
 
 export interface State {
   score: number;
@@ -10,6 +12,7 @@ export interface State {
   gameLevel: Game.Level;
   activeCell?: Cell<Game.Tile>;
   grid: Matrix<Game.Tile>;
+  soundEffects?: boolean;
 }
 
 export interface CellClickPayload {
@@ -24,6 +27,7 @@ export type Action<T extends string, P = undefined> = P extends undefined
 export type Actions =
   | Action<"RESET">
   | Action<"TOGGLE_GAME_MODE">
+  | Action<"TOGGLE_SOUND_EFFECTS">
   | Action<"TOGGLE_CELL", CellClickPayload>;
 
 export const DEFAULT_GAME_LEVEL: Game.Level = "easy";
@@ -38,6 +42,7 @@ export const INITIAL_STATE: State = {
     { rows: 20, columns: 30 },
     Game.CHANCE_OF_MINES_PER_LEVEL[DEFAULT_GAME_LEVEL]
   ).snapshot,
+  soundEffects: true,
 };
 
 export const reducer: Reducer<State, Actions> = (state, action) => {
@@ -46,6 +51,11 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
       return {
         ...state,
         gameMode: state.gameMode === "defuse" ? "reveal" : "defuse",
+      };
+    case "TOGGLE_SOUND_EFFECTS":
+      return {
+        ...state,
+        soundEffects: !state.soundEffects,
       };
     case "RESET":
       return state.gameStatus !== "over"
@@ -81,6 +91,10 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
               revealed: true,
             });
 
+            if (state.soundEffects) {
+              playSoundEffect("disabled");
+            }
+
             return {
               ...partialNextState,
               grid: nextGrid.map(Game.revealMine).snapshot,
@@ -93,14 +107,24 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
             defused: !tile.defused,
           });
 
+          const didWin = Game.didWin(nextGrid);
+
+          if (didWin && state.soundEffects) {
+            // playSoundEffect("won")
+          }
+
           return {
             ...partialNextState,
             grid: nextGrid.snapshot,
-            gameStatus: Game.didWin(nextGrid) ? "won" : state.gameStatus,
+            gameStatus: didWin ? "won" : state.gameStatus,
           };
         }
         case "reveal": {
           if (tile.kind === "mine") {
+            if (state.soundEffects) {
+              playSoundEffect("explosion");
+            }
+
             // reveal mines
             return {
               ...partialNextState,
@@ -110,9 +134,15 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
           }
 
           const nextGrid = Game.getNextGrid(state.grid, cell);
-          const nextScore = nextGrid.snapshot
-            .flat()
-            .filter((c) => c.value.revealed).length;
+
+          const nextScore = flatten(nextGrid.snapshot).filter(
+            (c) => c.value.revealed
+          ).length;
+
+          if (state.soundEffects) {
+            const scoreDelta = nextScore - state.score;
+            playSoundEffect(scoreDelta > 1 ? "streak" : "reveal");
+          }
 
           return {
             ...partialNextState,

@@ -129,6 +129,10 @@ export function useGameState() {
     dispatch({ type: "TOGGLE_GAME_MODE" });
   }, [dispatch]);
 
+  const onToggleSoundEffects = useCallback(() => {
+    dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
+  }, [dispatch]);
+
   return {
     state: {
       ...state,
@@ -138,6 +142,7 @@ export function useGameState() {
       onCellClick,
       onStatusClick,
       onToggleGameMode,
+      onToggleSoundEffects,
       onCellLongPress,
     },
   };
