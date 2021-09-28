@@ -18,10 +18,10 @@ export type Mode = "reveal" | "defuse";
 export type Level = "easy" | "medium" | "hard" | "ultra" | "god";
 
 export const CHANCE_OF_MINES_PER_LEVEL: Record<Level, number> = {
-  easy: 20,
+  easy: 15,
   medium: 30,
-  hard: 40,
-  ultra: 40,
+  hard: 45,
+  ultra: 60,
   god: 80,
 };
 
