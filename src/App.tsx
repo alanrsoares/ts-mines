@@ -73,7 +73,9 @@ export function App() {
       </Content>
       <Footer
         onToggleGameMode={handlers.onToggleGameMode}
+        onToggleSoundEffects={handlers.onToggleSoundEffects}
         gameMode={state.gameMode}
+        soundEffects={state.soundEffects}
       />
     </Root>
   );

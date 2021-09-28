@@ -10,6 +10,7 @@ import Github from "ui/components/Github";
 
 import EyeIcon from "assets/eye.svg";
 import FlagIcon from "assets/flag.svg";
+import ToggleSound from "./ToggleSound";
 
 const Eye = styled(EyeIcon)`
   width: 1rem;
@@ -81,12 +82,20 @@ export const Root = styled.div`
 
 const Footer: React.FC<{
   onToggleGameMode(): void;
+  onToggleSoundEffects(): void;
+  soundEffects?: boolean;
   gameMode: Mode;
 }> = (props) => {
   return (
     <Root>
       <Clamp>
         <Github />
+        <div>
+          <ToggleSound
+            on={props.soundEffects}
+            onChange={props.onToggleSoundEffects}
+          />
+        </div>
         <ButtonGroup>
           <Button
             side="left"
