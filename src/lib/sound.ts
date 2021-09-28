@@ -1,4 +1,4 @@
-export type SFXKind = "explosion" | "disabled" | "detect" | "reveal" | "streak";
+export type SFXKind = "explosion" | "disabled" | "defuse" | "reveal" | "streak";
 
 export async function playSoundEffect(kind: SFXKind) {
   const element = document.querySelector(`#sfx-${kind}`) as HTMLAudioElement;

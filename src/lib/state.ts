@@ -3,7 +3,7 @@ import { flatten } from "ramda";
 
 import * as Game from "lib/game";
 import Grid, { Cell, Matrix } from "lib/Grid";
-import { playSoundEffect } from "./fx";
+import { playSoundEffect } from "./sound";
 
 export interface State {
   score: number;
@@ -100,6 +100,10 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
               grid: nextGrid.map(Game.revealMine).snapshot,
               gameStatus: "over",
             };
+          }
+
+          if (state.soundEffects) {
+            playSoundEffect("defuse");
           }
 
           const nextGrid = Grid.from(state.grid).updateCell(cell, {

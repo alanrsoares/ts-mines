@@ -1,4 +1,4 @@
-import assoc from "ramda/es/assoc";
+import { flatten, assoc } from "ramda";
 
 import Grid, { Matrix, Cell, Dimensions, FillFn } from "./Grid";
 
@@ -89,7 +89,7 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
 };
 
 export function didWin(grid: Grid<Tile>) {
-  const cells = grid.snapshot.flat();
+  const cells = flatten(grid.snapshot);
 
   const summary = cells.reduce(
     (acc, cell) => ({
