@@ -1,7 +1,15 @@
-export type SFXKind = "explosion" | "disabled" | "defuse" | "reveal" | "streak";
+export type SoundEffectKind =
+  | "explosion"
+  | "disabled"
+  | "defuse"
+  | "reveal"
+  | "streak"
+  | "win";
 
-export async function playSoundEffect(kind: SFXKind) {
-  const element = document.querySelector(`#sfx-${kind}`) as HTMLAudioElement;
+export async function playSoundEffect(kind: SoundEffectKind) {
+  const element = document.querySelector(
+    `#sound-fx-${kind}`
+  ) as HTMLAudioElement;
 
   if (!element) {
     throw new Error(`Invalid sound effect: ${kind}`);

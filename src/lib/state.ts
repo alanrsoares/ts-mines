@@ -114,13 +114,14 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
           const didWin = Game.didWin(nextGrid);
 
           if (didWin && state.soundEffects) {
-            // playSoundEffect("won")
+            playSoundEffect("win");
           }
 
           return {
             ...partialNextState,
             grid: nextGrid.snapshot,
             gameStatus: didWin ? "won" : state.gameStatus,
+            score: state.score + 1,
           };
         }
         case "reveal": {
