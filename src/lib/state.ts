@@ -10,6 +10,7 @@ export interface State {
   gameStatus: Game.GameStatus;
   gameMode: Game.Mode;
   gameLevel: Game.Level;
+  boardSize: Game.BoardSize;
   activeCell?: Cell<Game.Tile>;
   grid: Matrix<Game.Tile>;
   soundEffects?: boolean;
@@ -32,10 +33,13 @@ export type Actions =
 
 export const DEFAULT_GAME_LEVEL: Game.Level = "easy";
 
+export const DEFAULT_BOARD_SIZE: Game.BoardSize = "md";
+
 export const INITIAL_STATE: State = {
   gameStatus: "new",
   gameMode: "reveal",
   gameLevel: DEFAULT_GAME_LEVEL,
+  boardSize: DEFAULT_BOARD_SIZE,
   activeCell: undefined,
   score: 0,
   grid: Game.makeNewGrid(
@@ -44,6 +48,12 @@ export const INITIAL_STATE: State = {
   ).snapshot,
   soundEffects: true,
 };
+
+const isGameStatus =
+  (statuses: Game.GameStatus[]) => (status: Game.GameStatus) =>
+    statuses.includes(status);
+
+const isFinalStatus = isGameStatus(["won", "over"]);
 
 export const reducer: Reducer<State, Actions> = (state, action) => {
   switch (action.type) {
@@ -58,19 +68,20 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         soundEffects: !state.soundEffects,
       };
     case "RESET":
-      return state.gameStatus !== "over"
-        ? state
-        : {
-            ...INITIAL_STATE,
-            grid: Game.makeNewGrid(
-              { rows: 20, columns: 30 },
-              Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel]
-            ).snapshot,
-          };
+      if (!isFinalStatus(state.gameStatus)) {
+        return state;
+      }
+      return {
+        ...INITIAL_STATE,
+        grid: Game.makeNewGrid(
+          Game.BOARD_SIZES[state.boardSize ?? "md"],
+          Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel ?? "easy"]
+        ).snapshot,
+      };
     case "TOGGLE_CELL": {
       const { cell, mode } = action.payload;
 
-      if (["won", "over"].includes(state.gameStatus)) {
+      if (isFinalStatus(state.gameStatus)) {
         return state;
       }
 
@@ -141,19 +152,23 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
           const nextGrid = Game.getNextGrid(state.grid, cell);
 
           const nextScore = flatten(nextGrid.snapshot).filter(
-            (c) => c.value.revealed
+            (x) => x.value.revealed
           ).length;
+
+          const didWin = Game.didWin(nextGrid);
 
           if (state.soundEffects) {
             const scoreDelta = nextScore - state.score;
-            playSoundEffect(scoreDelta > 1 ? "streak" : "reveal");
+            playSoundEffect(
+              didWin ? "win" : scoreDelta > 1 ? "streak" : "reveal"
+            );
           }
 
           return {
             ...partialNextState,
             grid: nextGrid.snapshot,
             score: nextScore,
-            gameStatus: Game.didWin(nextGrid) ? "won" : state.gameStatus,
+            gameStatus: didWin ? "won" : state.gameStatus,
           };
         }
       }

@@ -17,12 +17,33 @@ export type Mode = "reveal" | "defuse";
 
 export type Level = "easy" | "medium" | "hard" | "ultra" | "god";
 
+export type BoardSize = "sm" | "md" | "lg" | "xl";
+
 export const CHANCE_OF_MINES_PER_LEVEL: Record<Level, number> = {
   easy: 15,
   medium: 30,
   hard: 45,
   ultra: 60,
   god: 80,
+};
+
+export const BOARD_SIZES: Record<BoardSize, Dimensions> = {
+  sm: {
+    rows: 20,
+    columns: 30,
+  },
+  md: {
+    rows: 20,
+    columns: 30,
+  },
+  lg: {
+    rows: 20,
+    columns: 30,
+  },
+  xl: {
+    rows: 20,
+    columns: 30,
+  },
 };
 
 export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
