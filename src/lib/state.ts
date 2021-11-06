@@ -10,7 +10,7 @@ export const getMineCount = (grid: Matrix<Game.Tile>) =>
     (total, row) =>
       total +
       row.reduce(
-        (bombs, cell) => (bombs + cell.value.kind === "mine" ? 1 : 0),
+        (mines, cell) => (cell.value.kind === "mine" ? mines + 1 : mines),
         total
       ),
     0
