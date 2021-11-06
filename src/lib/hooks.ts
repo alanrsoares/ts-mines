@@ -110,10 +110,10 @@ export function useGameState() {
 
   const progress = useMemo(() => {
     const totalCells = state.grid.length * state.grid[0].length;
-    const nonMineCells =
-      totalCells - (state.mineCount ?? getMineCount(state.grid));
+    const totalMines = state.mineCount || getMineCount(state.grid);
+    const safeCells = totalCells - totalMines;
 
-    return (state.score / nonMineCells) * 100;
+    return (state.score / safeCells) * 100;
   }, [state.grid, state.mineCount, state.score]);
 
   const onCellClick = useCallback(

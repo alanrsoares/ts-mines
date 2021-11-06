@@ -8,7 +8,6 @@ import { playSoundEffect } from "./sound";
 export const getMineCount = (grid: Matrix<Game.Tile>) =>
   grid.reduce(
     (total, row) =>
-      total +
       row.reduce(
         (mines, cell) => (cell.value.kind === "mine" ? mines + 1 : mines),
         total
