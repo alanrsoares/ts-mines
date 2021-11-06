@@ -5,12 +5,24 @@ import * as Game from "lib/game";
 import Grid, { Cell, Matrix } from "lib/Grid";
 import { playSoundEffect } from "./sound";
 
+export const getMineCount = (grid: Matrix<Game.Tile>) =>
+  grid.reduce(
+    (total, row) =>
+      total +
+      row.reduce(
+        (bombs, cell) => (bombs + cell.value.kind === "mine" ? 1 : 0),
+        total
+      ),
+    0
+  );
+
 export interface State {
   score: number;
   gameStatus: Game.GameStatus;
   gameMode: Game.Mode;
   gameLevel: Game.Level;
   boardSize: Game.BoardSize;
+  mineCount: number;
   activeCell?: Cell<Game.Tile>;
   grid: Matrix<Game.Tile>;
   soundEffects?: boolean;
@@ -35,6 +47,11 @@ export const DEFAULT_GAME_LEVEL: Game.Level = "easy";
 
 export const DEFAULT_BOARD_SIZE: Game.BoardSize = "md";
 
+const INITIAL_GRID = Game.makeNewGrid(
+  { rows: 20, columns: 30 },
+  Game.CHANCE_OF_MINES_PER_LEVEL[DEFAULT_GAME_LEVEL]
+).snapshot;
+
 export const INITIAL_STATE: State = {
   gameStatus: "new",
   gameMode: "reveal",
@@ -42,11 +59,9 @@ export const INITIAL_STATE: State = {
   boardSize: DEFAULT_BOARD_SIZE,
   activeCell: undefined,
   score: 0,
-  grid: Game.makeNewGrid(
-    { rows: 20, columns: 30 },
-    Game.CHANCE_OF_MINES_PER_LEVEL[DEFAULT_GAME_LEVEL]
-  ).snapshot,
+  grid: INITIAL_GRID,
   soundEffects: true,
+  mineCount: getMineCount(INITIAL_GRID),
 };
 
 const isGameStatus =
@@ -71,12 +86,15 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
       if (!isFinalStatus(state.gameStatus)) {
         return state;
       }
+      const nextGrid = Game.makeNewGrid(
+        Game.BOARD_SIZES[state.boardSize ?? "md"],
+        Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel ?? "easy"]
+      ).snapshot;
+
       return {
         ...INITIAL_STATE,
-        grid: Game.makeNewGrid(
-          Game.BOARD_SIZES[state.boardSize ?? "md"],
-          Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel ?? "easy"]
-        ).snapshot,
+        grid: nextGrid,
+        mineCount: getMineCount(nextGrid),
       };
     case "TOGGLE_CELL": {
       const { cell, mode } = action.payload;

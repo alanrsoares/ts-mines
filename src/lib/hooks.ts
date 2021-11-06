@@ -11,7 +11,13 @@ import {
 
 import storage from "lib/storage";
 import * as Game from "lib/game";
-import { State, Actions, INITIAL_STATE, reducer } from "lib/state";
+import {
+  State,
+  Actions,
+  INITIAL_STATE,
+  reducer,
+  getMineCount,
+} from "lib/state";
 import { Cell } from "./Grid";
 
 export function useCachedReducer<S, A>(
@@ -102,10 +108,13 @@ export function useGameState() {
     reducer
   );
 
-  const progress = useMemo(
-    () => (state.score / (state.grid.length * state.grid[0].length)) * 100,
-    [state.score, state.grid]
-  );
+  const progress = useMemo(() => {
+    const totalCells = state.grid.length * state.grid[0].length;
+    const nonMineCells =
+      totalCells - (state.mineCount ?? getMineCount(state.grid));
+
+    return (state.score / nonMineCells) * 100;
+  }, [state.grid, state.mineCount, state.score]);
 
   const onCellClick = useCallback(
     (cell: Cell<Game.Tile>, mode?: Game.Mode) => {
