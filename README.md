@@ -8,7 +8,7 @@ A Minesweeper PWA in React + TypeScript
 
 ## Live demo
 
-https://ts-mines.netlify.com
+https://ts-mines.netlify.app
 
 ## Contributing
 
