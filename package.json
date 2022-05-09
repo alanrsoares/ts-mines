@@ -11,7 +11,8 @@
     "write-app-name-to-manifest": "node scripts/write-app-name-to-manifest",
     "postversion": "git push && git push --tags",
     "lint": "eslint './src/**/*.{ts,tsx}'",
-    "lint:fix": "yarn lint --fix"
+    "lint:fix": "yarn lint --fix",
+    "tauri": "tauri"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.4.0",
+    "@tauri-apps/cli": "^1.0.0-rc.10",
     "@types/jest": "^26.0.24",
     "@types/node": "^13.13.52",
     "@types/ramda": "^0.27.46",
