@@ -12,8 +12,8 @@ import styled, {
   getAnimation,
 } from "ui/styled";
 
-import MineIcon from "assets/mine.svg";
-import FlagIcon from "assets/flag.svg";
+import { ReactComponent as MineIcon } from "assets/mine.svg";
+import { ReactComponent as FlagIcon } from "assets/flag.svg";
 
 export const Mine = styled(MineIcon)`
   width: 1.4rem;
@@ -64,7 +64,7 @@ const GridTileContainer = styled.button<Omit<Props, "onLongPress">>`
   font-weight: bold;
   user-select: none;
   outline: none;
-  cursor: ${({ active }) => (!active ? "pointer" : "auto")};
+  cursor: ${({ active }) => (active ? "auto" : "pointer")};
   ${({ children }) =>
     // dynamic number-color mapping
     typeof children === "number"

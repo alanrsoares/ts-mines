@@ -1,13 +1,13 @@
 import React from "react";
 
 import styled, {
-  getColor,
-  getShadow,
-  getRadius,
   getAnimation,
+  getColor,
+  getRadius,
+  getShadow,
 } from "ui/styled";
 
-import GithubSVG from "assets/github.svg";
+import { ReactComponent as GithubSVG } from "assets/github.svg";
 
 export const GithubIcon = styled(GithubSVG)`
   height: 2rem;

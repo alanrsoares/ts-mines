@@ -1,4 +1,6 @@
 import { css } from "styled-components";
+import tw from "tailwind-styled-components";
+
 import styled, {
   getColor,
   getFontFamily,
@@ -33,49 +35,30 @@ export const AppBar = styled.header`
   box-shadow: ${getShadow("default")};
 `;
 
-export const Clamp = styled.div`
-  display: flex;
-  width: ${BOARD_WIDTH};
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  @media screen and (max-width: ${BOARD_WIDTH}) {
-    width: 100vw;
-  }
+export const Clamp = tw.div`
+  flex flex-row
+  items-center 
+  justify-between
+  px-[0.5rem]
+  w-board
 `;
 
-export const Version = styled.span`
-  font-size: 0.375em;
-  position: absolute;
-  bottom: -0.75em;
-  left: 8.75em;
-  font-family: sans-serif;
-  ::before {
-    content: "v";
-  }
+export const Version = tw.span`
+  absolute
+  text-[0.375em]
+  left-[8.75em]
+  bottom-[-0.75em]
+  before:content-['v']
 `;
 
-export const Brand = styled.div`
-  font-family: ${getFontFamily("display")};
-  color: ${getColor("primary")};
-  font-size: 2rem;
-  display: flex;
-  flex: 1;
-  text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.9);
-  cursor: pointer;
-  position: relative;
-  @media screen and (max-width: 360px) {
-    font-size: 1.5rem;
-  }
+export const Brand = tw.div`
+  font-display text-primary text-[2rem] 
+  flex flex-1 cursor-pointer
+  relative
 `;
 
-export const Controls = styled.nav`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: flex-end;
+export const Controls = tw.nav`
+  flex flex-1 flex-col items-end
 `;
 
 export const StatusDisplay = styled.div<{ isGameOver: boolean }>`

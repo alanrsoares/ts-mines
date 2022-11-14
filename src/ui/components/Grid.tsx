@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 
-import styled from "ui/styled";
 import { Tile } from "lib/game";
-import { Matrix, Cell } from "lib/Grid";
+import { Cell, Matrix } from "lib/Grid";
+import styled from "ui/styled";
 
 import GridTile from "./GridTile";
 
@@ -22,7 +22,7 @@ interface Props {
   activeCell?: Cell<Tile>;
 }
 
-const GridComponent: React.FC<Props> = props => {
+const GridComponent: React.FC<Props> = (props) => {
   const handleClick = useCallback(
     (cell: Cell<Tile>) => () => props.onTileClick(cell),
     [props]

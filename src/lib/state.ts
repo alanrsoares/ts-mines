@@ -81,7 +81,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         ...state,
         soundEffects: !state.soundEffects,
       };
-    case "RESET":
+    case "RESET": {
       if (!isFinalStatus(state.gameStatus)) {
         return state;
       }
@@ -95,6 +95,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         grid: nextGrid,
         mineCount: getMineCount(nextGrid),
       };
+    }
     case "TOGGLE_CELL": {
       const { cell, mode } = action.payload;
 

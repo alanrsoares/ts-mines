@@ -30,7 +30,7 @@ export const radii = {
 
 export const shadows = {
   default: `0 1px 2px ${colors.shadow}`,
-  inset: `inset 1px 0 2px`,
+  inset: "inset 1px 0 2px",
   top: `0 -2px 6px ${colors.shadow}`,
   none: "none",
 } as const;

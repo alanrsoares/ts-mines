@@ -2,12 +2,12 @@
 
 const fs = require("fs");
 const path = require("path");
-const { version } = require("../package.json");
+const pkg = require("../package.json");
 
 const FILE = path.resolve("./public/meta.json");
-const JSON_CONTENT = JSON.stringify({ version });
+const JSON_CONTENT = JSON.stringify({ version: pkg.version });
 
-fs.writeFile(FILE, JSON_CONTENT, "utf8", err => {
+fs.writeFile(FILE, JSON_CONTENT, "utf8", (err) => {
   if (err) {
     console.log("An error occured while writing JSON Object to meta.json");
     return console.log(err);

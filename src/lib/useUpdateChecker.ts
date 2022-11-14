@@ -93,7 +93,7 @@ export async function tryCheckForUpdates() {
       await tryInstallUpdate();
     }
   } catch (error) {
-    console.log(`Failed to check for updates:`, error);
+    console.log("Failed to check for updates:", error);
   }
 }
 

@@ -1,26 +1,27 @@
 import {
-  useState,
-  useEffect,
-  useCallback,
   Dispatch,
-  useRef,
+  Reducer,
+  useCallback,
+  useEffect,
   useMemo,
   useReducer,
-  Reducer,
+  useRef,
+  useState,
 } from "react";
 
-import storage from "lib/storage";
 import * as Game from "lib/game";
 import {
-  State,
   Actions,
+  getMineCount,
   INITIAL_STATE,
   reducer,
-  getMineCount,
+  State,
 } from "lib/state";
+import storage from "lib/storage";
+
 import { Cell } from "./Grid";
 
-export function useCachedReducer<S, A>(
+export function useCachedReducer<S extends {}, A>(
   cacheKey: string,
   defaultState: S,
   reducer: Reducer<S, A>
@@ -31,7 +32,7 @@ export function useCachedReducer<S, A>(
   );
 
   useEffect(() => {
-    storage.persist<S>(state, cacheKey);
+    storage.write<S>(state, cacheKey);
   }, [state, cacheKey]);
 
   return [state, setState];

@@ -1,15 +1,14 @@
-import React from "react";
 import { darken } from "polished";
+import React from "react";
 
 import { Mode } from "lib/game";
-
-import styled, { getColor, getShadow, getRadius } from "ui/styled";
-import { Color } from "ui/theme";
 import { Clamp, FOOTER_HEIGHT } from "ui/components/core";
 import Github from "ui/components/Github";
+import styled, { getColor, getRadius, getShadow } from "ui/styled";
+import { Color } from "ui/theme";
 
-import EyeIcon from "assets/eye.svg";
-import FlagIcon from "assets/flag.svg";
+import { ReactComponent as EyeIcon } from "assets/eye.svg";
+import { ReactComponent as FlagIcon } from "assets/flag.svg";
 import ToggleSound from "./ToggleSound";
 
 const Eye = styled(EyeIcon)`

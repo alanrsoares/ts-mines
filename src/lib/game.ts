@@ -72,9 +72,10 @@ export function getNextGrid(matrix: Matrix<Tile>, cellClicked: Cell<Tile>) {
     }
 
     switch (neighbor.kind) {
-      case "empty":
+      case "empty": {
         nextGrid.updateCell(neighborCell, revealTile(neighbor));
         break;
+      }
       case "safe":
         return getNextGrid(nextGrid.snapshot, neighborCell);
     }

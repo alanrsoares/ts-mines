@@ -6,7 +6,7 @@ import styled, {
   useTheme as baseUseTheme,
 } from "styled-components";
 
-import { Theme } from "ui/theme";
+import type { Theme } from "ui/theme";
 
 export type ThemeProps = BaseThemeProps<Theme>;
 
@@ -14,15 +14,16 @@ export type ThemedProps<P = {}> = ThemeProps & P;
 
 export const useTheme = baseUseTheme as () => Theme;
 
-export const getThemeProp = <P extends keyof Theme>(key: P) => <
-  TProps extends ThemeProps = ThemeProps
->(
-  lens: ((props: TProps) => keyof Theme[P]) | keyof Theme[P]
-) => (props: TProps) => {
-  const $value = typeof lens === "function" ? lens(props) : lens;
+export const getThemeProp =
+  <P extends keyof Theme>(key: P) =>
+  <TProps extends ThemeProps = ThemeProps>(
+    lens: ((props: TProps) => keyof Theme[P]) | keyof Theme[P]
+  ) =>
+  (props: TProps) => {
+    const $value = typeof lens === "function" ? lens(props) : lens;
 
-  return props.theme[key][$value];
-};
+    return props.theme[key][$value];
+  };
 
 export const getColor = getThemeProp("colors");
 export const getRadius = getThemeProp("radii");

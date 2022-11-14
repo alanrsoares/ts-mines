@@ -1,31 +1,29 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
-import { GameStatus } from "lib/game";
-import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
-import { useRightClick } from "lib/hooks";
 import { Game } from "lib/contexts";
+import { GameStatus } from "lib/game";
+import { useRightClick } from "lib/hooks";
+import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
 
-import SkullIcon from "assets/skull.svg";
-import ThinkingIcon from "assets/thinking.svg";
-import CoolIcon from "assets/cool.svg";
+import { ReactComponent as CoolIcon } from "assets/cool.svg";
+import { ReactComponent as SkullIcon } from "assets/skull.svg";
+import { ReactComponent as ThinkingIcon } from "assets/thinking.svg";
 
 import theme from "ui/theme";
 import {
-  Root,
   AppBar,
   Brand,
-  StatusDisplay,
-  Content,
   Clamp,
+  Content,
   Controls,
+  Root,
+  StatusDisplay,
   Version,
 } from "ui/components/core";
-import GridComponent from "ui/components/Grid";
 import Footer from "ui/components/Footer";
+import GridComponent from "ui/components/Grid";
 import Score from "ui/components/Score";
-
-import { version } from "../package.json";
 
 const STATUS_ICONS: Record<GameStatus, JSX.Element> = {
   new: <ThinkingIcon />,
@@ -50,7 +48,7 @@ export function App() {
         <Clamp>
           <Brand>
             [MINES]
-            <Version>{version}</Version>
+            <Version>{global.appVersion}</Version>
           </Brand>
           <StatusDisplay
             isGameOver={state.gameStatus === "over"}
@@ -83,6 +81,7 @@ export function App() {
 
 export default function AppWithProviders() {
   return (
+    // @ts-ignore
     <ThemeProvider theme={theme}>
       <Game.Provider>
         <App />

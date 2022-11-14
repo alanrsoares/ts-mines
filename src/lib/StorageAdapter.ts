@@ -5,7 +5,7 @@ export default class StorageAdapter {
     this.namespace = namespace;
   }
 
-  public persist<T extends {}>(value: T, path: string = "") {
+  public write<T extends {}>(value: T, path: string = "") {
     localStorage.setItem(
       `${this.namespace}${path}`,
       JSON.stringify(value ?? null)
