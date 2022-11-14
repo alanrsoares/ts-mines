@@ -52,12 +52,10 @@ const IconButton = styled.div.attrs({ role: "button" })`
   cursor: pointer;
 `;
 
-const ToggleSound: FC<Props> = (props) => {
-  return (
-    <IconButton onClick={() => props.onChange(Boolean(props.on))}>
-      {props.on ? <SoundOnIcon /> : <SoundOffIcon />}
-    </IconButton>
-  );
-};
+const ToggleSound: FC<Props> = (props) => (
+  <IconButton onClick={() => props.onChange(Boolean(props.on))}>
+    {props.on ? <SoundOnIcon /> : <SoundOffIcon />}
+  </IconButton>
+);
 
 export default ToggleSound;
