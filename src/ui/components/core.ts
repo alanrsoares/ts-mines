@@ -1,12 +1,7 @@
 import { css } from "styled-components";
 import tw from "tailwind-styled-components";
 
-import styled, {
-  getColor,
-  getFontFamily,
-  getShadow,
-  getAnimation,
-} from "ui/styled";
+import styled, { getColor, getShadow, getAnimation } from "ui/styled";
 
 export const BOARD_WIDTH = "1072.16px";
 export const BOARD_HEIGHT = "840.44px";
