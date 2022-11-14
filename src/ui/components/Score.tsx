@@ -47,15 +47,13 @@ export const ProgressIcon = styled(EyeIcon)`
   margin-right: 0.5rem;
 `;
 
-const Score: React.FC<{ score: number; progress: number }> = (props) => {
-  return (
-    <Root>
-      <ProgressContainer>
-        <ProgressIcon /> {props.score}
-      </ProgressContainer>
-      <ProgressLine progress={props.progress} />
-    </Root>
-  );
-};
+const Score: React.FC<{ score: number; progress: number }> = (props) => (
+  <Root>
+    <ProgressContainer>
+      <ProgressIcon /> {props.score}
+    </ProgressContainer>
+    <ProgressLine progress={props.progress} />
+  </Root>
+);
 
 export default Score;

@@ -3,7 +3,7 @@ import React from "react";
 import tw from "tailwind-styled-components";
 
 import { Mode } from "lib/game";
-import { Clamp, FOOTER_HEIGHT } from "ui/components/core";
+import { Clamp } from "ui/components/core";
 import Github from "ui/components/Github";
 import styled, { getColor, getRadius, getShadow } from "ui/styled";
 import { Color } from "ui/theme";
@@ -67,62 +67,56 @@ export const ButtonGroup = tw.div`
   flex
 `;
 
-export const Root = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: ${FOOTER_HEIGHT};
-  background: ${getColor("dark")};
-  color: ${getColor("white")};
-  box-shadow: ${getShadow("default")};
-  position: fixed;
-  bottom: 0;
+export const Root = tw.div`
+  flex items-center justify-center
+  w-full h-appbar 
+  bg-dark text-white
+  shadow-md fixed bottom-0
 `;
 
-const Footer: React.FC<{
+type Props = {
   onToggleGameMode(): void;
   onToggleSoundEffects(): void;
   soundEffects?: boolean;
   gameMode: Mode;
-}> = (props) => {
-  return (
-    <Root>
-      <Clamp>
-        <Github />
-        <div>
-          <ToggleSound
-            on={props.soundEffects}
-            onChange={props.onToggleSoundEffects}
-          />
-        </div>
-        <ButtonGroup>
-          <Button
-            side="left"
-            color="white"
-            active={props.gameMode === "defuse"}
-            onClick={props.onToggleGameMode}
-            aria-label="Toggle game mode"
-          >
-            <Circle active={props.gameMode === "defuse"}>
-              <Flag />
-            </Circle>
-          </Button>
-          <Button
-            side="right"
-            color="white"
-            active={props.gameMode === "reveal"}
-            onClick={props.onToggleGameMode}
-            aria-label="Toggle game mode"
-          >
-            <Circle active={props.gameMode === "reveal"}>
-              <Eye />
-            </Circle>
-          </Button>
-        </ButtonGroup>
-      </Clamp>
-    </Root>
-  );
 };
+
+const Footer: React.FC<Props> = (props) => (
+  <Root>
+    <Clamp>
+      <Github />
+      <div>
+        <ToggleSound
+          on={props.soundEffects}
+          onChange={props.onToggleSoundEffects}
+        />
+      </div>
+      <ButtonGroup>
+        <Button
+          side="left"
+          color="white"
+          active={props.gameMode === "defuse"}
+          onClick={props.onToggleGameMode}
+          aria-label="Toggle game mode"
+        >
+          <Circle active={props.gameMode === "defuse"}>
+            <Flag />
+          </Circle>
+        </Button>
+        <Button
+          side="right"
+          color="white"
+          active={props.gameMode === "reveal"}
+          onClick={props.onToggleGameMode}
+          aria-label="Toggle game mode"
+        >
+          <Circle active={props.gameMode === "reveal"}>
+            <Eye />
+          </Circle>
+        </Button>
+      </ButtonGroup>
+    </Clamp>
+  </Root>
+);
 
 export default Footer;

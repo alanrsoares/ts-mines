@@ -1,26 +1,25 @@
 import React, { useCallback } from "react";
+import tw from "tailwind-styled-components";
 
 import { Tile } from "lib/game";
 import { Cell, Matrix } from "lib/Grid";
-import styled from "ui/styled";
 
 import GridTile from "./GridTile";
 
-export const GridContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+export const GridContainer = tw.div`
+  flex flex-col
 `;
 
-export const GridRow = styled.div`
-  display: flex;
+export const GridRow = tw.div`
+  flex
 `;
 
-interface Props {
+type Props = {
   grid: Matrix<Tile>;
   onTileClick(cell: Cell<Tile>): void;
   onTileLongPress(cell: Cell<Tile>): void;
   activeCell?: Cell<Tile>;
-}
+};
 
 const GridComponent: React.FC<Props> = (props) => {
   const handleClick = useCallback(
@@ -40,13 +39,13 @@ const GridComponent: React.FC<Props> = (props) => {
           {row.map((cell, x) => (
             <GridTile
               key={x}
+              onClick={handleClick(cell)}
+              onLongPress={handleLongPress(cell)}
               {...cell.value}
               active={
                 cell.row === props.activeCell?.row &&
                 cell.column === props.activeCell?.column
               }
-              onClick={handleClick(cell)}
-              onLongPress={handleLongPress(cell)}
             />
           ))}
         </GridRow>

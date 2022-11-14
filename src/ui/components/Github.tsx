@@ -1,4 +1,5 @@
 import React from "react";
+import tw from "tailwind-styled-components";
 
 import styled, {
   getAnimation,
@@ -9,9 +10,8 @@ import styled, {
 
 import { ReactComponent as GithubSVG } from "assets/github.svg";
 
-export const GithubIcon = styled(GithubSVG)`
-  height: 2rem;
-  width: 2rem;
+export const GithubIcon = tw(GithubSVG)`
+  w-8 h-8
 `;
 
 export const GithubLabel = styled.div`

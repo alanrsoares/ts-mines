@@ -1,19 +1,17 @@
-import React, { useMemo } from "react";
 import omit from "ramda/es/omit";
+import React, { useMemo } from "react";
 import { css } from "styled-components";
 
+import { ReactComponent as FlagIcon } from "assets/flag.svg";
+import { ReactComponent as MineIcon } from "assets/mine.svg";
 import { Tile } from "lib/game";
 import { useLongPress } from "lib/hooks";
-
 import styled, {
-  getShadow,
-  getRadius,
-  getColor,
   getAnimation,
+  getColor,
+  getRadius,
+  getShadow,
 } from "ui/styled";
-
-import { ReactComponent as MineIcon } from "assets/mine.svg";
-import { ReactComponent as FlagIcon } from "assets/flag.svg";
 
 export const Mine = styled(MineIcon)`
   width: 1.4rem;
@@ -27,7 +25,7 @@ export const Flag = styled(FlagIcon)`
   animation: ${getAnimation("appear")} 0.2s ease-in-out;
 `;
 
-const numberColors: Record<number, string> = {
+export const NUMBER_COLORS: Record<number, string> = {
   0: "white",
   1: "blue",
   2: "green",
@@ -39,11 +37,11 @@ const numberColors: Record<number, string> = {
   8: "darkpurple",
 };
 
-interface Props extends Tile {
+type Props = Tile & {
   onLongPress(): void;
   onClick(): void;
   active?: boolean;
-}
+};
 
 const GridTileContainer = styled.button<Omit<Props, "onLongPress">>`
   width: 1.8rem;
@@ -69,7 +67,7 @@ const GridTileContainer = styled.button<Omit<Props, "onLongPress">>`
     // dynamic number-color mapping
     typeof children === "number"
       ? css`
-          color: ${numberColors[children]};
+          color: ${NUMBER_COLORS[children]};
         `
       : undefined};
   :active {
