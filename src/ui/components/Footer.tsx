@@ -1,5 +1,6 @@
 import { darken } from "polished";
 import React from "react";
+import tw from "tailwind-styled-components";
 
 import { Mode } from "lib/game";
 import { Clamp, FOOTER_HEIGHT } from "ui/components/core";
@@ -62,8 +63,8 @@ export const Button = styled.button<{
   cursor: pointer;
 `;
 
-export const ButtonGroup = styled.div`
-  display: flex;
+export const ButtonGroup = tw.div`
+  flex
 `;
 
 export const Root = styled.div`

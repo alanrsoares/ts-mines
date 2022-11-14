@@ -25,6 +25,7 @@ module.exports = {
       },
       spacing: {
         board: "1072.16px",
+        appbar: "3.8rem",
       },
     },
   },

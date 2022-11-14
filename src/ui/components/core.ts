@@ -15,24 +15,16 @@ export const APP_BAR_HEIGHT = "3.8rem";
 export const FOOTER_HEIGHT = "3.8rem";
 export const CONTENT_MARGIN = "1rem";
 
-export const Root = styled.div`
-  font-family: ${getFontFamily("default")};
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 16px;
-  background: ${getColor("muted")};
+export const Root = tw.div`
+  h-screen flex flex-col 
+  items-center
+ bg-muted
 `;
 
-export const AppBar = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: ${APP_BAR_HEIGHT};
-  background: ${getColor("black")};
-  box-shadow: ${getShadow("default")};
+export const AppBar = tw.header`
+  flex items-center justify-center 
+  w-full h-appbar 
+  bg-black shadow-md
 `;
 
 export const Clamp = tw.div`
