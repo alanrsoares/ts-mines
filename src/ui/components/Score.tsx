@@ -1,5 +1,3 @@
-import React from "react";
-
 import styled, { getColor, getRadius } from "ui/styled";
 import { ReactComponent as EyeIcon } from "assets/eye.svg";
 

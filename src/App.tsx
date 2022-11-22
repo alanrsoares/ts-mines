@@ -1,4 +1,3 @@
-import React from "react";
 import { ThemeProvider } from "styled-components";
 
 import { Game } from "lib/contexts";
@@ -73,7 +72,7 @@ export function App() {
         onToggleGameMode={handlers.onToggleGameMode}
         onToggleSoundEffects={handlers.onToggleSoundEffects}
         gameMode={state.gameMode}
-        soundEffects={state.soundEffects}
+        soundEffects={state.enableSFX}
       />
     </Root>
   );

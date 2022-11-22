@@ -1,3 +1,4 @@
+import { isBetween, memoize } from "./utils";
 export interface Coordinates {
   row: number;
   column: number;
@@ -18,13 +19,10 @@ export type Row<T> = Cell<T>[];
 
 export type Matrix<T> = Row<T>[];
 
-const isBetween = (min: number, max: number, value: number) =>
-  value >= min && value < max;
-
-const isIndexOutOfBounds = (value: number, gridSize: number) =>
+export const isIndexOutOfBounds = (value: number, gridSize: number) =>
   !isBetween(0, gridSize, value);
 
-const isOutOfBounds = (
+export const isOutOfBounds = (
   cell: { row: number; column: number },
   dimensions: Dimensions
 ) =>
@@ -131,25 +129,27 @@ export default class Grid<T = undefined> {
     throw new Error(`Invalid cell coordinates: row: ${row}; column: ${column}`);
   }
 
+  public getNeighborsCoordinates = memoize(({ row, column }: Coordinates) => {
+    const coordinates: Coordinates[] = [];
+
+    for (let y = -1; y <= 1; y++) {
+      for (let x = -1; x <= 1; x++) {
+        if (y === 0 && x === 0) {
+          continue;
+        }
+
+        coordinates.push({
+          row: row + y,
+          column: column + x,
+        });
+      }
+    }
+
+    return coordinates;
+  });
+
   public getCellNeighbors({ row, column }: Coordinates): Row<T> {
-    const coordinates = [
-      // top-left
-      { row: row - 1, column: column - 1 },
-      // top-middle
-      { row: row - 1, column },
-      // top-right
-      { row: row - 1, column: column + 1 },
-      // middle-left
-      { row, column: column - 1 },
-      // middle-right
-      { row, column: column + 1 },
-      // bottom-left
-      { row: row + 1, column: column - 1 },
-      // bottom-middle
-      { row: row + 1, column },
-      // bottom-right
-      { row: row + 1, column: column + 1 },
-    ];
+    const coordinates = this.getNeighborsCoordinates({ row, column });
 
     return coordinates.reduce<Row<T>>((acc, cell) => {
       if (!isOutOfBounds(cell, this._dimensions)) {

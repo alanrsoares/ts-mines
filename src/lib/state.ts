@@ -24,7 +24,7 @@ export interface State {
   mineCount: number;
   activeCell?: Cell<Game.Tile>;
   grid: Matrix<Game.Tile>;
-  soundEffects?: boolean;
+  enableSFX?: boolean;
 }
 
 export interface CellClickPayload {
@@ -59,7 +59,7 @@ export const INITIAL_STATE: State = {
   activeCell: undefined,
   score: 0,
   grid: INITIAL_GRID,
-  soundEffects: true,
+  enableSFX: true,
   mineCount: getMineCount(INITIAL_GRID),
 };
 
@@ -79,7 +79,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
     case "TOGGLE_SOUND_EFFECTS":
       return {
         ...state,
-        soundEffects: !state.soundEffects,
+        enableSFX: !state.enableSFX,
       };
     case "RESET": {
       if (!isFinalStatus(state.gameStatus)) {
@@ -120,7 +120,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
               revealed: true,
             });
 
-            if (state.soundEffects) {
+            if (state.enableSFX) {
               playSoundEffect("disabled");
             }
 
@@ -131,7 +131,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
             };
           }
 
-          if (state.soundEffects) {
+          if (state.enableSFX) {
             playSoundEffect("defuse");
           }
 
@@ -142,7 +142,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
 
           const didWin = Game.didWin(nextGrid);
 
-          if (didWin && state.soundEffects) {
+          if (didWin && state.enableSFX) {
             playSoundEffect("win");
           }
 
@@ -155,7 +155,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         }
         case "reveal": {
           if (tile.kind === "mine") {
-            if (state.soundEffects) {
+            if (state.enableSFX) {
               playSoundEffect("explosion");
             }
 
@@ -175,7 +175,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
 
           const didWin = Game.didWin(nextGrid);
 
-          if (state.soundEffects) {
+          if (state.enableSFX) {
             const scoreDelta = nextScore - state.score;
             playSoundEffect(
               didWin ? "win" : scoreDelta > 1 ? "streak" : "reveal"

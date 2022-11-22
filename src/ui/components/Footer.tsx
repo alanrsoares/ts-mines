@@ -1,5 +1,4 @@
 import { darken } from "polished";
-import React from "react";
 import tw from "tailwind-styled-components";
 
 import { Mode } from "lib/game";

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback, FC } from "react";
 import tw from "tailwind-styled-components";
 
 import { Tile } from "lib/game";
@@ -21,7 +21,7 @@ type Props = {
   activeCell?: Cell<Tile>;
 };
 
-const GridComponent: React.FC<Props> = (props) => {
+const GridComponent: FC<Props> = (props) => {
   const handleClick = useCallback(
     (cell: Cell<Tile>) => () => props.onTileClick(cell),
     [props]

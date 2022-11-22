@@ -1,5 +1,5 @@
 import omit from "ramda/es/omit";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { css } from "styled-components";
 
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
