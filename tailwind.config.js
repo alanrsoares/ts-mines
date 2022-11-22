@@ -1,3 +1,5 @@
+const { darken } = require("polished");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -27,6 +29,17 @@ module.exports = {
         board: "1072.16px",
         appbar: "3.8rem",
       },
+      animation: {
+        glow: "glow 4s infinite ease",
+      },
+      keyframes: (theme) => ({
+        glow: {
+          "70%": {
+            opacity: 1,
+            backgroundColor: darken(0.2, theme("colors.negative")),
+          },
+        },
+      }),
     },
   },
   plugins: [require("daisyui")],

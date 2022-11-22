@@ -51,7 +51,7 @@ export function App() {
             <Version>{global.appVersion}</Version>
           </Brand>
           <StatusDisplay
-            isGameOver={state.gameStatus === "over"}
+            $isGameOver={state.gameStatus === "over"}
             onClick={handlers.onStatusClick}
           >
             <StatusIcon status={state.gameStatus} />

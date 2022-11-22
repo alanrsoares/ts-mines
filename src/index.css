@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --board-width: 1072.16px;
+  --board-height: 840.44px;
+  --app-bar-height: 3.8rem;
+  --footer-height: 3.8rem;
+  --content-margin: 1rem;
+  --content-max-width: calc(100vw-var(--content-margin));
+  --content-max-height: calc(
+    100vh -
+      (
+        (2 * var(--content-margin)) + var(--app-bar-height) +
+          var(--footer-height)
+      )
+  );
+}
+
+@layer components {
+  .content {
+    @apply flex;
+    @apply my-[var(--content-margin)];
+    @apply max-w-[var(--content-max-width)];
+    @apply max-h-[var(--content-max-height)];
+
+    -ms-overflow-style: none;
+
+    @media screen and (max-height: var(--board-height)) {
+      overflow: scroll;
+    }
+
+    @media screen and (max-width: var(--board-width)) {
+      overflow: scroll;
+    }
+  }
+}
