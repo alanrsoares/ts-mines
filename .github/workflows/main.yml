@@ -43,7 +43,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy to GitHub Pages
-        uses: Cecilapp/GitHub-Pages-deploy@v2
+        uses: Cecilapp/GitHub-Pages-deploy@v1
         env:
           EMAIL: alanrsoars@gmail.com
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
