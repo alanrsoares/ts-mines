@@ -20,15 +20,10 @@
 
 @layer components {
   .content {
-    @apply flex;
+    -ms-overflow-style: none;
+    @apply flex overflow-auto;
     @apply my-[var(--content-margin)];
     @apply max-w-[var(--content-max-width)];
     @apply max-h-[var(--content-max-height)];
-
-    -ms-overflow-style: none;
-
-    @apply overflow-scroll;
-
-    @apply lg:overflow-hidden;
   }
 }
