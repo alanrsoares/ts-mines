@@ -18,12 +18,30 @@
   );
 }
 
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
 @layer components {
   .content {
     -ms-overflow-style: none;
-    @apply flex overflow-auto;
+    @apply flex overflow-auto sm:hide-scrollbar;
     @apply my-[var(--content-margin)];
     @apply max-w-[var(--content-max-width)];
     @apply max-h-[var(--content-max-height)];
+  }
+  /* apply shadow on scrollable screens */
+  @media (max-width: 1072.16px) {
+    .content {
+      @apply shadow-lg;
+    }
   }
 }

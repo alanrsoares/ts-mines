@@ -34,6 +34,7 @@
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "clsx": "^1.2.1",
     "polished": "^4.2.2",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
@@ -41,7 +42,7 @@
     "react-is": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.6",
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

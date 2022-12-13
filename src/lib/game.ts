@@ -10,6 +10,29 @@ export const CHANCE_OF_MINES_PER_LEVEL = {
   god: 80,
 } as const;
 
+export const BOARD_SIZES = {
+  xs: {
+    rows: 10,
+    columns: 20,
+  },
+  sm: {
+    rows: 20,
+    columns: 30,
+  },
+  md: {
+    rows: 30,
+    columns: 40,
+  },
+  lg: {
+    rows: 40,
+    columns: 50,
+  },
+  xl: {
+    rows: 50,
+    columns: 60,
+  },
+} as const;
+
 export type TileKind = "safe" | "empty" | "mine";
 
 export type Tile = {
@@ -25,26 +48,7 @@ export type Mode = "reveal" | "defuse";
 
 export type Level = keyof typeof CHANCE_OF_MINES_PER_LEVEL;
 
-export type BoardSize = "sm" | "md" | "lg" | "xl";
-
-export const BOARD_SIZES: Record<BoardSize, Dimensions> = {
-  sm: {
-    rows: 20,
-    columns: 30,
-  },
-  md: {
-    rows: 20,
-    columns: 30,
-  },
-  lg: {
-    rows: 20,
-    columns: 30,
-  },
-  xl: {
-    rows: 20,
-    columns: 30,
-  },
-};
+export type BoardSize = keyof typeof BOARD_SIZES;
 
 export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
 

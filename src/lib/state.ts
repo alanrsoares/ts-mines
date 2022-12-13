@@ -44,7 +44,7 @@ export type Actions =
 
 export const DEFAULT_GAME_LEVEL: Game.Level = "easy";
 
-export const DEFAULT_BOARD_SIZE: Game.BoardSize = "md";
+export const DEFAULT_BOARD_SIZE: Game.BoardSize = "xs";
 
 const INITIAL_GRID = Game.makeNewGrid(
   { rows: 20, columns: 30 },
@@ -59,7 +59,7 @@ export const INITIAL_STATE: State = {
   activeCell: undefined,
   score: 0,
   grid: INITIAL_GRID,
-  enableSFX: true,
+  enableSFX: false,
   mineCount: getMineCount(INITIAL_GRID),
 };
 
