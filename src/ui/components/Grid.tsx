@@ -35,10 +35,10 @@ const GridComponent: FC<Props> = (props) => {
   return (
     <GridContainer>
       {props.grid.map((row, y) => (
-        <GridRow key={y}>
+        <GridRow key={`row-${y}`}>
           {row.map((cell, x) => (
             <GridTile
-              key={x}
+              key={`tile-${x}`}
               onClick={handleClick(cell)}
               onLongPress={handleLongPress(cell)}
               {...cell.value}

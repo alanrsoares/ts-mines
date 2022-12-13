@@ -8,7 +8,7 @@
   --app-bar-height: 3.8rem;
   --footer-height: 3.8rem;
   --content-margin: 1rem;
-  --content-max-width: calc(100vw-var(--content-margin));
+  --content-max-width: calc(100vw - var(--content-margin));
   --content-max-height: calc(
     100vh -
       (
@@ -27,12 +27,8 @@
 
     -ms-overflow-style: none;
 
-    @media screen and (max-height: var(--board-height)) {
-      overflow: scroll;
-    }
+    @apply overflow-scroll;
 
-    @media screen and (max-width: var(--board-width)) {
-      overflow: scroll;
-    }
+    @apply lg:overflow-hidden;
   }
 }
