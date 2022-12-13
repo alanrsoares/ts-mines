@@ -2,6 +2,14 @@ import { flatten, assoc } from "ramda";
 
 import Grid, { Matrix, Cell, Dimensions, FillFn } from "./Grid";
 
+export const CHANCE_OF_MINES_PER_LEVEL = {
+  easy: 15,
+  medium: 30,
+  hard: 45,
+  ultra: 60,
+  god: 80,
+} as const;
+
 export type TileKind = "safe" | "empty" | "mine";
 
 export type Tile = {
@@ -15,17 +23,9 @@ export type GameStatus = "new" | "over" | "won";
 
 export type Mode = "reveal" | "defuse";
 
-export type Level = "easy" | "medium" | "hard" | "ultra" | "god";
+export type Level = keyof typeof CHANCE_OF_MINES_PER_LEVEL;
 
 export type BoardSize = "sm" | "md" | "lg" | "xl";
-
-export const CHANCE_OF_MINES_PER_LEVEL: Record<Level, number> = {
-  easy: 15,
-  medium: 30,
-  hard: 45,
-  ultra: 60,
-  god: 80,
-};
 
 export const BOARD_SIZES: Record<BoardSize, Dimensions> = {
   sm: {

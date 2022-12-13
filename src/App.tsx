@@ -1,6 +1,6 @@
 import { ThemeProvider } from "styled-components";
 
-import { Game } from "lib/contexts";
+import { GameStateProvider, useGameStateContainer } from "lib/contexts";
 import { GameStatus } from "lib/game";
 import { useRightClick } from "lib/hooks";
 import useUpdateChecker, { UPDATE_CHECK_INTERVAL } from "lib/useUpdateChecker";
@@ -39,7 +39,7 @@ export function App() {
   useUpdateChecker(UPDATE_CHECK_INTERVAL);
   useRightClick(NO_OP);
 
-  const { state, handlers } = Game.useContainer();
+  const { state, handlers } = useGameStateContainer();
 
   return (
     <Root>
@@ -80,11 +80,10 @@ export function App() {
 
 export default function AppWithProviders() {
   return (
-    // @ts-ignore
     <ThemeProvider theme={theme}>
-      <Game.Provider>
+      <GameStateProvider>
         <App />
-      </Game.Provider>
+      </GameStateProvider>
     </ThemeProvider>
   );
 }
