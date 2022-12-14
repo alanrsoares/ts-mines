@@ -3,6 +3,7 @@ import { flatten } from "ramda";
 
 import * as Game from "lib/game";
 import Grid, { Cell, Matrix } from "lib/Grid";
+
 import { playSoundEffect } from "./sound";
 
 export const getMineCount = (grid: Matrix<Game.Tile>) =>
@@ -151,6 +152,9 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
             grid: nextGrid.snapshot,
             gameStatus: didWin ? "won" : state.gameStatus,
             score: state.score + 1,
+            gameLevel: didWin
+              ? Game.NEXT_LEVEL[state.gameLevel]
+              : state.gameLevel,
           };
         }
         case "reveal": {
