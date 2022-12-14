@@ -94,6 +94,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
       return {
         ...INITIAL_STATE,
         grid: nextGrid,
+        gameLevel: state.gameLevel ?? "easy",
         mineCount: getMineCount(nextGrid),
       };
     }

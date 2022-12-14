@@ -25,17 +25,16 @@ export function useCachedReducer<S extends {}, A>(
   cacheKey: string,
   defaultState: S,
   reducer: Reducer<S, A>
-): [S, Dispatch<A>] {
-  const [state, setState] = useReducer(
-    reducer,
-    storage.read(defaultState, cacheKey)
-  );
+) {
+  const persistedState = storage.read(defaultState, cacheKey);
+
+  const [state, dispatch] = useReducer(reducer, persistedState);
 
   useEffect(() => {
     storage.write<S>(state, cacheKey);
   }, [state, cacheKey]);
 
-  return [state, setState];
+  return [state, dispatch] as const;
 }
 
 export function useLongPress(callback = () => {}, ms = 300) {
