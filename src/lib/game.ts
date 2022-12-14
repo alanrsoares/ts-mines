@@ -47,6 +47,13 @@ export const BOARD_SIZES = {
 
 export type BoardSize = keyof typeof BOARD_SIZES;
 
+export const NEXT_BOARD_SIZE: Record<BoardSize, BoardSize> = {
+  xs: "sm",
+  sm: "md",
+  md: "lg",
+  lg: "xl",
+  xl: "xs",
+};
 export type Tile = {
   kind: TileKind;
   revealed: boolean;

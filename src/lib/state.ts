@@ -96,6 +96,7 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
         ...INITIAL_STATE,
         grid: nextGrid,
         gameLevel: state.gameLevel,
+        boardSize: state.boardSize,
         mineCount: getMineCount(nextGrid),
       };
     }
@@ -157,6 +158,9 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
             gameLevel: didWin
               ? Game.NEXT_LEVEL[state.gameLevel]
               : state.gameLevel,
+            boardSize: didWin
+              ? Game.NEXT_BOARD_SIZE[state.boardSize]
+              : state.boardSize,
           };
         }
         case "reveal": {
