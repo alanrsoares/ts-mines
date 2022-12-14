@@ -55,4 +55,4 @@ export const StatusDisplay = tw.div<{ $isGameOver: boolean }>`
   ${(p) => (p.$isGameOver ? "animate-glow" : "")}
 `;
 
-export const Content = tw.main`content`;
+export const Content = tw.main`content relative`;

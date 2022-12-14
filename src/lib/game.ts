@@ -22,27 +22,18 @@ export const NEXT_LEVEL: Record<Level, Level> = {
 
 export type TileKind = "safe" | "empty" | "mine";
 
+const getDimensions = (rows: number) => ({
+  rows,
+  columns: Math.floor(rows * 1.5),
+});
+
 export const BOARD_SIZES = {
-  xs: {
-    rows: 10,
-    columns: 20,
-  },
-  sm: {
-    rows: 20,
-    columns: 30,
-  },
-  md: {
-    rows: 30,
-    columns: 40,
-  },
-  lg: {
-    rows: 40,
-    columns: 50,
-  },
-  xl: {
-    rows: 50,
-    columns: 60,
-  },
+  // increment following the same proportion
+  xs: getDimensions(10), // 10 x 15
+  sm: getDimensions(15), // 15 x 22.5
+  md: getDimensions(20), // 20 x 30
+  lg: getDimensions(25), // 25 x 37.5
+  xl: getDimensions(30), // 30 x 45
 } as const;
 
 export type BoardSize = keyof typeof BOARD_SIZES;
@@ -54,6 +45,7 @@ export const NEXT_BOARD_SIZE: Record<BoardSize, BoardSize> = {
   lg: "xl",
   xl: "xs",
 };
+
 export type Tile = {
   kind: TileKind;
   revealed: boolean;

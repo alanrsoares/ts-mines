@@ -60,6 +60,7 @@ export function App() {
           </Controls>
         </Clamp>
       </AppBar>
+
       <Content>
         <GridComponent
           grid={state.grid}
@@ -68,6 +69,11 @@ export function App() {
           onTileLongPress={handlers.onCellLongPress}
         />
       </Content>
+
+      <p className="text-xs">
+        {state.gameLevel} - {state.boardSize}
+      </p>
+
       <Footer
         onToggleGameMode={handlers.onToggleGameMode}
         onToggleSoundEffects={handlers.onToggleSoundEffects}
