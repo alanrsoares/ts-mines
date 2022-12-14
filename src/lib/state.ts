@@ -86,8 +86,9 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
       if (!isFinalStatus(state.gameStatus)) {
         return state;
       }
+
       const nextGrid = Game.makeNewGrid(
-        Game.BOARD_SIZES[state.boardSize ?? "md"],
+        Game.BOARD_SIZES[state.boardSize],
         Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel]
       ).snapshot;
 
