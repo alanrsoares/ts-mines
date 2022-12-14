@@ -88,13 +88,13 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
       }
       const nextGrid = Game.makeNewGrid(
         Game.BOARD_SIZES[state.boardSize ?? "md"],
-        Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel ?? "easy"]
+        Game.CHANCE_OF_MINES_PER_LEVEL[state.gameLevel]
       ).snapshot;
 
       return {
         ...INITIAL_STATE,
         grid: nextGrid,
-        gameLevel: state.gameLevel ?? "easy",
+        gameLevel: state.gameLevel,
         mineCount: getMineCount(nextGrid),
       };
     }
