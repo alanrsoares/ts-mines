@@ -4,10 +4,10 @@ import Grid, { Matrix, Cell, Dimensions, FillFn } from "./Grid";
 
 export const CHANCE_OF_MINES_PER_LEVEL = {
   easy: 15,
-  medium: 20,
-  hard: 25,
-  ultra: 30,
-  god: 35,
+  medium: 17.5,
+  hard: 20,
+  ultra: 22.5,
+  god: 25,
 } as const;
 
 export type Level = keyof typeof CHANCE_OF_MINES_PER_LEVEL;
