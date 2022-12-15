@@ -1,5 +1,4 @@
 import { Reducer } from "react";
-import { flatten } from "ramda";
 
 import * as Game from "lib/game";
 import Grid, { Cell, Matrix } from "lib/Grid";
@@ -179,9 +178,9 @@ export const reducer: Reducer<State, Actions> = (state, action) => {
 
           const nextGrid = Game.getNextGrid(state.grid, cell);
 
-          const nextScore = flatten(nextGrid.snapshot).filter(
-            (x) => x.value.revealed
-          ).length;
+          const nextScore = nextGrid.snapshot
+            .flat()
+            .filter((x) => x.value.revealed).length;
 
           const didWin = Game.didWin(nextGrid);
 

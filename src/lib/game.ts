@@ -1,5 +1,3 @@
-import { flatten, assoc } from "ramda";
-
 import Grid, { Matrix, Cell, Dimensions, FillFn } from "./Grid";
 
 export const CHANCE_OF_MINES_PER_LEVEL = {
@@ -57,7 +55,10 @@ export type GameStatus = "new" | "over" | "won";
 
 export type Mode = "reveal" | "defuse";
 
-export const revealTile = (tile: Tile): Tile => assoc("revealed", true, tile);
+export const revealTile = (tile: Tile): Tile => ({
+  ...tile,
+  revealed: true,
+});
 
 export const revealMine = (tile: Tile) =>
   tile.kind === "mine" ? revealTile(tile) : tile;
@@ -122,9 +123,9 @@ export const makeNewGrid = (dimensions: Dimensions, chanceOfMines: number) => {
 };
 
 export function didWin(grid: Grid<Tile>) {
-  const cells = flatten(grid.snapshot);
+  const cells = grid.snapshot.flat();
 
-  const summary = cells.reduce(
+  const { flagged, revealed, mines } = cells.reduce(
     (acc, cell) => ({
       flagged: cell.value.defused ? acc.flagged + 1 : acc.flagged,
       revealed: cell.value.revealed ? acc.revealed + 1 : acc.revealed,
@@ -133,8 +134,5 @@ export function didWin(grid: Grid<Tile>) {
     { flagged: 0, revealed: 0, mines: 0 }
   );
 
-  return (
-    summary.mines === summary.flagged &&
-    summary.revealed + summary.flagged === cells.length
-  );
+  return mines === flagged && revealed + flagged === cells.length;
 }
