@@ -8,7 +8,8 @@ export const FOOTER_HEIGHT = "3.8rem";
 export const CONTENT_MARGIN = "1rem";
 
 export const Root = tw.div`
-  h-screen flex flex-col 
+  lg:h-screen h-[100dvh]
+  flex flex-col 
   items-center
  bg-muted
 `;

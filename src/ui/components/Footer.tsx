@@ -11,15 +11,9 @@ import { ReactComponent as EyeIcon } from "assets/eye.svg";
 import { ReactComponent as FlagIcon } from "assets/flag.svg";
 import ToggleSound from "./ToggleSound";
 
-const Eye = styled(EyeIcon)`
-  width: 1rem;
-  height: 1rem;
-`;
+const Eye = tw(EyeIcon)`w-4 h-4`;
 
-const Flag = styled(FlagIcon)`
-  width: 1rem;
-  height: 1rem;
-`;
+const Flag = tw(FlagIcon)`w-4 h-4`;
 
 const Circle = styled.div<{ active: boolean }>`
   border-radius: ${getRadius("round")};

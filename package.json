@@ -36,25 +36,25 @@
     "@testing-library/user-event": "^12.8.3",
     "clsx": "^1.2.1",
     "polished": "^4.2.2",
+    "rambda": "^7.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/node": "^13.13.52",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
     "@types/styled-components": "^5.1.26",
-    "autoprefixer": "^10.4.13",
-    "daisyui": "^2.43.2",
+    "autoprefixer": "^10.4.14",
     "invariant": "^2.2.4",
-    "postcss": "^8.4.20",
-    "tailwind-styled-components": "2.1.6",
-    "tailwindcss": "^3.2.4",
-    "typescript": "^4.9.0",
+    "postcss": "^8.4.24",
+    "tailwind-styled-components": "^2.2.0",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.1.6",
     "unstated-next": "^1.1.0"
   }
 }

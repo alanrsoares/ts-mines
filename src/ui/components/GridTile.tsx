@@ -1,4 +1,4 @@
-import omit from "ramda/es/omit";
+import { omit } from "rambda";
 import { useMemo } from "react";
 import { css } from "styled-components";
 
