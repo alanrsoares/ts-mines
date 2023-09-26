@@ -5,6 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "dev": "pnpm start",
+    "dev:tauri": "tauri dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "prebuild": "yarn generate-build-version && yarn write-app-name-to-manifest",
@@ -44,6 +45,7 @@
     "styled-components": "^5.3.11"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.4.0",
     "@types/jest": "^26.0.24",
     "@types/node": "^13.13.52",
     "@types/react": "^18.2.14",

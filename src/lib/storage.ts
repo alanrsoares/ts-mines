@@ -2,4 +2,6 @@ import StorageAdapter from "lib/StorageAdapter";
 
 export const NAMESPACE = "@TS-MINES";
 
-export default new StorageAdapter(NAMESPACE);
+const instance = new StorageAdapter(NAMESPACE);
+
+export default instance;
